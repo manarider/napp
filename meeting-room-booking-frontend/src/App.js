@@ -1,0 +1,102 @@
+import { Routes, Route, Navigate } from 'react-router-dom';
+// ลบ BrowserRouter ออกจาก import เพราะเราใช้ที่ index.js แล้ว
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { AlertProvider } from './context/AlertContext';
+import ErrorBoundary from './components/common/ErrorBoundary';
+
+// Components (Layouts & Pages)
+import Navbar from './components/Layout/Navbar';
+import Login from './components/Auth/Login';
+import Register from './components/Auth/Register';
+import Dashboard from './pages/Dashboard';
+import MyBookings from './components/Booking/MyBookings';
+import AllBookings from './components/Booking/AllBookings';
+import AdminDashboard from './components/Admin/AdminDashboard';
+import RoomCalendar from './components/Booking/RoomCalendar';
+import Home from './pages/Home';
+import './App.css';
+
+// --- Protected Route Component ---
+const ProtectedRoute = ({ children, adminOnly = false }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) return <div className="loading">Loading...</div>;
+  
+  // ถ้ายังไม่ Login ให้ไปหน้า Login
+  if (!user) return <Navigate to="/login" />;
+  
+  // ถ้าเป็น Admin Route แต่ User ไม่ใช่ Admin ให้ดีดกลับ Dashboard
+  if (adminOnly && user.role !== 'admin') return <Navigate to="/dashboard" />;
+
+  return children;
+};
+
+// --- Main Routes ---
+const AppRoutes = () => {
+  const { user, loading } = useAuth();
+
+  if (loading) return <div className="loading">Loading...</div>;
+
+  return (
+    <>
+      <Navbar />
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Home />} />
+        <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
+        <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <Register />} />
+        
+        {/* Public View (ใครก็ดูห้องได้ แต่จองต้อง Login) */}
+        <Route path="/bookings" element={<AllBookings />} />
+        <Route path="/rooms/:roomId/calendar" element={<RoomCalendar />} />
+
+        {/* Protected Routes (ต้อง Login) */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/bookings/my-bookings"
+          element={
+            <ProtectedRoute>
+              <MyBookings />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin Routes (ต้องเป็น Admin) */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Catch all - ถ้าไม่เจอหน้าไหนให้กลับไปหน้าแรก */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </>
+  );
+};
+
+function App() {
+  return (
+    // ย้าย BrowserRouter ไปไว้ที่ index.js แล้ว
+    // เพื่อให้ Context Providers สามารถใช้ฟีเจอร์ของ Router ได้ถ้าจำเป็น
+    <ErrorBoundary>
+      <AuthProvider>
+        <AlertProvider>
+          <AppRoutes />
+        </AlertProvider>
+      </AuthProvider>
+    </ErrorBoundary>
+  );
+}
+
+export default App;

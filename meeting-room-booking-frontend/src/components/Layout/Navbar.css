@@ -1,0 +1,393 @@
+.navbar {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  padding: 1rem 0;
+  box-shadow: 0 4px 20px rgba(30, 58, 138, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+/* Logo Section */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.3s;
+  z-index: 1002;
+}
+
+.navbar-logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.3));
+}
+
+.navbar-logo-image {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: white;
+  padding: 3px;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+  transition: all 0.3s;
+}
+
+.navbar-logo:hover .navbar-logo-image {
+  transform: rotate(360deg);
+}
+
+.navbar-logo-text {
+  display: flex;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+/* ============================================
+   🍔 HAMBURGER BUTTON
+   ============================================ */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1002;
+  position: relative;
+}
+
+.hamburger span {
+  width: 100%;
+  height: 3px;
+  background: white;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Hamburger Animation */
+.hamburger.active span:nth-child(1) {
+  transform: translateY(10.5px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-10.5px) rotate(-45deg);
+}
+
+/* Menu Overlay (สำหรับมือถือ) */
+.menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Menu */
+.navbar-menu {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  transition: all 0.3s;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.3s;
+  border-radius: 8px;
+}
+
+.nav-link:hover::before {
+  left: 0;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.admin-link {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #1e3a8a !important;
+  font-weight: 700;
+  box-shadow: 0 3px 15px rgba(251, 191, 36, 0.4);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 20px rgba(251, 191, 36, 0.6);
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.nav-user {
+  color: #ffffff;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.2rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-logout {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 700;
+  box-shadow: 0 3px 15px rgba(220, 38, 38, 0.3);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-logout:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
+  background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+}
+
+/* ============================================
+   📱 RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet - 1024px */
+@media (max-width: 1024px) {
+  .navbar-container {
+    padding: 0 1.5rem;
+  }
+
+  .navbar-menu {
+    gap: 1rem;
+  }
+
+  .nav-link {
+    padding: 0.55rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .nav-user {
+    font-size: 0.85rem;
+    padding: 0.55rem 1rem;
+  }
+
+  .nav-logout {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile - 768px and below */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.75rem 0;
+  }
+
+  .navbar-container {
+    padding: 0 1rem;
+  }
+
+  /* แสดง Hamburger */
+  .hamburger {
+    display: flex;
+  }
+
+  /* แสดง Overlay เมื่อเปิด Menu */
+  .menu-overlay {
+    display: block;
+  }
+
+  /* Logo ขนาดเล็กลง */
+  .navbar-logo-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .navbar-logo-text {
+    font-size: 1.1rem;
+  }
+
+  /* Menu แบบ Sidebar */
+  .navbar-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 0;
+    padding: 80px 0 2rem 0;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+    transition: right 0.3s ease;
+    z-index: 1001;
+    overflow-y: auto;
+  }
+
+  .navbar-menu.active {
+    right: 0;
+  }
+
+  /* Links ในโหมดมือถือ */
+  .nav-link {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border-radius: 0;
+    justify-content: flex-start;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1rem;
+  }
+
+  .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+  }
+
+  .admin-link {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    margin: 0.5rem 1rem;
+    border-radius: 8px;
+    border-bottom: none;
+  }
+
+  .admin-link:hover {
+    transform: translateX(0) translateY(-2px);
+  }
+
+  /* User Info */
+  .nav-user {
+    width: auto;
+    margin: 1rem 1.5rem 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Logout Button */
+  .nav-logout {
+    width: auto;
+    margin: 0.5rem 1.5rem 1rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .nav-logout:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Mobile Small - 480px */
+@media (max-width: 480px) {
+  .navbar-logo-image {
+    width: 35px;
+    height: 35px;
+  }
+
+  .navbar-logo-text {
+    font-size: 0.95rem;
+  }
+
+  .navbar-menu {
+    width: 260px;
+  }
+
+  .nav-link {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Mobile Extra Small - 360px */
+@media (max-width: 360px) {
+  .navbar-container {
+    padding: 0 0.75rem;
+  }
+
+  .navbar-logo-text {
+    font-size: 0.85rem;
+  }
+
+  .navbar-menu {
+    width: 240px;
+  }
+
+  .hamburger {
+    width: 26px;
+    height: 20px;
+  }
+
+  .hamburger span {
+    height: 2.5px;
+  }
+}
