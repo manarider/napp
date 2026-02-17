@@ -3,12 +3,17 @@ import api from '../../services/api';
 import DashboardCharts from './DashboardCharts';
 import RoomManagement from './RoomManagement';
 import BookingManagement from './BookingManagement';
+import UserManagement from './UserManagement';
 import './Admin.css';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
+  const [showSecretPrompt, setShowSecretPrompt] = useState(false);
+  const [userSecretInput, setUserSecretInput] = useState('');
+  const [isUserManagementAuthorized, setIsUserManagementAuthorized] = useState(false);
+  const [secretError, setSecretError] = useState('');
 
   useEffect(() => {
     fetchStats();
@@ -23,6 +28,40 @@ const AdminDashboard = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleUsersTabClick = () => {
+    // ถ้ายังไม่ได้รับอนุญาต ให้แสดง popup ถามรหัส
+    if (!isUserManagementAuthorized) {
+      setShowSecretPrompt(true);
+      setSecretError('');
+      setUserSecretInput('');
+    } else {
+      // ถ้าได้รับอนุญาตแล้ว ให้เปลี่ยนแท็บได้เลย
+      setActiveTab('users');
+    }
+  };
+
+  const handleSecretSubmit = (e) => {
+    e.preventDefault();
+    const correctSecret = process.env.REACT_APP_USER_SECET_EDIT;
+    
+    if (userSecretInput === correctSecret) {
+      setIsUserManagementAuthorized(true);
+      setShowSecretPrompt(false);
+      setActiveTab('users');
+      setUserSecretInput('');
+      setSecretError('');
+    } else {
+      setSecretError('รหัสลับไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง');
+      setUserSecretInput('');
+    }
+  };
+
+  const handleCancelSecret = () => {
+    setShowSecretPrompt(false);
+    setUserSecretInput('');
+    setSecretError('');
   };
 
   if (loading) return <div className="loading">กำลังโหลด...</div>;
@@ -60,7 +99,56 @@ const AdminDashboard = () => {
         >
           🎫 การจอง
         </button>
+        <button
+          className={`tab-btn ${activeTab === 'users' ? 'active' : ''}`}
+          onClick={handleUsersTabClick}
+        >
+          👥 จัดการผู้ใช้
+        </button>
       </div>
+
+      {/* Secret Prompt Modal */}
+      {showSecretPrompt && (
+        <div className="modal-overlay" onClick={handleCancelSecret}>
+          <div className="modal-content secret-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>🔐 ยืนยันการเข้าถึง</h2>
+              <button className="close-btn" onClick={handleCancelSecret}>×</button>
+            </div>
+            <div className="modal-body">
+              <p className="secret-description">
+                กรุณากรอกรหัสลับเพื่อเข้าถึงการจัดการผู้ใช้
+              </p>
+              <form onSubmit={handleSecretSubmit}>
+                <div className="form-group">
+                  <label>รหัสลับ (USER_SECET_EDIT):</label>
+                  <input
+                    type="password"
+                    value={userSecretInput}
+                    onChange={(e) => setUserSecretInput(e.target.value)}
+                    placeholder="กรอกรหัสลับ"
+                    autoFocus
+                    required
+                  />
+                </div>
+                {secretError && (
+                  <div className="secret-error">
+                    ❌ {secretError}
+                  </div>
+                )}
+                <div className="secret-modal-buttons">
+                  <button type="submit" className="btn btn-primary">
+                    ยืนยัน
+                  </button>
+                  <button type="button" className="btn btn-secondary" onClick={handleCancelSecret}>
+                    ยกเลิก
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Overview Tab */}
       {activeTab === 'overview' && stats && (
@@ -159,6 +247,9 @@ const AdminDashboard = () => {
 
       {/* Bookings Tab */}
       {activeTab === 'bookings' && <BookingManagement />}
+
+      {/* Users Tab */}
+      {activeTab === 'users' && <UserManagement />}
     </div>
   );
 };

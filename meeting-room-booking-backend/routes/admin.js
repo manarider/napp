@@ -4,6 +4,7 @@ const User = require('../models/User');
 const Booking = require('../models/Booking');
 const MeetingRoom = require('../models/MeetingRoom');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
+const adminController = require('../controllers/adminfController');
 
 const router = express.Router();
 
@@ -19,6 +20,21 @@ router.get('/users', authMiddleware, adminMiddleware, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// 👤 ดูผู้ใช้คนเดี่ยว
+router.get('/users/:id', authMiddleware, adminMiddleware, adminController.getUserById);
+
+// 🔐 เปลี่ยนรหัสผ่านผู้ใช้
+router.patch('/users/:id/password', authMiddleware, adminMiddleware, adminController.updateUserPassword);
+
+// 🔄 เปลี่ยนสถานะผู้ใช้ (active/inactive)
+router.patch('/users/:id/status', authMiddleware, adminMiddleware, adminController.updateUserStatus);
+
+// 🔧 แก้ไขสิทธิ์ผู้ใช้ (Admin/User role)
+router.patch('/users/:id/role', authMiddleware, adminMiddleware, adminController.updateUserRole);
+
+// 🗑️ ลบผู้ใช้
+router.delete('/users/:id', authMiddleware, adminMiddleware, adminController.deleteUser);
 
 // 📊 ดูสถิติทั่วไป
 router.get('/dashboard/statistics', authMiddleware, adminMiddleware, async (req, res) => {

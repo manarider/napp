@@ -6,7 +6,7 @@ const AlertContext = createContext();
 export const AlertProvider = ({ children }) => {
   const [alerts, setAlerts] = useState([]);
 
-  const showAlert = (type, message, duration = 3000) => {
+  const showAlert = (message, type = 'info', duration = 3000) => {
     const id = Date.now();
     const newAlert = { id, type, message, duration };
     
@@ -21,13 +21,13 @@ export const AlertProvider = ({ children }) => {
     setAlerts(prev => prev.filter(alert => alert.id !== id));
   };
 
-  const success = (message, duration) => showAlert('success', message, duration);
-  const error = (message, duration) => showAlert('error', message, duration);
-  const warning = (message, duration) => showAlert('warning', message, duration);
-  const info = (message, duration) => showAlert('info', message, duration);
+  const success = (message, duration) => showAlert(message, 'success', duration);
+  const error = (message, duration) => showAlert(message, 'error', duration);
+  const warning = (message, duration) => showAlert(message, 'warning', duration);
+  const info = (message, duration) => showAlert(message, 'info', duration);
 
   return (
-    <AlertContext.Provider value={{ success, error, warning, info }}>
+    <AlertContext.Provider value={{ showAlert, success, error, warning, info }}>
       {children}
       <div className="alerts-container">
         {alerts.map((alert, index) => (

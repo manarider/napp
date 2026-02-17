@@ -64,7 +64,66 @@ exports.updateUserRole = async (req, res) => {
   }
 };
 
-// 🗑️ ลบผู้ใช้
+// � เปลี่ยนรหัสผ่านผู้ใช้ (Admin)
+exports.updateUserPassword = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { newPassword } = req.body;
+
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters' });
+    }
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // อัพเดทรหัสผ่าน (จะถูก hash โดย pre-save middleware)
+    user.password = newPassword;
+    await user.save();
+
+    res.json({
+      message: 'Password updated successfully',
+      userId: id
+    });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 🔄 เปลี่ยนสถานะผู้ใช้ (active/inactive)
+exports.updateUserStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!['active', 'inactive'].includes(status)) {
+      return res.status(400).json({ error: 'Invalid status. Must be "active" or "inactive"' });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    ).select('-password');
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({
+      message: 'User status updated successfully',
+      user
+    });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// �🗑️ ลบผู้ใช้
 exports.deleteUser = async (req, res) => {
   try {
     const { id } = req.params;

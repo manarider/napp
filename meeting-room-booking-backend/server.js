@@ -79,7 +79,7 @@ const generalLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-app.use(generalLimiter); // ใช้กับทุก routes
+// app.use(generalLimiter); // ⚠️ ปิดชั่วคราวเพื่อ debug
 
 // Logger Middleware
 app.use((req, res, next) => {
@@ -87,6 +87,10 @@ app.use((req, res, next) => {
   console.log(`[${timestamp}] 📝 ${req.method} ${req.path}`);
   if (Object.keys(req.query).length > 0) {
     console.log('   Query:', req.query);
+  }
+  if (req.path.includes('/admin/users/')) {
+    console.log('   🔍 Admin users route detected!');
+    console.log('   Headers:', req.headers.authorization ? 'Has Auth' : 'No Auth');
   }
   next();
 });
@@ -120,8 +124,13 @@ const authRoutes = require('./routes/auth');
 const bookingRoutes = require('./routes/bookings');
 const roomRoutes = require('./routes/rooms');
 const departmentRoutes = require('./routes/departments');
-const adminRoutes = require('./routes/admin');
+const adminRoutes = require('./routes/admin'); // ⚠️ กลับไปใช้ไฟล์เดิม
 const adminStatsRoutes = require('./routes/adminStats');
+
+console.log('📦 Routes loaded:');
+console.log('  - adminRoutes:', adminRoutes ? 'OK (' + (adminRoutes.stack ? adminRoutes.stack.filter(l => l.route).length : '?') + ' routes)' : 'FAIL');
+console.log('  - authRoutes:', authRoutes ? 'OK' : 'FAIL');
+console.log('  - bookingRoutes:', bookingRoutes ? 'OK' : 'FAIL');
 
 // ============================================
 // ✅ USE ROUTES
@@ -151,15 +160,53 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Simple test endpoint
+app.get('/api/simple-test', (req, res) => {
+  res.json({ message: 'Simple test works!' });
+});
+
+// ⚠️ Debug endpoint - ดู routes ที่ register
+app.get('/api/debug/routes', (req, res) => {
+  const routes = [];
+  app._router.stack.forEach((middleware) => {
+    if (middleware.route) {
+      routes.push({
+        path: middleware.route.path,
+        methods: Object.keys(middleware.route.methods)
+      });
+    } else if (middleware.name === 'router' && middleware.regexp) {
+      const basePath = middleware.regexp.source
+        .replace('\\/?', '')
+        .replace('(?=\\/|$)', '')
+        .replace(/\\/g, '');
+      if (middleware.handle && middleware.handle.stack) {
+        middleware.handle.stack.forEach((handler) => {
+          if (handler.route) {
+            routes.push({
+              path: basePath + handler.route.path,
+              methods: Object.keys(handler.route.methods)
+            });
+          }
+        });
+      }
+    }
+  });
+  res.json({ total: routes.length, routes });
+});
+
 // Application Routes
+console.log('\n🔌 Registering routes...');
 app.use('/api/auth/login', loginLimiter); // Rate limit เฉพาะ login
 app.use('/api/auth/register', registerLimiter); // Rate limit เฉพาะ register
 app.use('/api/auth', authRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/rooms', roomRoutes);
 app.use('/api/departments', departmentRoutes);
+console.log('  ✓ Registering /api/admin/stats...');
+app.use('/api/admin/stats', adminStatsRoutes); // ⭐ ต้องอยู่ก่อน /api/admin
+console.log('  ✓ Registering /api/admin...');
 app.use('/api/admin', adminRoutes);
-app.use('/api/admin/stats', adminStatsRoutes);
+console.log('✅ All routes registered\n');
 
 // ============================================
 // ⚠️ ERROR HANDLING
@@ -167,6 +214,7 @@ app.use('/api/admin/stats', adminStatsRoutes);
 
 // 404 Not Found
 app.use((req, res) => {
+  console.log(`❌ 404 - Route not found: ${req.method} ${req.path}`);
   res.status(404).json({ 
     error: 'Not Found',
     message: `Route ${req.method} ${req.path} not found`
