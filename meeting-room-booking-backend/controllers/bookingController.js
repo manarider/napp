@@ -1,14 +1,29 @@
 const Booking = require('../models/Booking');
 const MeetingRoom = require('../models/MeetingRoom');
+const mongoose = require('mongoose');
 
-// ➕ สร้างการจอง
+// ➕ สร้างการจอง (รองรับหลายวัน - ใช้ transaction)
 exports.createBooking = async (req, res) => {
   try {
-    const { roomId, fullName, department, bookingDate, startTime, endTime, purpose } = req.body;
+    const { roomId, fullName, department, startDate, endDate, bookingDate, startTime, endTime, purpose, bookingImage } = req.body;
 
-    // ✓ ตรวจสอบข้อมูล
-    if (!roomId || !fullName || !department || !bookingDate || !startTime || !endTime || !purpose) {
-      return res.status(400).json({ error: 'All fields are required' });
+    // ✓ รองรับทั้ง startDate/endDate (จองหลายวัน) และ bookingDate (แก้ไข)
+    const isMultiDay = startDate && endDate;
+    const isSingleDay = bookingDate;
+
+    if (!roomId || !fullName || !department || (!isMultiDay && !isSingleDay) || !startTime || !endTime || !purpose) {
+      return res.status(400).json({ 
+        error: 'All fields are required',
+        missing: {
+          roomId: !roomId,
+          fullName: !fullName,
+          department: !department,
+          dates: !isMultiDay && !isSingleDay,
+          startTime: !startTime,
+          endTime: !endTime,
+          purpose: !purpose
+        }
+      });
     }
 
     // ✓ ตรวจสอบว่า room มีอยู่ไหม
@@ -30,67 +45,125 @@ exports.createBooking = async (req, res) => {
       });
     }
 
-    // ✓ สร้างวันที่เริ่มต้นและสิ้นสุดของวันที่จอง (ไม่คำนึงถึง time)
-    const bookingDateObj = new Date(bookingDate);
-    const dayStart = new Date(bookingDateObj.getFullYear(), bookingDateObj.getMonth(), bookingDateObj.getDate());
-    const dayEnd = new Date(dayStart);
-    dayEnd.setDate(dayEnd.getDate() + 1);
-
-    // ✓ ค้นหาการจองที่มีการซ้อนเวลา
-    // ต้องตรวจสอบ:
-    // 1. ห้องเดียวกัน
-    // 2. วันเดียวกัน
-    // 3. เวลาซ้อนกัน
-    const existingBookings = await Booking.find({
-      roomId: roomId,
-      bookingDate: {
-        $gte: dayStart,
-        $lt: dayEnd
-      }
-    });
-
-    // ✓ ตรวจสอบว่ามีการซ้อนเวลาหรือไม่
-    const hasConflict = existingBookings.some(booking => {
-      const [existingStartHour, existingStartMin] = booking.startTime.split(':').map(Number);
-      const [existingEndHour, existingEndMin] = booking.endTime.split(':').map(Number);
+    // ✓ สร้าง array ของวันที่ที่ต้องการจอง
+    let bookingDates = [];
+    
+    if (isMultiDay) {
+      // จองหลายวัน
+      const start = new Date(startDate);
+      const end = new Date(endDate);
       
-      const existingStartTime = existingStartHour * 60 + existingStartMin;
-      const existingEndTime = existingEndHour * 60 + existingEndMin;
+      if (end < start) {
+        return res.status(400).json({ error: 'End date must be after or equal to start date' });
+      }
+      
+      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+        bookingDates.push(new Date(d));
+      }
+    } else {
+      // จองวันเดียว (กรณีแก้ไข)
+      bookingDates.push(new Date(bookingDate));
+    }
 
-      // ตรวจสอบว่าเวลาซ้อนกันหรือไม่
-      // การซ้อนจะเกิดขึ้นถ้า:
-      // - startTime ของใหม่ < endTime ของเดิม AND
-      // - endTime ของใหม่ > startTime ของเดิม
-      return startTimeInMinutes < existingEndTime && endTimeInMinutes > existingStartTime;
-    });
+    // ✓ ตรวจสอบ conflict สำหรับทุกวัน
+    const conflicts = [];
+    
+    for (const date of bookingDates) {
+      const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const dayEnd = new Date(dayStart);
+      dayEnd.setDate(dayEnd.getDate() + 1);
 
-    if (hasConflict) {
+      const existingBookings = await Booking.find({
+        roomId: roomId,
+        bookingDate: {
+          $gte: dayStart,
+          $lt: dayEnd
+        }
+      });
+
+      const hasConflict = existingBookings.some(booking => {
+        const [existingStartHour, existingStartMin] = booking.startTime.split(':').map(Number);
+        const [existingEndHour, existingEndMin] = booking.endTime.split(':').map(Number);
+        
+        const existingStartTime = existingStartHour * 60 + existingStartMin;
+        const existingEndTime = existingEndHour * 60 + existingEndMin;
+
+        return startTimeInMinutes < existingEndTime && endTimeInMinutes > existingStartTime;
+      });
+
+      if (hasConflict) {
+        conflicts.push(date.toISOString().split('T')[0]);
+      }
+    }
+
+    if (conflicts.length > 0) {
       return res.status(400).json({ 
-        error: 'Time slot already booked in this room. Please choose another time or room.' 
+        error: `Time slot already booked on these dates: ${conflicts.join(', ')}. Please choose another time or room.` 
       });
     }
 
-    // ✓ สร้าง booking ใหม่
-    const booking = new Booking({
-      userId: req.userId, // มาจาก token
-      roomId,
-      fullName,
-      department,
-      bookingDate: bookingDateObj,
-      startTime,
-      endTime,
-      purpose,
-      status: 'pending' // ตั้งค่าเริ่มต้นเป็น pending
-    });
+    // ✓ สร้าง booking สำหรับทุกวัน (ใช้ transaction เพื่อความปลอดภัย)
+    let createdBookings = [];
+    
+    // ⚡ ถ้าจองหลายวัน ใช้ transaction
+    if (bookingDates.length > 1) {
+      const session = await mongoose.startSession();
+      session.startTransaction();
+      
+      try {
+        for (const date of bookingDates) {
+          const booking = new Booking({
+            userId: req.userId,
+            roomId,
+            fullName,
+            department,
+            bookingDate: date,
+            startTime,
+            endTime,
+            purpose,
+            status: 'pending',
+            bookingImage: bookingImage || undefined
+          });
 
-    await booking.save();
+          await booking.save({ session });
+          await booking.populate('roomId');
+          createdBookings.push(booking);
+        }
 
-    // ✓ Populate เพื่อให้เห็นข้อมูลห้อง
-    await booking.populate('roomId');
+        // ✓ Commit transaction
+        await session.commitTransaction();
+        session.endSession();
+        
+      } catch (error) {
+        // ❌ Rollback ถ้าเกิด error
+        await session.abortTransaction();
+        session.endSession();
+        throw error;
+      }
+    } else {
+      // จองวันเดียว ไม่ต้องใช้ transaction
+      const booking = new Booking({
+        userId: req.userId,
+        roomId,
+        fullName,
+        department,
+        bookingDate: bookingDates[0],
+        startTime,
+        endTime,
+        purpose,
+        status: 'pending',
+        bookingImage: bookingImage || undefined
+      });
+
+      await booking.save();
+      await booking.populate('roomId');
+      createdBookings.push(booking);
+    }
 
     res.status(201).json({
-      message: 'Booking created successfully',
-      booking
+      message: `${createdBookings.length} booking(s) created successfully`,
+      bookings: createdBookings,
+      count: createdBookings.length
     });
 
   } catch (error) {

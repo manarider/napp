@@ -2,90 +2,17 @@
 const express = require('express');
 const Booking = require('../models/Booking');
 const { authMiddleware } = require('../middleware/auth');
-const { createBookingValidator } = require('../middleware/validators');
+const { createBookingValidator, createMultiDayBookingValidator } = require('../middleware/validators');
+const bookingController = require('../controllers/bookingController');
 
 const router = express.Router();
 
-// ➕ สร้างการจอง
-router.post('/', authMiddleware, createBookingValidator, async (req, res) => {
-  try {
-    const { roomId, fullName, department, bookingDate, startTime, endTime, purpose, bookingImage } = req.body;
+// ➡️ สร้างการจองหลายวัน - ใช้ controller เดิมแต่ validator ต่างกัน (ต้องอยู่ก่อน route '/')
+router.post('/multi-day', authMiddleware, createMultiDayBookingValidator, bookingController.createBooking);
 
-    // ✓ Validator ตรวจสอบแล้ว
-    // ✓ แปลงเวลาเป็นนาที
-    const [startHour, startMin] = startTime.split(':').map(Number);
-    const [endHour, endMin] = endTime.split(':').map(Number);
-    const startTimeInMinutes = startHour * 60 + startMin;
-    const endTimeInMinutes = endHour * 60 + endMin;
-
-    // ✓ ตรวจสอบ startTime ต้องน้อยกว่า endTime
-    if (startTimeInMinutes >= endTimeInMinutes) {
-      return res.status(400).json({ error: 'Start time must be before end time' });
-    }
-
-    // ✓ สร้างวันที่เริ่มต้นและสิ้นสุดของวันที่จอง
-    const bookingDateObj = new Date(bookingDate);
-    const dayStart = new Date(bookingDateObj.getFullYear(), bookingDateObj.getMonth(), bookingDateObj.getDate());
-    const dayEnd = new Date(dayStart);
-    dayEnd.setDate(dayEnd.getDate() + 1);
-
-    // ✓ ค้นหาการจองในห้องเดียวกัน วันเดียวกัน
-    const existingBookings = await Booking.find({
-      roomId,
-      bookingDate: {
-        $gte: dayStart,
-        $lt: dayEnd
-      }
-    });
-
-    // ✓ ตรวจสอบการซ้อนเวลา
-    const hasConflict = existingBookings.some(booking => {
-      const [existingStartHour, existingStartMin] = booking.startTime.split(':').map(Number);
-      const [existingEndHour, existingEndMin] = booking.endTime.split(':').map(Number);
-      
-      const existingStartTime = existingStartHour * 60 + existingStartMin;
-      const existingEndTime = existingEndHour * 60 + existingEndMin;
-
-      // ตรวจสอบการซ้อน
-      return startTimeInMinutes < existingEndTime && endTimeInMinutes > existingStartTime;
-    });
-
-    if (hasConflict) {
-      return res.status(400).json({ error: 'Time slot already booked in this room. Please choose another time or room.' });
-    }
-
-    // ⭐ สร้าง booking object
-    const booking = new Booking({
-      userId: req.userId,
-      roomId,
-      fullName,
-      department,
-      bookingDate: bookingDateObj,
-      startTime,
-      endTime,
-      purpose
-    });
-
-    // ⭐ เพิ่มรูปภาพถ้ามี
-    if (bookingImage && bookingImage.data) {
-      booking.bookingImage = {
-        data: bookingImage.data,
-        contentType: bookingImage.contentType || 'image/jpeg',
-        fileName: bookingImage.fileName || 'booking-image.jpg'
-      };
-    }
-
-    await booking.save();
-    await booking.populate('roomId');
-
-    res.status(201).json({
-      message: 'Booking created successfully',
-      booking
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// ➕ สร้างการจอง - ใช้ controller
+router.post('/', authMiddleware, createBookingValidator, bookingController.createBooking);
+console.log('  ✓ Registered: POST /');
 
 // 📖 ดูการจองของตัวเอง
 router.get('/my-bookings', authMiddleware, async (req, res) => {
@@ -116,8 +43,8 @@ router.get('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// 📖 ดูทั้งหมด (สามารถ filter ตามห้อง วันที่ สถานะ)
-router.get('/', async (req, res) => {
+// 📖 ดูทั้งหมด (สามารถ filter ตามห้อง วันที่ สถานะ) - ต้อง login ก่อน
+router.get('/', authMiddleware, async (req, res) => {
   try {
     let query = {};
 
@@ -156,13 +83,26 @@ router.get('/', async (req, res) => {
       query.status = req.query.status;
     }
 
-    const bookings = await Booking.find(query)
-      .populate('userId', 'fullName email department')
-      .populate('roomId', 'roomNumber roomName capacity')
-      .sort({ bookingDate: -1 });
+    // ⭐ Pagination
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+    const skip = (page - 1) * limit;
+
+    const [bookings, totalCount] = await Promise.all([
+      Booking.find(query)
+        .populate('userId', 'fullName email department')
+        .populate('roomId', 'roomNumber roomName capacity')
+        .sort({ bookingDate: -1 })
+        .skip(skip)
+        .limit(limit),
+      Booking.countDocuments(query)
+    ]);
 
     res.json({
-      total: bookings.length,
+      total: totalCount,
+      page,
+      limit,
+      totalPages: Math.ceil(totalCount / limit),
       bookings
     });
   } catch (error) {

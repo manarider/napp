@@ -10,6 +10,7 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Dashboard from './pages/Dashboard';
 import MyBookings from './components/Booking/MyBookings';
+import MultiDayBookingForm from './components/Booking/MultiDayBookingForm';
 import AllBookings from './components/Booking/AllBookings';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import RoomCalendar from './components/Booking/RoomCalendar';
@@ -64,6 +65,14 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <MyBookings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/bookings/multi-day"
+          element={
+            <ProtectedRoute>
+              <MultiDayBookingForm onClose={() => window.history.back()} />
             </ProtectedRoute>
           }
         />

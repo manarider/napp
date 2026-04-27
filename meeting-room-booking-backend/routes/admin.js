@@ -8,12 +8,24 @@ const adminController = require('../controllers/adminfController');
 
 const router = express.Router();
 
-// 👨‍💼 ดูทุกคน
+// 👨‍💼 ดูทุกคน (มี pagination)
 router.get('/users', authMiddleware, adminMiddleware, async (req, res) => {
   try {
-    const users = await User.find().select('-password');
+    // ⭐ Pagination
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 50;
+    const skip = (page - 1) * limit;
+
+    const [users, totalCount] = await Promise.all([
+      User.find().select('-password').skip(skip).limit(limit),
+      User.countDocuments()
+    ]);
+
     res.json({
-      total: users.length,
+      total: totalCount,
+      page,
+      limit,
+      totalPages: Math.ceil(totalCount / limit),
       users
     });
   } catch (error) {
@@ -67,7 +79,7 @@ router.get('/dashboard/statistics', authMiddleware, adminMiddleware, async (req,
   }
 });
 
-// 📋 ดูการจองทั้งหมด (Admin View)
+// 📋 ดูการจองทั้งหมด (Admin View - มี pagination)
 router.get('/bookings', authMiddleware, adminMiddleware, async (req, res) => {
   try {
     let query = {};
@@ -76,13 +88,26 @@ router.get('/bookings', authMiddleware, adminMiddleware, async (req, res) => {
       query.status = req.query.status;
     }
 
-    const bookings = await Booking.find(query)
-      .populate('userId', 'fullName email department')
-      .populate('roomId', 'roomNumber roomName capacity')
-      .sort({ bookingDate: -1 });
+    // ⭐ Pagination
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 50;
+    const skip = (page - 1) * limit;
+
+    const [bookings, totalCount] = await Promise.all([
+      Booking.find(query)
+        .populate('userId', 'fullName email department')
+        .populate('roomId', 'roomNumber roomName capacity')
+        .sort({ bookingDate: -1 })
+        .skip(skip)
+        .limit(limit),
+      Booking.countDocuments(query)
+    ]);
 
     res.json({
-      total: bookings.length,
+      total: totalCount,
+      page,
+      limit,
+      totalPages: Math.ceil(totalCount / limit),
       bookings
     });
   } catch (error) {

@@ -21,10 +21,9 @@ const BookingForm = ({ bookingId = null, onClose = null }) => {
   const [rooms, setRooms] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isEditing, setIsEditing] = useState(!!bookingId);
+  const [isEditing] = useState(!!bookingId);
   const [hasTimeConflict, setHasTimeConflict] = useState(false);
   const [conflictMessage, setConflictMessage] = useState('');
-  const [availableSlots, setAvailableSlots] = useState([]);
   const [checkingAvailability, setCheckingAvailability] = useState(false);
   
   // Image states
@@ -87,7 +86,6 @@ const BookingForm = ({ bookingId = null, onClose = null }) => {
       if (!validateTimeFormat(formData.startTime) || !validateTimeFormat(formData.endTime)) {
         setHasTimeConflict(true);
         setConflictMessage('⚠️ กรุณากรอกเวลาในรูปแบบ HH:MM หรือ HH.MM (เช่น 09:00, 13.30)');
-        setAvailableSlots([]);
         return;
       }
 
@@ -104,14 +102,12 @@ const BookingForm = ({ bookingId = null, onClose = null }) => {
       if (startTimeInMinutes < workStartMinutes || endTimeInMinutes > workEndMinutes) {
         setHasTimeConflict(true);
         setConflictMessage('⚠️ เวลาทำการคือ 08:00 - 18:00 เท่านั้น');
-        setAvailableSlots([]);
         return;
       }
 
       if (startTimeInMinutes >= endTimeInMinutes) {
         setHasTimeConflict(true);
         setConflictMessage('⚠️ เวลาเริ่มต้นต้องน้อยกว่าเวลาสิ้นสุด');
-        setAvailableSlots([]);
         return;
       }
 
@@ -139,45 +135,19 @@ const BookingForm = ({ bookingId = null, onClose = null }) => {
       });
 
       if (conflicts.length > 0) {
-        const conflictTimes = conflicts.map(b => `${b.startTime} - ${b.endTime}`);
         setHasTimeConflict(true);
-        setConflictMessage(`❌ ห้องนี้มีการจองในเวลา: ${conflictTimes.join(', ')}`);
+        setConflictMessage(
+          `❌ ห้องนี้มีการจองซ้อนในช่วงเวลา: ${conflicts.map(b => `${b.startTime}-${b.endTime}`).join(', ')}`
+        );
       } else {
         setHasTimeConflict(false);
         setConflictMessage('');
       }
-
-      generateAvailableSlots(bookings);
     } catch (err) {
       console.error('Error checking conflicts:', err);
     } finally {
       setCheckingAvailability(false);
     }
-  };
-
-  const generateAvailableSlots = (bookings) => {
-    const availableHours = [];
-    
-    for (let hour = 8; hour < 18; hour++) {
-      const hourStart = hour * 60;
-      const hourEnd = (hour + 1) * 60;
-
-      const isAvailable = !bookings.some(booking => {
-        const [bStartHour, bStartMin] = booking.startTime.split(':').map(Number);
-        const [bEndHour, bEndMin] = booking.endTime.split(':').map(Number);
-        
-        const bStart = bStartHour * 60 + bStartMin;
-        const bEnd = bEndHour * 60 + bEndMin;
-
-        return hourStart < bEnd && hourEnd > bStart;
-      });
-
-      if (isAvailable) {
-        availableHours.push(`${hour.toString().padStart(2, '0')}:00`);
-      }
-    }
-
-    setAvailableSlots(availableHours);
   };
 
   useEffect(() => {
@@ -186,7 +156,6 @@ const BookingForm = ({ bookingId = null, onClose = null }) => {
     } else {
         setHasTimeConflict(false);
         setConflictMessage('');
-        setAvailableSlots([]);
     }
     // eslint-disable-next-line
   }, [formData.roomId, formData.bookingDate, formData.startTime, formData.endTime]);

@@ -35,6 +35,11 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+// ⚡ Indexes สำหรับเพิ่มประสิทธิภาพการค้นหา
+userSchema.index({ status: 1 }); // สำหรับ filter by status
+userSchema.index({ role: 1 }); // สำหรับ filter by role
+userSchema.index({ department: 1 }); // สำหรับ filter by department
+
 // เข้ารหัส password ก่อน save
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();

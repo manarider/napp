@@ -7,18 +7,23 @@ import './Dashboard.css';
 const Dashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [stats, setStats] = useState(null);
+  const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user?.role === 'admin') {
-      api.get('/admin/dashboard/statistics')
-        .then((res) => setStats(res.data))
-        .catch((err) => console.error(err))
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
+    const fetchData = async () => {
+      try {
+        // ดึงข้อมูลห้องประชุม
+        const roomsRes = await api.get('/rooms');
+        setRooms(roomsRes.data.rooms || roomsRes.data);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [user]);
 
   if (loading) return <div className="loading">กำลังโหลด...</div>;
@@ -71,58 +76,44 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Admin Statistics */}
-      {user?.role === 'admin' && stats && (
-        <div className="stats-section">
-          <h2>📈 ภาพรวมระบบ</h2>
-          <div className="stats-grid">
-            <div className="stat-card users">
-              <div className="stat-icon">👥</div>
-              <div className="stat-content">
-                <h3>ผู้ใช้ทั้งหมด</h3>
-                <p className="stat-number">{stats.users.total}</p>
-                <small>ผู้ใช้งานในระบบ</small>
-              </div>
-            </div>
-
-            <div className="stat-card rooms">
-              <div className="stat-icon">🏨</div>
-              <div className="stat-content">
-                <h3>ห้องประชุม</h3>
-                <p className="stat-number">{stats.rooms.total}</p>
-                <small>ห้องที่พร้อมใช้งาน</small>
-              </div>
-            </div>
-
-            <div className="stat-card bookings">
-              <div className="stat-icon">📅</div>
-              <div className="stat-content">
-                <h3>การจองทั้งหมด</h3>
-                <p className="stat-number">{stats.bookings.total}</p>
-                <small>การจองตลอดเวลา</small>
-              </div>
-            </div>
-
-            <div className="stat-card pending">
-              <div className="stat-icon">⏳</div>
-              <div className="stat-content">
-                <h3>รออนุมัติ</h3>
-                <p className="stat-number">{stats.bookings.pending}</p>
-                <small>รอการอนุมัติ</small>
-              </div>
-            </div>
-
-            <div className="stat-card approved">
-              <div className="stat-icon">✅</div>
-              <div className="stat-content">
-                <h3>อนุมัติแล้ว</h3>
-                <p className="stat-number">{stats.bookings.approved}</p>
-                <small>การจองที่ได้รับการยืนยัน</small>
-              </div>
-            </div>
+      {/* Rooms Section - แสดงห้องประชุมทั้งหมด */}
+      <div className="rooms-section">
+        <h2>🏨 ปฏิทินการจองห้องประชุม</h2>
+        <p className="section-subtitle">เลือกห้องเพื่อดูปฏิทินและรายละเอียดการจอง</p>
+        
+        {loading ? (
+          <div className="loading">กำลังโหลดข้อมูลห้อง...</div>
+        ) : rooms.length === 0 ? (
+          <div className="empty-state">
+            <p>ไม่พบห้องประชุม</p>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="rooms-grid">
+            {rooms.map((room) => (
+              <div key={room._id} className="room-card">
+                <div className="room-card-header">
+                  <h3>🏢 {room.roomNumber}</h3>
+                  <span className="room-capacity">👥 {room.capacity} คน</span>
+                </div>
+                <div className="room-card-body">
+                  <p className="room-name">{room.roomName}</p>
+                  {room.equipment && room.equipment.length > 0 && (
+                    <p className="room-equipment">🎯 {room.equipment.join(', ')}</p>
+                  )}
+                </div>
+                <div className="room-card-actions">
+                  <button
+                    onClick={() => navigate(`/rooms/${room._id}/calendar`)}
+                    className="btn-view-calendar"
+                  >
+                    📅 ดูปฏิทินการจอง
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* User Section (Non-Admin) */}
       {user?.role !== 'admin' && (

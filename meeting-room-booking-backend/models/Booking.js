@@ -66,4 +66,10 @@ const bookingSchema = new mongoose.Schema({
   }
 });
 
+// ⚡ Indexes สำหรับเพิ่มประสิทธิภาพการค้นหา
+bookingSchema.index({ userId: 1 }); // สำหรับ my-bookings
+bookingSchema.index({ roomId: 1, bookingDate: 1 }); // สำหรับตรวจสอบห้องว่าง
+bookingSchema.index({ status: 1 }); // สำหรับ filter by status
+bookingSchema.index({ bookingDate: -1 }); // สำหรับเรียงวันที่
+
 module.exports = mongoose.model('Booking', bookingSchema);

@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import BookingForm from './BookingForm';
 import './Booking.css';
 
 const MyBookings = () => {
+  const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -50,9 +52,14 @@ const MyBookings = () => {
     <div className="bookings-container">
       <div className="bookings-header">
         <h1>📅 รายการการจองของคุณ</h1>
-        <button onClick={() => setShowForm(true)} className="btn-new">
-          ➕ จองห้องประชุม
-        </button>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button onClick={() => setShowForm(true)} className="btn-new">
+            ➕ จองห้องประชุม (1 วัน)
+          </button>
+          <button onClick={() => navigate('/bookings/multi-day')} className="btn-new" style={{ backgroundColor: '#10b981' }}>
+            📅 จองหลายวัน
+          </button>
+        </div>
       </div>
 
       {showForm && (

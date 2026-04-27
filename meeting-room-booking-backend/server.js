@@ -7,11 +7,20 @@ require('dotenv').config();
 
 const app = express();
 
+// ⚙️ Trust proxy - สำหรับใช้งานหลัง Nginx
+app.set('trust proxy', 1);
+
 // ============================================
 // 🔍 CHECK ENV VARIABLES
 // ============================================
 if (!process.env.MONGODB_URI) {
   console.error('❌ FATAL ERROR: MONGODB_URI is not defined in .env file');
+  process.exit(1);
+}
+
+if (!process.env.JWT_SECRET) {
+  console.error('❌ FATAL ERROR: JWT_SECRET is not defined in .env file');
+  console.error('   Please add JWT_SECRET to your .env file');
   process.exit(1);
 }
 
@@ -77,39 +86,53 @@ const generalLimiter = rateLimit({
   message: 'Too many requests from this IP, please try again later',
   standardHeaders: true,
   legacyHeaders: false,
+  // ⚠️ ปิดชั่วคราวเพราะมีปัญหากับ X-Forwarded-For header
+  skip: (req) => true // ข้ามทุก request ไว้ก่อน
 });
 
-// app.use(generalLimiter); // ⚠️ ปิดชั่วคราวเพื่อ debug
+// ✅ เปิด general limiter ป้องกัน DDoS (ปิดชั่วคราว)
+// app.use(generalLimiter);
 
-// Logger Middleware
-app.use((req, res, next) => {
-  const timestamp = new Date().toLocaleTimeString();
-  console.log(`[${timestamp}] 📝 ${req.method} ${req.path}`);
-  if (Object.keys(req.query).length > 0) {
-    console.log('   Query:', req.query);
-  }
-  if (req.path.includes('/admin/users/')) {
-    console.log('   🔍 Admin users route detected!');
-    console.log('   Headers:', req.headers.authorization ? 'Has Auth' : 'No Auth');
-  }
-  next();
-});
+// Logger Middleware (Production: only errors)
+if (process.env.NODE_ENV === 'development') {
+  app.use((req, res, next) => {
+    const timestamp = new Date().toLocaleTimeString();
+    console.log(`[${timestamp}] 📝 ${req.method} ${req.path}`);
+    next();
+  });
+}
 
 // ============================================
 // 📡 DATABASE CONNECTION
 // ============================================
 
+let retryCount = 0;
+const MAX_RETRIES = 10;
+
 const connectDB = async () => {
   try {
     // Mongoose 6+ ไม่จำเป็นต้องใส่ useNewUrlParser/useUnifiedTopology แล้ว
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI, {
+      maxPoolSize: 10,
+      minPoolSize: 5,
+      serverSelectionTimeoutMS: 5000,
+    });
     
     console.log('✅ MongoDB Connected Successfully');
+    retryCount = 0; // Reset retry count on success
     
   } catch (error) {
     console.error('❌ MongoDB Connection Error:', error.message);
-    // Retry connection after 5 seconds
-    setTimeout(connectDB, 5000);
+    
+    // จำกัดจำนวนครั้งในการ retry
+    if (retryCount < MAX_RETRIES) {
+      retryCount++;
+      console.log(`⏳ Retrying connection (${retryCount}/${MAX_RETRIES}) in 5 seconds...`);
+      setTimeout(connectDB, 5000);
+    } else {
+      console.error('❌ Max retries reached. Shutting down...');
+      process.exit(1);
+    }
   }
 };
 
@@ -119,18 +142,12 @@ connectDB();
 // 🛣️ ROUTES IMPORTS
 // ============================================
 
-// ตรวจสอบให้แน่ใจว่าไฟล์เหล่านี้มีอยู่จริงใน folder routes
 const authRoutes = require('./routes/auth');
 const bookingRoutes = require('./routes/bookings');
 const roomRoutes = require('./routes/rooms');
 const departmentRoutes = require('./routes/departments');
-const adminRoutes = require('./routes/admin'); // ⚠️ กลับไปใช้ไฟล์เดิม
+const adminRoutes = require('./routes/admin');
 const adminStatsRoutes = require('./routes/adminStats');
-
-console.log('📦 Routes loaded:');
-console.log('  - adminRoutes:', adminRoutes ? 'OK (' + (adminRoutes.stack ? adminRoutes.stack.filter(l => l.route).length : '?') + ' routes)' : 'FAIL');
-console.log('  - authRoutes:', authRoutes ? 'OK' : 'FAIL');
-console.log('  - bookingRoutes:', bookingRoutes ? 'OK' : 'FAIL');
 
 // ============================================
 // ✅ USE ROUTES
@@ -160,116 +177,56 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Simple test endpoint
-app.get('/api/simple-test', (req, res) => {
-  res.json({ message: 'Simple test works!' });
-});
-
-// ⚠️ Debug endpoint - ดู routes ที่ register
-app.get('/api/debug/routes', (req, res) => {
-  const routes = [];
-  app._router.stack.forEach((middleware) => {
-    if (middleware.route) {
-      routes.push({
-        path: middleware.route.path,
-        methods: Object.keys(middleware.route.methods)
-      });
-    } else if (middleware.name === 'router' && middleware.regexp) {
-      const basePath = middleware.regexp.source
-        .replace('\\/?', '')
-        .replace('(?=\\/|$)', '')
-        .replace(/\\/g, '');
-      if (middleware.handle && middleware.handle.stack) {
-        middleware.handle.stack.forEach((handler) => {
-          if (handler.route) {
-            routes.push({
-              path: basePath + handler.route.path,
-              methods: Object.keys(handler.route.methods)
-            });
-          }
+// ⚠️ Debug endpoints - เฉพาะ development mode
+if (process.env.NODE_ENV === 'development') {
+  app.get('/api/debug/routes', (req, res) => {
+    const routes = [];
+    app._router.stack.forEach((middleware) => {
+      if (middleware.route) {
+        routes.push({
+          path: middleware.route.path,
+          methods: Object.keys(middleware.route.methods)
         });
+      } else if (middleware.name === 'router' && middleware.regexp) {
+        const basePath = middleware.regexp.source
+          .replace('\\/?', '')
+          .replace('(?=\\/|$)', '')
+          .replace(/\\/g, '');
+        if (middleware.handle && middleware.handle.stack) {
+          middleware.handle.stack.forEach((handler) => {
+            if (handler.route) {
+              routes.push({
+                path: basePath + handler.route.path,
+                methods: Object.keys(handler.route.methods)
+              });
+            }
+          });
+        }
       }
-    }
+    });
+    res.json({ total: routes.length, routes });
   });
-  res.json({ total: routes.length, routes });
-});
+}
 
 // Application Routes
-console.log('\n🔌 Registering routes...');
-app.use('/api/auth/login', loginLimiter); // Rate limit เฉพาะ login
-app.use('/api/auth/register', registerLimiter); // Rate limit เฉพาะ register
 app.use('/api/auth', authRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/rooms', roomRoutes);
 app.use('/api/departments', departmentRoutes);
-console.log('  ✓ Registering /api/admin/stats...');
 app.use('/api/admin/stats', adminStatsRoutes); // ⭐ ต้องอยู่ก่อน /api/admin
-console.log('  ✓ Registering /api/admin...');
 app.use('/api/admin', adminRoutes);
-console.log('✅ All routes registered\n');
 
 // ============================================
 // ⚠️ ERROR HANDLING
 // ============================================
 
-// 404 Not Found
-app.use((req, res) => {
-  console.log(`❌ 404 - Route not found: ${req.method} ${req.path}`);
-  res.status(404).json({ 
-    error: 'Not Found',
-    message: `Route ${req.method} ${req.path} not found`
-  });
-});
+const { errorHandler, notFound } = require('./middleware/errorHandler');
 
-// Global Error Handler
-app.use((err, req, res, next) => {
-  console.error('❌ Error:', err);
-  
-  // CORS Error
-  if (err.message === 'Not allowed by CORS') {
-    return res.status(403).json({
-      success: false,
-      error: 'Access denied by CORS policy',
-      message: 'Your domain is not allowed to access this API'
-    });
-  }
-  
-  // Validation Error
-  if (err.name === 'ValidationError') {
-    return res.status(400).json({
-      success: false,
-      error: 'Validation Error',
-      details: Object.values(err.errors).map(e => e.message)
-    });
-  }
-  
-  // JWT Error
-  if (err.name === 'JsonWebTokenError') {
-    return res.status(401).json({
-      success: false,
-      error: 'Invalid token'
-    });
-  }
-  
-  // MongoDB Error
-  if (err.code === 11000) {
-    return res.status(400).json({
-      success: false,
-      error: 'Duplicate entry',
-      field: Object.keys(err.keyPattern)[0]
-    });
-  }
-  
-  // Default Error
-  const status = err.status || err.statusCode || 500;
-  const message = err.message || 'Internal Server Error';
-  
-  res.status(status).json({
-    success: false,
-    error: message,
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-  });
-});
+// 404 Not Found - ใช้ middleware
+app.use(notFound);
+
+// Global Error Handler - ใช้ middleware ที่ปลอดภัย
+app.use(errorHandler);
 
 // ============================================
 // 🚀 START SERVER

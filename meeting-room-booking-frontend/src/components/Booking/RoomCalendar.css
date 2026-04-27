@@ -57,6 +57,60 @@
   border-color: #1e1e1e;
 }
 
+/* Book Room Button */
+.btn-book-room {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-book-room:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-book-room:active {
+  transform: translateY(0);
+}
+
+.btn-book-room-alt {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-book-room-alt:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+}
+
+.btn-book-room-alt:active {
+  transform: translateY(0);
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
 /* Calendar Navigation */
 .calendar-nav {
   display: flex;
@@ -793,6 +847,18 @@
 
   .calendar-header h1 {
     font-size: 1.5rem;
+  }
+
+  .header-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .btn-book-room,
+  .btn-book-room-alt,
+  .btn-back {
+    width: 100%;
+    justify-content: center;
   }
 
   .room-info-badge {

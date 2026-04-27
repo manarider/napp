@@ -198,9 +198,14 @@ const RoomCalendar = () => {
             </div>
           </div>
         </div>
-        <button onClick={() => navigate('/bookings')} className="btn-back">
-          ← กลับไปหน้าการจอง
-        </button>
+        <div className="header-actions">
+          <button onClick={() => navigate('/bookings/my-bookings')} className="btn-book-room-alt">
+            ➕ จองห้องนี้
+          </button>
+          <button onClick={() => navigate('/bookings')} className="btn-back">
+            ← กลับ
+          </button>
+        </div>
       </div>
 
       {/* Legend */}
