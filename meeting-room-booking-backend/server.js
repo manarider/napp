@@ -1,5 +1,6 @@
 // server.js
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
@@ -53,9 +54,9 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// ⭐ เพิ่ม limit สำหรับรองรับ Base64 รูปภาพ (10MB)
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// ⭐ เพิ่ม limit สำหรับรองรับไฟล์ media (video/image base64 ~37MB ออก base64 ~49MB)
+app.use(express.json({ limit: '60mb' }));
+app.use(express.urlencoded({ extended: true, limit: '60mb' }));
 
 // ============================================
 // 🛡️ RATE LIMITING
@@ -86,12 +87,11 @@ const generalLimiter = rateLimit({
   message: 'Too many requests from this IP, please try again later',
   standardHeaders: true,
   legacyHeaders: false,
-  // ⚠️ ปิดชั่วคราวเพราะมีปัญหากับ X-Forwarded-For header
-  skip: (req) => true // ข้ามทุก request ไว้ก่อน
+  // ✅ trust proxy: 1 (line 12) จัดการ X-Forwarded-For ให้แล้ว req.ip จึงถูกต้อง
 });
 
-// ✅ เปิด general limiter ป้องกัน DDoS (ปิดชั่วคราว)
-// app.use(generalLimiter);
+// ✅ เปิด general limiter ป้องกัน DDoS
+app.use(generalLimiter);
 
 // Logger Middleware (Production: only errors)
 if (process.env.NODE_ENV === 'development') {
@@ -148,6 +148,12 @@ const roomRoutes = require('./routes/rooms');
 const departmentRoutes = require('./routes/departments');
 const adminRoutes = require('./routes/admin');
 const adminStatsRoutes = require('./routes/adminStats');
+const displayRoutes = require('./routes/display');
+
+// ============================================
+// 📁 STATIC FILES — Media uploads (public)
+// ============================================
+app.use('/api/display/uploads', express.static(path.join(__dirname, 'uploads/display')));
 
 // ============================================
 // ✅ USE ROUTES
@@ -215,6 +221,7 @@ app.use('/api/rooms', roomRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/admin/stats', adminStatsRoutes); // ⭐ ต้องอยู่ก่อน /api/admin
 app.use('/api/admin', adminRoutes);
+app.use('/api/display', displayRoutes);
 
 // ============================================
 // ⚠️ ERROR HANDLING

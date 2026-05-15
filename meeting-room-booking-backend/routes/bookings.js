@@ -83,6 +83,11 @@ router.get('/', authMiddleware, async (req, res) => {
       query.status = req.query.status;
     }
 
+    // ✓ ถ้าไม่ใช่ admin ให้ดูเฉพาะการจองของตัวเอง
+    if (req.userRole !== 'admin') {
+      query.userId = req.userId;
+    }
+
     // ⭐ Pagination
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;

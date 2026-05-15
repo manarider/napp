@@ -15,6 +15,7 @@ import AllBookings from './components/Booking/AllBookings';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import RoomCalendar from './components/Booking/RoomCalendar';
 import Home from './pages/Home';
+import PublicDisplay from './pages/PublicDisplay';
 import './App.css';
 
 // --- Protected Route Component ---
@@ -96,14 +97,23 @@ const AppRoutes = () => {
 
 function App() {
   return (
-    // ย้าย BrowserRouter ไปไว้ที่ index.js แล้ว
-    // เพื่อให้ Context Providers สามารถใช้ฟีเจอร์ของ Router ได้ถ้าจำเป็น
     <ErrorBoundary>
-      <AuthProvider>
-        <AlertProvider>
-          <AppRoutes />
-        </AlertProvider>
-      </AuthProvider>
+      <Routes>
+        {/* ✅ หน้าจอสาธารณะ - ไม่ต้องผ่าน AuthProvider เลย */}
+        <Route path="/display/room/:roomId" element={<PublicDisplay />} />
+
+        {/* ทุก route อื่น ๆ ผ่าน AuthProvider + AlertProvider */}
+        <Route
+          path="*"
+          element={
+            <AuthProvider>
+              <AlertProvider>
+                <AppRoutes />
+              </AlertProvider>
+            </AuthProvider>
+          }
+        />
+      </Routes>
     </ErrorBoundary>
   );
 }

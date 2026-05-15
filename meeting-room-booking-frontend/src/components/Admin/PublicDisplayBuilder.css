@@ -1,0 +1,616 @@
+/* PublicDisplayBuilder.css */
+
+/* === Layout === */
+.pdb-container {
+  padding: 0 0 40px 0;
+}
+
+.pdb-header {
+  margin-bottom: 24px;
+}
+
+.pdb-header h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 6px 0;
+}
+
+.pdb-subtitle {
+  color: #666;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.pdb-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr 300px;
+  gap: 20px;
+  align-items: start;
+}
+
+/* === Sidebar: Room list === */
+.pdb-sidebar {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  padding: 16px;
+  position: sticky;
+  top: 80px;
+}
+
+.pdb-sidebar h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #888;
+  letter-spacing: 0.05em;
+  margin: 0 0 12px 0;
+}
+
+.pdb-room-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.pdb-room-item {
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  background: #f5f5f5;
+}
+
+.pdb-room-item:hover {
+  background: #e8f4fd;
+  border-color: #90caf9;
+}
+
+.pdb-room-item.active {
+  background: #e3f2fd;
+  border-color: #1976d2;
+}
+
+.pdb-room-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.pdb-room-number {
+  font-size: 0.78rem;
+  color: #888;
+  margin-top: 2px;
+}
+
+.pdb-configured-badge {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.72rem;
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+/* === Public Link === */
+.pdb-public-link {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.pdb-public-link h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #555;
+  margin: 0 0 8px 0;
+}
+
+.pdb-link-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pdb-link {
+  font-size: 0.72rem;
+  color: #1976d2;
+  word-break: break-all;
+  text-decoration: none;
+}
+
+.pdb-link:hover {
+  text-decoration: underline;
+}
+
+.pdb-copy-btn {
+  padding: 5px 12px;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  width: 100%;
+}
+
+.pdb-copy-btn:hover {
+  background: #1565c0;
+}
+
+.pdb-link-note {
+  font-size: 0.72rem;
+  color: #888;
+  margin: 6px 0 0 0;
+  line-height: 1.4;
+}
+
+/* === Main (Preview) === */
+.pdb-main {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  min-height: 500px;
+}
+
+.pdb-no-room {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: #aaa;
+}
+
+.pdb-no-room-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.pdb-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: #888;
+  font-size: 1.1rem;
+}
+
+.pdb-preview-header {
+  margin-bottom: 14px;
+}
+
+.pdb-preview-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 4px 0;
+}
+
+.pdb-preview-hint {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.pdb-preview-wrapper {
+  overflow: auto;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background: #111;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.pdb-preview-canvas {
+  display: block;
+  font-family: 'Sarabun', sans-serif;
+  flex-shrink: 0;
+}
+
+.pdb-size-label {
+  position: absolute;
+  bottom: 6px;
+  right: 10px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  pointer-events: none;
+}
+
+.pdb-action-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.pdb-save-btn {
+  padding: 10px 28px;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.pdb-save-btn:hover:not(:disabled) {
+  background: #1565c0;
+}
+
+.pdb-save-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.pdb-save-msg {
+  font-size: 0.9rem;
+  color: #2e7d32;
+}
+
+/* === Settings Panel === */
+.pdb-settings-panel {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  padding: 16px;
+  position: sticky;
+  top: 80px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.pdb-settings-section {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.pdb-settings-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.pdb-settings-section h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #555;
+  letter-spacing: 0.04em;
+  margin: 0 0 12px 0;
+}
+
+/* === Form fields === */
+.pdb-field {
+  margin-bottom: 10px;
+}
+
+.pdb-field label {
+  display: block;
+  font-size: 0.78rem;
+  color: #666;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.pdb-field input[type="number"],
+.pdb-field input[type="text"],
+.pdb-field select {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  background: #fafafa;
+  box-sizing: border-box;
+}
+
+.pdb-field input[type="range"] {
+  width: 100%;
+  margin-bottom: 2px;
+}
+
+.pdb-range-val {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.pdb-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.pdb-color-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pdb-color-row input[type="color"] {
+  width: 36px;
+  height: 32px;
+  padding: 2px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #fafafa;
+}
+
+.pdb-color-row span {
+  font-size: 0.78rem;
+  color: #555;
+  font-family: monospace;
+}
+
+.pdb-transparent-btn {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pdb-transparent-btn:hover {
+  background: #e0e0e0;
+}
+
+.pdb-custom-text {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  font-family: 'Sarabun', sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+  box-sizing: border-box;
+  line-height: 1.5;
+}
+
+.pdb-custom-text:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.15);
+}
+
+.pdb-field-hint {
+  display: block;
+  font-size: 0.72rem;
+  color: #888;
+  margin-top: 4px;
+}
+
+.pdb-preset-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.pdb-preset-btns button {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  background: #e3f2fd;
+  border: 1px solid #90caf9;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #1565c0;
+}
+
+.pdb-preset-btns button:hover {
+  background: #bbdefb;
+}
+
+.pdb-file-input {
+  width: 100%;
+  font-size: 0.8rem;
+}
+
+.pdb-bg-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pdb-bg-thumb {
+  width: 100%;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.pdb-remove-btn {
+  padding: 5px;
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid #ef9a9a;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+/* === Media Library === */
+.pdb-upload-btn {
+  display: inline-block;
+  padding: 8px 14px;
+  background: #1976d2;
+  color: #fff;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background 0.2s;
+  margin-bottom: 6px;
+}
+.pdb-upload-btn:hover { background: #1565c0; }
+.pdb-upload-btn.disabled { background: #90a4ae; cursor: not-allowed; }
+
+.pdb-media-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.pdb-media-item {
+  position: relative;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  overflow: hidden;
+  cursor: pointer;
+  background: #111;
+  aspect-ratio: 16/9;
+  transition: border-color 0.2s;
+}
+.pdb-media-item:hover { border-color: #64b5f6; }
+.pdb-media-item.active { border-color: #00bcd4; box-shadow: 0 0 0 2px #00bcd4; }
+
+.pdb-media-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pdb-media-video {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.pdb-media-type-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.pdb-media-active-badge {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: #00bcd4;
+  color: #fff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.pdb-media-delete {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(198,40,40,0.85);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.pdb-media-item:hover .pdb-media-delete { display: flex; }
+
+.pdb-media-name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.65);
+  color: #fff;
+  font-size: 0.65rem;
+  padding: 2px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* === Element tabs === */
+.pdb-element-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.pdb-el-tab {
+  flex: 1;
+  padding: 6px 4px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.pdb-el-tab.active {
+  background: #1976d2;
+  color: #fff;
+  border-color: #1976d2;
+}
+
+.pdb-el-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #eee;
+}
+
+.pdb-element-settings {
+  /* nested settings */
+}
+
+.pdb-divider {
+  height: 1px;
+  background: #f0f0f0;
+  margin: 10px 0;
+}
+
+/* === Responsive === */
+@media (max-width: 1400px) {
+  .pdb-layout {
+    grid-template-columns: 200px 1fr 270px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .pdb-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .pdb-sidebar,
+  .pdb-settings-panel {
+    position: static;
+  }
+}

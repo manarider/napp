@@ -20,6 +20,7 @@ const AllBookings = () => {
 
   useEffect(() => {
     applyFilters();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, bookings]);
 
   const fetchBookings = async () => {

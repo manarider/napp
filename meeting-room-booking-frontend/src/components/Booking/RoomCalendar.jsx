@@ -16,12 +16,14 @@ const RoomCalendar = () => {
 
   useEffect(() => {
     fetchRoomData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
 
   useEffect(() => {
     if (room) {
       fetchMonthBookings();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [room, currentDate]);
 
   const fetchRoomData = async () => {

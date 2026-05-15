@@ -13,6 +13,7 @@ const Alert = ({ type = 'success', message, onClose, duration = 3000 }) => {
 
       return () => clearTimeout(timer);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [duration]);
 
   const handleClose = () => {

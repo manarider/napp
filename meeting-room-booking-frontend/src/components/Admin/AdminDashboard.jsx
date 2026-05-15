@@ -4,6 +4,7 @@ import DashboardCharts from './DashboardCharts';
 import RoomManagement from './RoomManagement';
 import BookingManagement from './BookingManagement';
 import UserManagement from './UserManagement';
+import PublicDisplayBuilder from './PublicDisplayBuilder';
 import './Admin.css';
 
 const AdminDashboard = () => {
@@ -44,8 +45,13 @@ const AdminDashboard = () => {
 
   const handleSecretSubmit = (e) => {
     e.preventDefault();
-    const correctSecret = process.env.REACT_APP_USER_SECET_EDIT;
-    
+    const correctSecret = process.env.REACT_APP_USER_SECRET_EDIT;
+
+    if (!correctSecret) {
+      setSecretError('ไม่พบการตั้งค่า REACT_APP_USER_SECRET_EDIT กรุณาแจ้งผู้ดูแลระบบ');
+      return;
+    }
+
     if (userSecretInput === correctSecret) {
       setIsUserManagementAuthorized(true);
       setShowSecretPrompt(false);
@@ -104,6 +110,12 @@ const AdminDashboard = () => {
           onClick={handleUsersTabClick}
         >
           👥 จัดการผู้ใช้
+        </button>
+        <button
+          className={`tab-btn ${activeTab === 'display' ? 'active' : ''}`}
+          onClick={() => setActiveTab('display')}
+        >
+          🖥️ หน้าจอสาธารณะ
         </button>
       </div>
 
@@ -250,6 +262,9 @@ const AdminDashboard = () => {
 
       {/* Users Tab */}
       {activeTab === 'users' && <UserManagement />}
+
+      {/* Public Display Tab */}
+      {activeTab === 'display' && <PublicDisplayBuilder />}
     </div>
   );
 };

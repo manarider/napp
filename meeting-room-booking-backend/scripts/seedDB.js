@@ -1,12 +1,23 @@
 // seedDB.js
+require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 const mongoose = require('mongoose');
-const connectDB = require('./db'); // ดึงฟังก์ชันเชื่อมต่อจาก db.js
 
 // นำเข้า Models จากไฟล์ที่คุณมี
 const User = require('./User');
 const Department = require('./Department');
 const MeetingRoom = require('./MeetingRoom');
 const Booking = require('./Booking');
+
+const connectDB = async () => {
+  if (!process.env.MONGODB_URI) {
+    throw new Error('MONGODB_URI ไม่ได้ตั้งค่าใน .env');
+  }
+  await mongoose.connect(process.env.MONGODB_URI, {
+    maxPoolSize: 5,
+    serverSelectionTimeoutMS: 5000,
+  });
+  console.log('✅ เชื่อมต่อฐานข้อมูลสำเร็จ');
+};
 
 const seedDatabase = async () => {
   try {

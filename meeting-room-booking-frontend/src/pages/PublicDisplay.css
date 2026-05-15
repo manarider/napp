@@ -1,0 +1,66 @@
+/* PublicDisplay.css - หน้าจอสาธารณะ */
+/* หมายเหตุ: overflow hidden ถูก set ใน component JS เพื่อไม่ให้รั่วไปหน้าอื่น */
+
+.pd-fullscreen {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background: #000;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.pd-canvas {
+  flex-shrink: 0;
+}
+
+.pd-room-label {
+  position: absolute;
+  bottom: 16px;
+  right: 24px;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: 'Sarabun', sans-serif;
+  pointer-events: none;
+}
+
+/* Loading */
+.pd-loading-screen {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  gap: 16px;
+  background: #0a0a0a;
+}
+
+.pd-loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255,255,255,0.1);
+  border-top-color: #90caf9;
+  border-radius: 50%;
+  animation: pd-spin 1s linear infinite;
+}
+
+@keyframes pd-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error */
+.pd-error-screen {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ef9a9a;
+  gap: 12px;
+  background: #0a0a0a;
+}
+
+.pd-error-icon {
+  font-size: 3rem;
+}

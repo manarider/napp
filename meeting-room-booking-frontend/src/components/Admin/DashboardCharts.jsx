@@ -16,6 +16,7 @@ const DashboardCharts = () => {
 
   useEffect(() => {
     fetchAllStats();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeRange]);
 
   const fetchAllStats = async () => {
