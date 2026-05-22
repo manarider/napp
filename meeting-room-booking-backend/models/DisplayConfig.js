@@ -13,6 +13,7 @@ const elementSchema = new mongoose.Schema({
   fontFamily: { type: String, default: 'Sarabun' },
   fontWeight: { type: String, default: 'bold' },
   fontStyle: { type: String, default: 'normal' },
+  textAlign: { type: String, enum: ['left', 'center', 'right'], default: 'left' },
   color: { type: String, default: '#ffffff' },
   borderColor: { type: String, default: 'transparent' },
   borderWidth: { type: Number, default: 0 },
