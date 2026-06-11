@@ -8,6 +8,8 @@ const BookingManagement = () => {
   const [filter, setFilter] = useState('all');
   const [selectedImage, setSelectedImage] = useState(null);
   const [showImageModal, setShowImageModal] = useState(false);
+  const [expandedRows, setExpandedRows] = useState(new Set());
+  const [allExpanded, setAllExpanded] = useState(false);
 
   useEffect(() => {
     fetchBookings();
@@ -22,9 +24,52 @@ const BookingManagement = () => {
       }
       const res = await api.get(url);
       setBookings(res.data.bookings || res.data);
+      setExpandedRows(new Set());
+      setAllExpanded(false);
     } finally {
       setLoading(false);
     }
+  };
+
+  const toggleRow = (id) => {
+    setExpandedRows(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleAll = () => {
+    if (allExpanded) {
+      setExpandedRows(new Set());
+      setAllExpanded(false);
+    } else {
+      setExpandedRows(new Set(bookings.map(b => b._id)));
+      setAllExpanded(true);
+    }
+  };
+
+  const formatDateTime = (dateStr) => {
+    if (!dateStr) return '-';
+    return new Date(dateStr).toLocaleString('th-TH', {
+      year: 'numeric', month: 'short', day: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+  };
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '-';
+    return new Date(dateStr).toLocaleDateString('th-TH', {
+      year: 'numeric', month: 'short', day: 'numeric'
+    });
+  };
+
+  const statusLabel = (status) => {
+    if (status === 'pending') return 'รออนุมัติ';
+    if (status === 'approved') return 'อนุมัติแล้ว';
+    if (status === 'rejected') return 'ปฏิเสธ';
+    return status;
   };
 
   const handleStatusChange = async (bookingId, newStatus) => {
@@ -38,10 +83,10 @@ const BookingManagement = () => {
   };
 
   const handleDelete = async (bookingId) => {
-    if (window.confirm('Are you sure you want to delete this booking?')) {
+    if (window.confirm('คุณแน่ใจหรือไม่ที่จะลบรายการจองนี้?')) {
       try {
         await api.delete(`/admin/bookings/${bookingId}`);
-        alert('✅ Booking deleted');
+        alert('✅ ลบรายการจองแล้ว');
         fetchBookings();
       } catch (err) {
         alert('❌ Error: ' + (err.response?.data?.error || err.message));
@@ -72,112 +117,106 @@ const BookingManagement = () => {
   return (
     <div className="booking-management">
       <div className="management-header">
-        <h2>📋 Manage Bookings</h2>
+        <h2>📋 จัดการรายการจอง</h2>
         <div className="filter-buttons">
-          <button
-            className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
-            onClick={() => setFilter('all')}
-          >
-            All
-          </button>
-          <button
-            className={`filter-btn ${filter === 'pending' ? 'active' : ''}`}
-            onClick={() => setFilter('pending')}
-          >
-            ⏳ Pending
-          </button>
-          <button
-            className={`filter-btn ${filter === 'approved' ? 'active' : ''}`}
-            onClick={() => setFilter('approved')}
-          >
-            ✅ Approved
-          </button>
-          <button
-            className={`filter-btn ${filter === 'rejected' ? 'active' : ''}`}
-            onClick={() => setFilter('rejected')}
-          >
-            ❌ Rejected
-          </button>
+          <button className={`filter-btn ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>ทั้งหมด</button>
+          <button className={`filter-btn ${filter === 'pending' ? 'active' : ''}`} onClick={() => setFilter('pending')}>⏳ รออนุมัติ</button>
+          <button className={`filter-btn ${filter === 'approved' ? 'active' : ''}`} onClick={() => setFilter('approved')}>✅ อนุมัติแล้ว</button>
+          <button className={`filter-btn ${filter === 'rejected' ? 'active' : ''}`} onClick={() => setFilter('rejected')}>❌ ปฏิเสธ</button>
         </div>
       </div>
 
       {bookings.length === 0 ? (
-        <div className="empty-state">No bookings found</div>
+        <div className="empty-state">ไม่พบรายการจอง</div>
       ) : (
         <div className="bookings-table">
           <table>
             <thead>
               <tr>
-                <th>Room</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>User</th>
-                <th>Department</th>
-                <th>Purpose</th>
-                <th>Image</th>
-                <th>Status</th>
+                <th>
+                  <button className="btn-expand-all" onClick={toggleAll} title={allExpanded ? 'ยุบทั้งหมด' : 'ขยายทั้งหมด'}>
+                    {allExpanded ? '▲' : '▼'} รายละเอียด
+                  </button>
+                </th>
+                <th>ห้องประชุม</th>
+                <th>วันเวลาการจอง</th>
+                <th>วันที่จองใช้ห้อง</th>
+                <th>เวลาใช้ห้อง</th>
+                <th>สถานะ</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {bookings.map((booking) => (
-                <tr key={booking._id}>
-                  <td data-label="Room">
-                    <strong>{booking.roomId.roomNumber}</strong>
-                    <br />
-                    <small>{booking.roomId.roomName}</small>
-                  </td>
-                  <td data-label="Date">{new Date(booking.bookingDate).toLocaleDateString()}</td>
-                  <td data-label="Time">{booking.startTime} - {booking.endTime}</td>
-                  <td data-label="User">{booking.userId.fullName}</td>
-                  <td data-label="Department">{booking.department}</td>
-                  <td data-label="Purpose">{booking.purpose}</td>
-                  <td data-label="Image">
-                    {booking.bookingImage && booking.bookingImage.data ? (
+                <>
+                  <tr key={booking._id} className={expandedRows.has(booking._id) ? 'row-expanded' : ''}>
+                    <td>
                       <button
-                        onClick={() => handleViewImage(booking)}
-                        className="btn-view-image"
-                        title="ดูหนังสือการจอง"
+                        className="btn-expand-row"
+                        onClick={() => toggleRow(booking._id)}
+                        title={expandedRows.has(booking._id) ? 'ยุบ' : 'ขยาย'}
                       >
-                        🖼️ ดูรูป
+                        {expandedRows.has(booking._id) ? '▲' : '▼'}
                       </button>
-                    ) : (
-                      <span className="no-image-badge">ไม่มีรูป</span>
-                    )}
-                  </td>
-                  <td data-label="Status">
-                    <span className={`status-badge ${booking.status}`}>
-                      {booking.status}
-                    </span>
-                  </td>
-                  <td data-label="Actions" className="action-buttons">
-                    {booking.status === 'pending' && (
-                      <>
-                        <button
-                          onClick={() => handleStatusChange(booking._id, 'approved')}
-                          className="btn-approve"
-                          title="Approve"
-                        >
-                          ✅
-                        </button>
-                        <button
-                          onClick={() => handleStatusChange(booking._id, 'rejected')}
-                          className="btn-reject"
-                          title="Reject"
-                        >
-                          ❌
-                        </button>
-                      </>
-                    )}
-                    <button
-                      onClick={() => handleDelete(booking._id)}
-                      className="btn-delete-row"
-                      title="Delete"
-                    >
-                      🗑️
-                    </button>
-                  </td>
-                </tr>
+                    </td>
+                    <td data-label="ห้องประชุม">
+                      <div>
+                        <strong>{booking.roomId?.roomNumber}</strong>
+                        <br />
+                        <small>{booking.roomId?.roomName}</small>
+                      </div>
+                    </td>
+                    <td data-label="วันเวลาการจอง">
+                      <small>{formatDateTime(booking.createdAt)}</small>
+                    </td>
+                    <td data-label="วันที่จองใช้ห้อง">
+                      {formatDate(booking.bookingDate)}
+                    </td>
+                    <td data-label="เวลาใช้ห้อง">
+                      {booking.startTime} – {booking.endTime}
+                    </td>
+                    <td data-label="สถานะ">
+                      <span className={`status-badge ${booking.status}`}>
+                        {statusLabel(booking.status)}
+                      </span>
+                    </td>
+                    <td data-label="Actions" className="action-buttons">
+                      {booking.status === 'pending' && (
+                        <>
+                          <button onClick={() => handleStatusChange(booking._id, 'approved')} className="btn-approve" title="อนุมัติ">✅</button>
+                          <button onClick={() => handleStatusChange(booking._id, 'rejected')} className="btn-reject" title="ปฏิเสธ">❌</button>
+                        </>
+                      )}
+                      <button onClick={() => handleDelete(booking._id)} className="btn-delete-row" title="ลบ">🗑️</button>
+                    </td>
+                  </tr>
+                  {expandedRows.has(booking._id) && (
+                    <tr key={`${booking._id}-detail`} className="expanded-detail-row">
+                      <td colSpan={7}>
+                        <div className="expanded-details">
+                          <div className="expanded-item">
+                            <span className="expanded-label">👤 ผู้จอง</span>
+                            <span className="expanded-value">{booking.userId?.fullName || booking.fullName}</span>
+                          </div>
+                          <div className="expanded-item">
+                            <span className="expanded-label">🏢 สังกัด</span>
+                            <span className="expanded-value">{booking.department}</span>
+                          </div>
+                          <div className="expanded-item">
+                            <span className="expanded-label">📝 หัวข้อการประชุม</span>
+                            <span className="expanded-value">{booking.purpose}</span>
+                          </div>
+                          {booking.bookingImage?.data && (
+                            <div className="expanded-item">
+                              <span className="expanded-label">📄 หนังสือการจอง</span>
+                              <button onClick={() => handleViewImage(booking)} className="btn-view-image">🖼️ ดูรูป</button>
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </>
               ))}
             </tbody>
           </table>
@@ -190,36 +229,21 @@ const BookingManagement = () => {
           <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="image-modal-header">
               <h3>📄 หนังสือการจอง</h3>
-              <button onClick={closeImageModal} className="btn-close-modal">
-                ✕
-              </button>
+              <button onClick={closeImageModal} className="btn-close-modal">✕</button>
             </div>
-            
             <div className="image-modal-body">
               <div className="booking-info-section">
-                <p><strong>ห้อง:</strong> {selectedImage.booking.roomId.roomNumber} - {selectedImage.booking.roomId.roomName}</p>
-                <p><strong>ผู้จอง:</strong> {selectedImage.booking.userId.fullName}</p>
+                <p><strong>ห้อง:</strong> {selectedImage.booking.roomId?.roomNumber} - {selectedImage.booking.roomId?.roomName}</p>
+                <p><strong>ผู้จอง:</strong> {selectedImage.booking.userId?.fullName || selectedImage.booking.fullName}</p>
                 <p><strong>แผนก:</strong> {selectedImage.booking.department}</p>
-                <p><strong>วันที่:</strong> {new Date(selectedImage.booking.bookingDate).toLocaleDateString('th-TH')}</p>
+                <p><strong>วันที่:</strong> {formatDate(selectedImage.booking.bookingDate)}</p>
                 <p><strong>เวลา:</strong> {selectedImage.booking.startTime} - {selectedImage.booking.endTime}</p>
               </div>
-              
               <div className="image-container">
-                <img 
-                  src={selectedImage.data} 
-                  alt={selectedImage.fileName}
-                  className="booking-image-preview"
-                />
+                <img src={selectedImage.data} alt={selectedImage.fileName} className="booking-image-preview" />
               </div>
-              
               <div className="image-modal-actions">
-                <a 
-                  href={selectedImage.data} 
-                  download={selectedImage.fileName}
-                  className="btn-download"
-                >
-                  💾 ดาวน์โหลด
-                </a>
+                <a href={selectedImage.data} download={selectedImage.fileName} className="btn-download">💾 ดาวน์โหลด</a>
               </div>
             </div>
           </div>
