@@ -41,27 +41,14 @@ const RoomCalendar = () => {
     try {
       const year = currentDate.getFullYear();
       const month = currentDate.getMonth();
-      
-      // ดึงการจองทั้งหมดของห้องนี้
-      const res = await api.get('/bookings', {
-        params: { roomId: roomId }
+
+      // ดึงการจองทั้งหมดของห้องนี้ผ่าน endpoint ที่ทุกคนเข้าถึงได้
+      const res = await api.get(`/rooms/${roomId}/bookings`, {
+        params: { year, month }
       });
 
-      let data = [];
-      if (Array.isArray(res.data)) {
-        data = res.data;
-      } else if (res.data.bookings) {
-        data = res.data.bookings;
-      }
-
-      // กรองเฉพาะเดือนปัจจุบัน
-      const monthBookings = data.filter(booking => {
-        const bookingDate = new Date(booking.bookingDate);
-        return bookingDate.getFullYear() === year && 
-               bookingDate.getMonth() === month;
-      });
-
-      setBookings(monthBookings);
+      const data = Array.isArray(res.data) ? res.data : [];
+      setBookings(data);
     } catch (err) {
       console.error('เกิดข้อผิดพลาด:', err);
     }

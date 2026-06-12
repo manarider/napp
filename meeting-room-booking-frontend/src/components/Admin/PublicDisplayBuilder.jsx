@@ -27,7 +27,7 @@ const DEFAULT_ELEMENTS = [
   {
     type: 'purpose',
     x: 100, y: 200,
-    fontSize: 80, fontFamily: 'Sarabun', fontWeight: 'bold', fontStyle: 'normal',
+    fontSize: 80, fontFamily: 'Sarabun', fontWeight: 'bold', fontStyle: 'normal', textAlign: 'left',
     color: '#ffffff', borderColor: 'transparent', borderWidth: 0, borderRadius: 0,
     shadowColor: 'rgba(0,0,0,0.5)', shadowBlur: 8, shadowX: 2, shadowY: 2,
     padding: '12px 24px', backgroundColor: 'transparent', visible: true, customText: ''
@@ -35,7 +35,7 @@ const DEFAULT_ELEMENTS = [
   {
     type: 'date',
     x: 100, y: 380,
-    fontSize: 56, fontFamily: 'Sarabun', fontWeight: 'normal', fontStyle: 'normal',
+    fontSize: 56, fontFamily: 'Sarabun', fontWeight: 'normal', fontStyle: 'normal', textAlign: 'left',
     color: '#f0c040', borderColor: 'transparent', borderWidth: 0, borderRadius: 0,
     shadowColor: 'rgba(0,0,0,0.5)', shadowBlur: 4, shadowX: 1, shadowY: 1,
     padding: '8px 16px', backgroundColor: 'transparent', visible: true, customText: ''
@@ -43,7 +43,7 @@ const DEFAULT_ELEMENTS = [
   {
     type: 'time',
     x: 100, y: 500,
-    fontSize: 56, fontFamily: 'Sarabun', fontWeight: 'normal', fontStyle: 'normal',
+    fontSize: 56, fontFamily: 'Sarabun', fontWeight: 'normal', fontStyle: 'normal', textAlign: 'left',
     color: '#7ecfff', borderColor: 'transparent', borderWidth: 0, borderRadius: 0,
     shadowColor: 'rgba(0,0,0,0.5)', shadowBlur: 4, shadowX: 1, shadowY: 1,
     padding: '8px 16px', backgroundColor: 'transparent', visible: true, customText: ''
@@ -323,6 +323,7 @@ const PublicDisplayBuilder = () => {
       backgroundColor: el.backgroundColor,
       cursor: 'grab',
       userSelect: 'none',
+      textAlign: el.textAlign || 'left',
       whiteSpace: 'pre-wrap',
       wordBreak: 'break-word',
       maxWidth: `${(config.width - el.x - 20) * PREVIEW_SCALE}px`,
@@ -338,6 +339,11 @@ const PublicDisplayBuilder = () => {
   // URL สำหรับ public display (ต้องมี /napp/ prefix เพราะ app อยู่ที่ /napp/)
   const getPublicUrl = (roomId) => {
     return `${window.location.origin}/napp/display/room/${roomId}`;
+  };
+
+  // URL สำหรับตารางประชุมประจำวัน
+  const getScheduleUrl = () => {
+    return `${window.location.origin}/napp/display/schedule`;
   };
 
   return (
@@ -391,6 +397,40 @@ const PublicDisplayBuilder = () => {
               <p className="pdb-link-note">Link นี้จะแสดงข้อมูลการจองล่าสุดของห้องนี้เสมอ</p>
             </div>
           )}
+
+          {/* ตารางประชุมประจำวัน */}
+          <div className="pdb-public-link pdb-schedule-link">
+            <h4>📋 ตารางประชุมประจำวัน</h4>
+            <p className="pdb-link-note">แสดงรายการประชุมทุกห้องในวันนั้น</p>
+            <div className="pdb-link-box">
+              <a
+                href={getScheduleUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pdb-link"
+              >
+                {getScheduleUrl()}
+              </a>
+              <button
+                className="pdb-copy-btn"
+                onClick={() => {
+                  navigator.clipboard.writeText(getScheduleUrl());
+                  setSaveMsg('📋 คัดลอก Link ตารางแล้ว');
+                  setTimeout(() => setSaveMsg(''), 2000);
+                }}
+              >
+                คัดลอก
+              </button>
+            </div>
+            <a
+              href={getScheduleUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pdb-open-schedule-btn"
+            >
+              🖥️ เปิดหน้าจอตาราง
+            </a>
+          </div>
         </div>
 
         {/* ===================== CENTER: Preview ===================== */}
@@ -666,6 +706,22 @@ const PublicDisplayBuilder = () => {
                         <option value="normal">ปกติ</option>
                         <option value="italic">เอียง</option>
                       </select>
+                    </div>
+                  </div>
+
+                  <div className="pdb-field">
+                    <label>การจัดตำแหน่งข้อความ</label>
+                    <div className="pdb-align-row">
+                      {[{val:'left',icon:'⬅',label:'ชิดซ้าย'},{val:'center',icon:'↔',label:'กึ่งกลาง'},{val:'right',icon:'➡',label:'ชิดขวา'}].map(a => (
+                        <button
+                          key={a.val}
+                          className={`pdb-align-btn${(selectedEl.textAlign || 'left') === a.val ? ' active' : ''}`}
+                          onClick={() => updateElement(selectedElementIdx, 'textAlign', a.val)}
+                          title={a.label}
+                        >
+                          {a.icon} {a.label}
+                        </button>
+                      ))}
                     </div>
                   </div>
 

@@ -8,6 +8,7 @@ import ErrorBoundary from './components/common/ErrorBoundary';
 import Navbar from './components/Layout/Navbar';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
+import UMSCallback from './components/Auth/UMSCallback';
 import Dashboard from './pages/Dashboard';
 import MyBookings from './components/Booking/MyBookings';
 import MultiDayBookingForm from './components/Booking/MultiDayBookingForm';
@@ -16,6 +17,7 @@ import AdminDashboard from './components/Admin/AdminDashboard';
 import RoomCalendar from './components/Booking/RoomCalendar';
 import Home from './pages/Home';
 import PublicDisplay from './pages/PublicDisplay';
+import PublicDisplaySchedule from './pages/PublicDisplaySchedule';
 import './App.css';
 
 // --- Protected Route Component ---
@@ -47,6 +49,9 @@ const AppRoutes = () => {
         <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Home />} />
         <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
         <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <Register />} />
+        
+        {/* UMS Authentication Callback */}
+        <Route path="/auth/callback" element={<UMSCallback />} />
         
         {/* Public View (ใครก็ดูห้องได้ แต่จองต้อง Login) */}
         <Route path="/bookings" element={<AllBookings />} />
@@ -101,6 +106,7 @@ function App() {
       <Routes>
         {/* ✅ หน้าจอสาธารณะ - ไม่ต้องผ่าน AuthProvider เลย */}
         <Route path="/display/room/:roomId" element={<PublicDisplay />} />
+        <Route path="/display/schedule" element={<PublicDisplaySchedule />} />
 
         {/* ทุก route อื่น ๆ ผ่าน AuthProvider + AlertProvider */}
         <Route

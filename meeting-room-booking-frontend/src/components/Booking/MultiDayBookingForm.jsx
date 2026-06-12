@@ -4,422 +4,350 @@ import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import './Booking.css';
 
+const emptyEntry = () => ({
+  id: Date.now() + Math.random(),
+  date: '',
+  roomId: '',
+  startTime: '',
+  endTime: '',
+  conflict: null,
+  checking: false,
+});
+
 const MultiDayBookingForm = ({ onClose = null }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    roomId: '',
-    fullName: '',
-    department: '',
-    startDate: '',
-    endDate: '',
-    startTime: '',
-    endTime: '',
-    purpose: ''
-  });
+  // ข้อมูลร่วม
+  const [fullName, setFullName] = useState('');
+  const [department, setDepartment] = useState('');
+  const [purpose, setPurpose] = useState('');
+
+  // รายการวันที่ต้องการจอง
+  const [entries, setEntries] = useState([emptyEntry()]);
 
   const [rooms, setRooms] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [hasTimeConflict, setHasTimeConflict] = useState(false);
-  const [conflictMessage, setConflictMessage] = useState('');
-  const [checkingAvailability, setCheckingAvailability] = useState(false);
-  
-  // Image states
-  const [imagePreview, setImagePreview] = useState(null);
-  const [imageData, setImageData] = useState(null);
+  const [submitResult, setSubmitResult] = useState(null); // { success, errors }
 
-  // ✅ ฟังก์ชันช่วย: แปลงเวลาจากจุด (.) เป็นโคลอน (:)
-  const normalizeTime = (time) => {
-    return time ? time.replace('.', ':') : '';
-  };
-
-  // ✅ ฟังก์ชันช่วย: ตรวจสอบรูปแบบเวลา (รองรับทั้ง : และ .)
-  const validateTimeFormat = (time) => {
-    const timeRegex = /^([0-1]?[0-9]|2[0-3])[:.]([0-5][0-9])$/;
-    return timeRegex.test(time);
-  };
+  const normalizeTime = (t) => (t ? t.replace('.', ':') : '');
+  const validateTimeFormat = (t) => /^([0-1]?[0-9]|2[0-3])[:.]([0-5][0-9])$/.test(t);
+  const getTodayDate = () => new Date().toISOString().split('T')[0];
 
   useEffect(() => {
-    // โหลดข้อมูลห้องพัก
-    api.get('/rooms').then((res) => {
-      setRooms(res.data.rooms || res.data);
-    }).catch(err => console.error('Error loading rooms:', err));
-
-    // ดึงข้อมูล User
+    api.get('/rooms').then((res) => setRooms(res.data.rooms || res.data))
+      .catch((err) => console.error('Error loading rooms:', err));
+    api.get('/departments').then((res) => {
+      if (Array.isArray(res.data)) setDepartments(res.data);
+    }).catch((err) => console.error('Error loading departments:', err));
     if (user) {
-      setFormData((prev) => ({
-        ...prev,
-        fullName: user.fullName,
-        department: user.department
-      }));
+      setFullName(user.fullName || '');
+      setDepartment(user.department || '');
     }
   }, [user]);
 
-  // ✅ ตรวจสอบเวลาซ้อนสำหรับหลายวัน
-  const checkTimeConflicts = async () => {
+  // ── Entry helpers ──────────────────────────────────────────
+
+  const addEntry = () => setEntries((prev) => [...prev, emptyEntry()]);
+
+  const removeEntry = (id) => {
+    if (entries.length === 1) return;
+    setEntries((prev) => prev.filter((e) => e.id !== id));
+  };
+
+  const updateEntry = (id, field, value) =>
+    setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, [field]: value } : e)));
+
+  // ── Conflict check ──────────────────────────────────────────
+
+  const checkEntryConflict = async (entry) => {
+    const { id, roomId, date, startTime, endTime } = entry;
+    if (!roomId || !date || !startTime || !endTime) {
+      setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, conflict: null } : e)));
+      return;
+    }
+    if (!validateTimeFormat(startTime) || !validateTimeFormat(endTime)) {
+      setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, conflict: '⚠️ รูปแบบเวลาไม่ถูกต้อง (เช่น 09:00)' } : e)));
+      return;
+    }
+    const [sh, sm] = normalizeTime(startTime).split(':').map(Number);
+    const [eh, em] = normalizeTime(endTime).split(':').map(Number);
+    const start = sh * 60 + sm, end = eh * 60 + em;
+    if (start < 480 || end > 1080) {
+      setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, conflict: '⚠️ เวลาทำการ 08:00–18:00 เท่านั้น' } : e)));
+      return;
+    }
+    if (start >= end) {
+      setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, conflict: '⚠️ เวลาเริ่มต้องน้อยกว่าเวลาสิ้นสุด' } : e)));
+      return;
+    }
+    setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, checking: true, conflict: null } : e)));
     try {
-      setCheckingAvailability(true);
-      
-      if (!validateTimeFormat(formData.startTime) || !validateTimeFormat(formData.endTime)) {
-        setHasTimeConflict(true);
-        setConflictMessage('⚠️ กรุณากรอกเวลาในรูปแบบ HH:MM หรือ HH.MM (เช่น 09:00, 13.30)');
-        return;
-      }
-
-      // แปลงเวลาก่อนนำไปคำนวณ
-      const [startHour, startMin] = normalizeTime(formData.startTime).split(':').map(Number);
-      const [endHour, endMin] = normalizeTime(formData.endTime).split(':').map(Number);
-      
-      const startTimeInMinutes = startHour * 60 + startMin;
-      const endTimeInMinutes = endHour * 60 + endMin;
-
-      const workStartMinutes = 8 * 60;
-      const workEndMinutes = 18 * 60;
-
-      if (startTimeInMinutes < workStartMinutes || endTimeInMinutes > workEndMinutes) {
-        setHasTimeConflict(true);
-        setConflictMessage('⚠️ เวลาทำการคือ 08:00 - 18:00 เท่านั้น');
-        return;
-      }
-
-      if (startTimeInMinutes >= endTimeInMinutes) {
-        setHasTimeConflict(true);
-        setConflictMessage('⚠️ เวลาเริ่มต้นต้องน้อยกว่าเวลาสิ้นสุด');
-        return;
-      }
-
-      // ตรวจสอบว่า endDate > startDate (ไม่ให้เลือกวันเดียวกัน)
-      if (formData.startDate && formData.endDate && formData.endDate <= formData.startDate) {
-        setHasTimeConflict(true);
-        setConflictMessage('⚠️ วันที่สิ้นสุดต้องมากกว่าวันที่เริ่มต้น (ไม่สามารถเลือกวันเดียวกันได้)');
-        return;
-      }
-
-      // ตรวจสอบ conflict ในแต่ละวัน
-      const startDateObj = new Date(formData.startDate);
-      const endDateObj = new Date(formData.endDate);
-      const conflicts = [];
-
-      for (let d = new Date(startDateObj); d <= endDateObj; d.setDate(d.getDate() + 1)) {
-        const dateStr = d.toISOString().split('T')[0];
-        
-        const res = await api.get('/bookings', {
-          params: {
-            roomId: formData.roomId,
-            date: dateStr
-          }
-        });
-
-        let bookings = res.data.bookings || res.data || [];
-
-        const dayConflicts = bookings.filter(booking => {
-          const [existingStartHour, existingStartMin] = booking.startTime.split(':').map(Number);
-          const [existingEndHour, existingEndMin] = booking.endTime.split(':').map(Number);
-          
-          const existingStartTime = existingStartHour * 60 + existingStartMin;
-          const existingEndTime = existingEndHour * 60 + existingEndMin;
-
-          return startTimeInMinutes < existingEndTime && endTimeInMinutes > existingStartTime;
-        });
-
-        if (dayConflicts.length > 0) {
-          conflicts.push({
-            date: dateStr,
-            bookings: dayConflicts
-          });
-        }
-      }
-
-      if (conflicts.length > 0) {
-        const conflictDates = conflicts.map(c => {
-          const date = new Date(c.date).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
-          const times = c.bookings.map(b => `${b.startTime}-${b.endTime}`).join(', ');
-          return `${date} (${times})`;
-        }).join(' | ');
-        
-        setHasTimeConflict(true);
-        setConflictMessage(`❌ ห้องนี้มีการจองซ้อนในวัน: ${conflictDates}`);
-      } else {
-        setHasTimeConflict(false);
-        setConflictMessage('');
-      }
-    } catch (err) {
-      console.error('Error checking conflicts:', err);
-    } finally {
-      setCheckingAvailability(false);
+      const res = await api.get('/bookings', { params: { roomId, date } });
+      const bookings = res.data.bookings || res.data || [];
+      const conflicts = bookings.filter((b) => {
+        const [bsh, bsm] = b.startTime.split(':').map(Number);
+        const [beh, bem] = b.endTime.split(':').map(Number);
+        return start < beh * 60 + bem && end > bsh * 60 + bsm;
+      });
+      setEntries((prev) =>
+        prev.map((e) =>
+          e.id === id
+            ? {
+                ...e,
+                checking: false,
+                conflict: conflicts.length
+                  ? `❌ ซ้อนกับการจอง: ${conflicts.map((b) => `${b.startTime}–${b.endTime}`).join(', ')}`
+                  : null,
+              }
+            : e
+        )
+      );
+    } catch {
+      setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, checking: false } : e)));
     }
   };
 
-  useEffect(() => {
-    if (formData.roomId && formData.startDate && formData.endDate && formData.startTime && formData.endTime) {
-      checkTimeConflicts();
-    } else {
-        setHasTimeConflict(false);
-        setConflictMessage('');
-    }
-    // eslint-disable-next-line
-  }, [formData.roomId, formData.startDate, formData.endDate, formData.startTime, formData.endTime]);
-
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
+  // trigger check when room/date changes (and time already filled)
+  const handleEntryChange = (id, field, value) => {
+    setEntries((prev) => {
+      const updated = prev.map((e) => (e.id === id ? { ...e, [field]: value } : e));
+      const entry = updated.find((e) => e.id === id);
+      // เช็คทันทีถ้าข้อมูลครบ
+      if (entry.roomId && entry.date && entry.startTime && entry.endTime) {
+        setTimeout(() => checkEntryConflict(entry), 0);
+      }
+      return updated;
     });
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (!file.type.startsWith('image/')) {
-        setError('❌ กรุณาเลือกไฟล์รูปภาพเท่านั้น');
-        return;
-      }
-      
-      if (file.size > 5 * 1024 * 1024) {
-        setError('❌ ขนาดไฟล์ต้องไม่เกิน 5MB');
-        return;
-      }
-
-      setError('');
-      
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-        setImageData({
-          data: reader.result,
-          contentType: file.type,
-          fileName: file.name
-        });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleRemoveImage = () => {
-    setImageData(null);
-    setImagePreview(null);
-  };
+  // ── Submit ──────────────────────────────────────────────────
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError('');
+    setSubmitResult(null);
 
-    if (hasTimeConflict) {
-        setError('❌ ไม่สามารถจองได้ เพราะเวลาซ้อนกับการจองอื่น');
-        setLoading(false);
+    // validate
+    for (const entry of entries) {
+      if (!entry.date || !entry.roomId || !entry.startTime || !entry.endTime) {
+        setError('❌ กรุณากรอกข้อมูลให้ครบทุกรายการ (วันที่, ห้อง, เวลา)');
         return;
+      }
+      if (entry.conflict) {
+        setError('❌ มีรายการที่ซ้อนกับการจองอื่น กรุณาแก้ไขก่อนบันทึก');
+        return;
+      }
     }
 
-    try {
-      const submitData = {
-        roomId: formData.roomId,
-        fullName: formData.fullName,
-        department: formData.department,
-        startDate: formData.startDate,
-        endDate: formData.endDate,
-        startTime: normalizeTime(formData.startTime),
-        endTime: normalizeTime(formData.endTime),
-        purpose: formData.purpose
-      };
+    setLoading(true);
+    let successCount = 0;
+    const errors = [];
 
-      if (imageData) submitData.bookingImage = imageData;
+    for (const entry of entries) {
+      try {
+        await api.post('/bookings', {
+          roomId: entry.roomId,
+          fullName,
+          department,
+          bookingDate: entry.date,
+          startTime: normalizeTime(entry.startTime),
+          endTime: normalizeTime(entry.endTime),
+          purpose,
+        });
+        successCount++;
+      } catch (err) {
+        const dateLabel = new Date(entry.date).toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
+        const room = rooms.find((r) => r._id === entry.roomId);
+        const roomLabel = room ? `${room.roomNumber}` : 'ไม่ทราบห้อง';
+        errors.push(`${dateLabel} ห้อง ${roomLabel}: ${err.response?.data?.error || 'เกิดข้อผิดพลาด'}`);
+      }
+    }
 
-      // ส่งไป endpoint แยก
-      const response = await api.post('/bookings/multi-day', submitData);
-      
-      const count = response.data.count || 1;
-      alert(`✅ สร้างการจองสำเร็จ ${count} วัน`);
+    setLoading(false);
+    setSubmitResult({ success: successCount, errors });
 
+    if (errors.length === 0) {
+      alert(`✅ บันทึกการจองสำเร็จ ${successCount} รายการ`);
       if (onClose) onClose();
       else navigate('/bookings/my-bookings');
-
-    } catch (err) {
-      setError('❌ ' + (err.response?.data?.error || 'เกิดข้อผิดพลาด'));
-    } finally {
-      setLoading(false);
     }
   };
 
-  const getTodayDate = () => new Date().toISOString().split('T')[0];
+  const hasAnyConflict = entries.some((e) => e.conflict || e.checking);
+
+  // ── Render ─────────────────────────────────────────────────
 
   return (
     <div className="booking-form-container">
       <div className="booking-form-card">
-        <h2>📅 จองห้องประชุมหลายวัน</h2>
+        <h2>📅 จองห้องประชุมหลายรายการ</h2>
 
         {error && <div className="error-message">{error}</div>}
-        {conflictMessage && <div className="warning-message">{conflictMessage}</div>}
 
-        <form onSubmit={handleSubmit}>
-          {/* Row 1: ห้อง และ ชื่อผู้จอง */}
-          <div className="form-row">
-            <div className="form-group">
-              <label>ห้อง: *</label>
-              <select
-                name="roomId"
-                value={formData.roomId}
-                onChange={handleChange}
-                required
-              >
-                <option value="">เลือกห้อง</option>
-                {rooms.map((room) => (
-                  <option key={room._id} value={room._id}>
-                    {room.roomNumber} - {room.roomName} ({room.capacity} คน)
-                  </option>
-                ))}
-              </select>
+        {submitResult && submitResult.errors.length > 0 && (
+          <div className="submit-result-box">
+            <p>✅ บันทึกสำเร็จ {submitResult.success} รายการ</p>
+            {submitResult.errors.map((err, i) => (
+              <p key={i} className="result-error">❌ {err}</p>
+            ))}
+            <div className="form-actions" style={{ marginTop: '1rem' }}>
+              <button type="button" className="btn-submit" onClick={() => { if (onClose) onClose(); else navigate('/bookings/my-bookings'); }}>
+                ไปหน้าการจองของฉัน
+              </button>
             </div>
+          </div>
+        )}
 
+        {!submitResult && (
+        <form onSubmit={handleSubmit}>
+          {/* ข้อมูลร่วม */}
+          <div className="form-row">
             <div className="form-group">
               <label>ชื่อ-นามสกุล: *</label>
               <input
                 type="text"
-                name="fullName"
-                value={formData.fullName}
+                value={fullName}
                 readOnly
                 disabled
                 style={{ backgroundColor: '#f3f4f6', cursor: 'not-allowed' }}
               />
             </div>
-          </div>
-
-          {/* Row 2: สังกัด */}
-          <div className="form-row">
             <div className="form-group">
               <label>สังกัด/กอง: *</label>
-              <input
-                type="text"
-                name="department"
-                value={formData.department}
-                readOnly
-                disabled
-                style={{ backgroundColor: '#f3f4f6', cursor: 'not-allowed', color: '#1f2937' }}
-              />
+              <select value={department} onChange={(e) => setDepartment(e.target.value)} required>
+                <option value="">เลือกสังกัด/กอง</option>
+                {departments.map((dept) => (
+                  <option key={dept._id} value={dept.name}>{dept.name}</option>
+                ))}
+              </select>
             </div>
           </div>
 
-          {/* Row 3: วันที่เริ่มต้น และ วันที่สิ้นสุด */}
-          <div className="form-row">
-            <div className="form-group">
-              <label>📅 วันที่เริ่มต้น: *</label>
-              <input
-                type="date"
-                name="startDate"
-                value={formData.startDate}
-                onChange={handleChange}
-                required
-                min={getTodayDate()}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>📅 วันที่สิ้นสุด: *</label>
-              <input
-                type="date"
-                name="endDate"
-                value={formData.endDate}
-                onChange={handleChange}
-                required
-                min={formData.startDate ? new Date(new Date(formData.startDate).getTime() + 86400000).toISOString().split('T')[0] : getTodayDate()}
-              />
-              <small style={{color: '#666', fontSize: '0.85rem'}}>
-                ต้องเลือกอย่างน้อย 2 วันขึ้นไป (วันถัดไปจากวันเริ่มต้น)
-              </small>
-            </div>
-          </div>
-
-          {/* Row 4: เวลา */}
-          <div className="form-row">
-            <div className="form-group">
-              <label>เวลาเริ่มประชุม: *</label>
-              <input
-                type="text"
-                name="startTime"
-                value={formData.startTime}
-                onChange={handleChange}
-                required
-                placeholder="เช่น 09.00 หรือ 09:00"
-                pattern="^([0-1]?[0-9]|2[0-3])[:.][0-5][0-9]$"
-                title="กรุณากรอกเวลาในรูปแบบ HH:MM หรือ HH.MM"
-              />
-              <small style={{color: '#666', fontSize: '0.85rem'}}>
-                เวลาทำการ 08:00-18:00
-              </small>
-            </div>
-
-            <div className="form-group">
-              <label>เวลาสิ้นสุด: *</label>
-              <input
-                type="text"
-                name="endTime"
-                value={formData.endTime}
-                onChange={handleChange}
-                required
-                placeholder="เช่น 12.00 หรือ 12:00"
-                pattern="^([0-1]?[0-9]|2[0-3])[:.][0-5][0-9]$"
-                title="กรุณากรอกเวลาในรูปแบบ HH:MM หรือ HH.MM"
-              />
-              <small style={{color: '#666', fontSize: '0.85rem'}}>
-                เวลาทำการ 08:00-18:00
-              </small>
-            </div>
-          </div>
-          
-          {checkingAvailability && (
-            <div className="checking-message"><p>🔄 กำลังตรวจสอบเวลา...</p></div>
-          )}
-
-          {/* Row 5: วัตถุประสงค์ */}
-          <div className="form-group full-width">
-            <label>วัตถุประสงค์: *</label>
+          <div className="form-group full-width" style={{ marginBottom: '1.5rem' }}>
+            <label>หัวข้อการประชุม สำหรับขึ้นจอแสดงผล หน้าห้องประชุม: *</label>
             <textarea
-              name="purpose"
-              value={formData.purpose}
-              onChange={handleChange}
+              value={purpose}
+              onChange={(e) => setPurpose(e.target.value)}
               required
-              rows="3"
+              rows="2"
               placeholder="หัวข้อการประชุม..."
             />
           </div>
 
-          {/* Image Upload */}
-          <div className="form-group full-width">
-            <label>📎 แนบหนังสือการจอง (ถ้ามี):</label>
-            <div className="image-upload-container">
-              <input
-                type="file"
-                id="bookingImage"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="image-input"
-              />
-              <label htmlFor="bookingImage" className="image-upload-btn">
-                📷 เลือกรูปภาพ
-              </label>
+          {/* รายการวัน */}
+          <div className="multi-day-entries">
+            <div className="entries-header">
+              <span className="entries-title">📋 รายการที่ต้องการจอง ({entries.length} รายการ)</span>
+              <button type="button" className="btn-add-entry" onClick={addEntry}>
+                + เพิ่มรายการ
+              </button>
             </div>
 
-            {imagePreview && (
-              <div className="image-preview-container">
-                <p className="preview-label">📄 รูปภาพที่เลือก:</p>
-                <img src={imagePreview} alt="Preview" className="image-preview" />
-                <button type="button" onClick={handleRemoveImage} className="btn-remove-image">🗑️ ลบรูปภาพ</button>
+            {entries.map((entry, index) => (
+              <div key={entry.id} className={`day-entry-card${entry.conflict ? ' has-conflict' : ''}`}>
+                <div className="day-entry-header">
+                  <span className="day-entry-number">รายการที่ {index + 1}</span>
+                  {entries.length > 1 && (
+                    <button
+                      type="button"
+                      className="btn-remove-entry"
+                      onClick={() => removeEntry(entry.id)}
+                    >
+                      ✕ ลบ
+                    </button>
+                  )}
+                </div>
+
+                <div className="form-row" style={{ marginBottom: '0.75rem' }}>
+                  <div className="form-group">
+                    <label>วันที่: *</label>
+                    <input
+                      type="date"
+                      value={entry.date}
+                      onChange={(e) => handleEntryChange(entry.id, 'date', e.target.value)}
+                      required
+                      min={getTodayDate()}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>ห้องประชุม: *</label>
+                    <select
+                      value={entry.roomId}
+                      onChange={(e) => handleEntryChange(entry.id, 'roomId', e.target.value)}
+                      required
+                    >
+                      <option value="">เลือกห้อง</option>
+                      {rooms.map((room) => (
+                        <option key={room._id} value={room._id}>
+                          {room.roomNumber} – {room.roomName} ({room.capacity} คน)
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-row" style={{ marginBottom: '0.5rem' }}>
+                  <div className="form-group">
+                    <label>เวลาเริ่ม: *</label>
+                    <input
+                      type="text"
+                      value={entry.startTime}
+                      onChange={(e) => updateEntry(entry.id, 'startTime', e.target.value)}
+                      onBlur={() => checkEntryConflict(entry)}
+                      required
+                      placeholder="09:00"
+                      pattern="^([0-1]?[0-9]|2[0-3])[:.][0-5][0-9]$"
+                      title="รูปแบบ HH:MM หรือ HH.MM"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>เวลาสิ้นสุด: *</label>
+                    <input
+                      type="text"
+                      value={entry.endTime}
+                      onChange={(e) => updateEntry(entry.id, 'endTime', e.target.value)}
+                      onBlur={() => checkEntryConflict(entry)}
+                      required
+                      placeholder="12:00"
+                      pattern="^([0-1]?[0-9]|2[0-3])[:.][0-5][0-9]$"
+                      title="รูปแบบ HH:MM หรือ HH.MM"
+                    />
+                    <small style={{ color: '#64748b', fontSize: '0.8rem' }}>เวลาทำการ 08:00–18:00</small>
+                  </div>
+                </div>
+
+                {entry.checking && (
+                  <p className="entry-checking">🔄 กำลังตรวจสอบเวลา...</p>
+                )}
+                {entry.conflict && !entry.checking && (
+                  <p className="entry-conflict">{entry.conflict}</p>
+                )}
+                {!entry.conflict && !entry.checking && entry.roomId && entry.date && entry.startTime && entry.endTime && (
+                  <p className="entry-ok">✅ ว่าง</p>
+                )}
               </div>
-            )}
+            ))}
           </div>
 
           <div className="form-actions">
-            <button type="submit" disabled={loading || hasTimeConflict} className="btn-submit">
-              {loading ? 'กำลังบันทึก...' : '✅ สร้างการจองหลายวัน'}
+            <button
+              type="submit"
+              disabled={loading || hasAnyConflict}
+              className="btn-submit"
+            >
+              {loading ? 'กำลังบันทึก...' : `✅ บันทึกการจอง ${entries.length} รายการ`}
             </button>
             {onClose && (
-              <button type="button" onClick={onClose} className="btn-cancel">❌ ยกเลิก</button>
+              <button type="button" onClick={onClose} className="btn-cancel">
+                ❌ ยกเลิก
+              </button>
             )}
           </div>
         </form>
+        )}
       </div>
     </div>
   );

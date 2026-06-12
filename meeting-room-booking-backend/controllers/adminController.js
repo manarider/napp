@@ -2,22 +2,7 @@ const User = require('../models/User');
 const Booking = require('../models/Booking');
 const MeetingRoom = require('../models/MeetingRoom');
 
-// 👨‍💼 ดูทุกคน
-exports.getAllUsers = async (req, res) => {
-  try {
-    const users = await User.find().select('-password'); // ไม่ส่ง password
-
-    res.json({
-      total: users.length,
-      users
-    });
-
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// 👤 ดูผู้ใช้คนเดี่ยว
+//  ดูผู้ใช้คนเดี่ยว
 exports.getUserById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -70,8 +55,9 @@ exports.updateUserPassword = async (req, res) => {
     const { id } = req.params;
     const { newPassword } = req.body;
 
-    if (!newPassword || newPassword.length < 6) {
-      return res.status(400).json({ error: 'Password must be at least 6 characters' });
+    // [SEC-06] เพิ่ม minimum เป็น 8 ตัวอักษร ให้ตรงกับ registration policy
+    if (!newPassword || newPassword.length < 8) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters' });
     }
 
     const user = await User.findById(id);
@@ -149,66 +135,7 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-// 📊 ดูสถิติทั่วไป
-exports.getDashboardStatistics = async (req, res) => {
-  try {
-    // ✓ นับข้อมูล
-    const totalUsers = await User.countDocuments();
-    const totalRooms = await MeetingRoom.countDocuments();
-    const totalBookings = await Booking.countDocuments();
-    const pendingBookings = await Booking.countDocuments({ status: 'pending' });
-    const approvedBookings = await Booking.countDocuments({ status: 'approved' });
-    const rejectedBookings = await Booking.countDocuments({ status: 'rejected' });
-
-    // ✓ ดูการจองเฉพาะวันนี้
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-
-    const todayBookings = await Booking.countDocuments({
-      bookingDate: {
-        $gte: today,
-        $lt: tomorrow
-      }
-    });
-
-    // ✓ ดูการจองเฉพาะสัปดาห์นี้
-    const weekAgo = new Date(today);
-    weekAgo.setDate(weekAgo.getDate() - 7);
-
-    const thisWeekBookings = await Booking.countDocuments({
-      bookingDate: {
-        $gte: weekAgo,
-        $lt: tomorrow
-      }
-    });
-
-    res.json({
-      users: {
-        total: totalUsers,
-        admins: await User.countDocuments({ role: 'admin' }),
-        regularUsers: await User.countDocuments({ role: 'user' })
-      },
-      rooms: {
-        total: totalRooms
-      },
-      bookings: {
-        total: totalBookings,
-        pending: pendingBookings,
-        approved: approvedBookings,
-        rejected: rejectedBookings,
-        today: todayBookings,
-        thisWeek: thisWeekBookings
-      }
-    });
-
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// 📋 ดูการจองทั้งหมด (Admin View)
+//  ดูการจองทั้งหมด (Admin View)
 exports.getAllBookingsAdmin = async (req, res) => {
   try {
     // ✓ สามารถ filter ได้

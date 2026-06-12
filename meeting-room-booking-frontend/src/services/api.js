@@ -64,7 +64,8 @@ api.interceptors.request.use(
     }
     
     config.baseURL = workingApiUrl;
-    const token = localStorage.getItem('token');
+    // ใช้ key 'napp_token' เพื่อแยก namespace จากแอปอื่นบน domain เดียวกัน (เช่น UMS)
+    const token = localStorage.getItem('napp_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -77,8 +78,13 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      // ไม่ redirect ถ้าอยู่ที่ /auth/callback (UMSCallback กำลัง exchange code อยู่)
+      const isCallbackPage = window.location.pathname.includes('/auth/callback');
+      if (!isCallbackPage) {
+        localStorage.removeItem('napp_token');
+        // ใช้ PUBLIC_URL เพื่อให้ redirect ไปที่ /napp/login ไม่ใช่ root /login
+        window.location.href = (process.env.PUBLIC_URL || '') + '/login';
+      }
     }
     return Promise.reject(error);
   }

@@ -1,0 +1,73 @@
+❌ Error: TypeError: Cannot read properties of undefined (reading 'stack')
+    at /home/napp/meeting-room-booking-backend/server.js:171:15
+    at Layer.handleRequest (/home/napp/meeting-room-booking-backend/node_modules/router/lib/layer.js:152:17)
+    at next (/home/napp/meeting-room-booking-backend/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/napp/meeting-room-booking-backend/node_modules/router/lib/route.js:117:3)
+    at handle (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/napp/meeting-room-booking-backend/node_modules/router/lib/layer.js:152:17)
+    at /home/napp/meeting-room-booking-backend/node_modules/router/index.js:295:15
+    at processParams (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:582:12)
+    at next (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:291:5)
+    at /home/napp/meeting-room-booking-backend/server.js:95:3
+❌ Error: TypeError: Cannot read properties of undefined (reading 'stack')
+    at /home/napp/meeting-room-booking-backend/server.js:171:15
+    at Layer.handleRequest (/home/napp/meeting-room-booking-backend/node_modules/router/lib/layer.js:152:17)
+    at next (/home/napp/meeting-room-booking-backend/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/napp/meeting-room-booking-backend/node_modules/router/lib/route.js:117:3)
+    at handle (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/napp/meeting-room-booking-backend/node_modules/router/lib/layer.js:152:17)
+    at /home/napp/meeting-room-booking-backend/node_modules/router/index.js:295:15
+    at processParams (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:582:12)
+    at next (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:291:5)
+    at /home/napp/meeting-room-booking-backend/server.js:95:3
+ValidationError: The 'X-Forwarded-For' header is set but the Express 'trust proxy' setting is false (default). This could indicate a misconfiguration which would prevent express-rate-limit from accurately identifying users. See https://express-rate-limit.github.io/ERR_ERL_UNEXPECTED_X_FORWARDED_FOR/ for more information.
+    at Object.xForwardedForHeader (/home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:366:13)
+    at wrappedValidations.<computed> [as xForwardedForHeader] (/home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:680:22)
+    at Object.keyGenerator (/home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:783:20)
+    at /home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:844:32
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:825:5 {
+  code: 'ERR_ERL_UNEXPECTED_X_FORWARDED_FOR',
+  help: 'https://express-rate-limit.github.io/ERR_ERL_UNEXPECTED_X_FORWARDED_FOR/'
+}
+ValidationError: The 'X-Forwarded-For' header is set but the Express 'trust proxy' setting is false (default). This could indicate a misconfiguration which would prevent express-rate-limit from accurately identifying users. See https://express-rate-limit.github.io/ERR_ERL_UNEXPECTED_X_FORWARDED_FOR/ for more information.
+    at Object.xForwardedForHeader (/home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:366:13)
+    at wrappedValidations.<computed> [as xForwardedForHeader] (/home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:680:22)
+    at Object.keyGenerator (/home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:783:20)
+    at /home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:844:32
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:825:5 {
+  code: 'ERR_ERL_UNEXPECTED_X_FORWARDED_FOR',
+  help: 'https://express-rate-limit.github.io/ERR_ERL_UNEXPECTED_X_FORWARDED_FOR/'
+}
+❌ Error: TypeError: Cannot read properties of undefined (reading 'stack')
+    at /home/napp/meeting-room-booking-backend/server.js:171:15
+    at Layer.handleRequest (/home/napp/meeting-room-booking-backend/node_modules/router/lib/layer.js:152:17)
+    at next (/home/napp/meeting-room-booking-backend/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/napp/meeting-room-booking-backend/node_modules/router/lib/route.js:117:3)
+    at handle (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/napp/meeting-room-booking-backend/node_modules/router/lib/layer.js:152:17)
+    at /home/napp/meeting-room-booking-backend/node_modules/router/index.js:295:15
+    at processParams (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:582:12)
+    at next (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:291:5)
+    at /home/napp/meeting-room-booking-backend/server.js:95:3
+ValidationError: The 'X-Forwarded-For' header is set but the Express 'trust proxy' setting is false (default). This could indicate a misconfiguration which would prevent express-rate-limit from accurately identifying users. See https://express-rate-limit.github.io/ERR_ERL_UNEXPECTED_X_FORWARDED_FOR/ for more information.
+    at Object.xForwardedForHeader (/home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:366:13)
+    at wrappedValidations.<computed> [as xForwardedForHeader] (/home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:680:22)
+    at Object.keyGenerator (/home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:783:20)
+    at /home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:844:32
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:825:5 {
+  code: 'ERR_ERL_UNEXPECTED_X_FORWARDED_FOR',
+  help: 'https://express-rate-limit.github.io/ERR_ERL_UNEXPECTED_X_FORWARDED_FOR/'
+}
+ValidationError: The 'X-Forwarded-For' header is set but the Express 'trust proxy' setting is false (default). This could indicate a misconfiguration which would prevent express-rate-limit from accurately identifying users. See https://express-rate-limit.github.io/ERR_ERL_UNEXPECTED_X_FORWARDED_FOR/ for more information.
+    at Object.xForwardedForHeader (/home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:366:13)
+    at wrappedValidations.<computed> [as xForwardedForHeader] (/home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:680:22)
+    at Object.keyGenerator (/home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:783:20)
+    at /home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:844:32
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/napp/meeting-room-booking-backend/node_modules/express-rate-limit/dist/index.cjs:825:5 {
+  code: 'ERR_ERL_UNEXPECTED_X_FORWARDED_FOR',
+  help: 'https://express-rate-limit.github.io/ERR_ERL_UNEXPECTED_X_FORWARDED_FOR/'
+}

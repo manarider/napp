@@ -1,0 +1,214 @@
+2026-04-27T12:53:06: PM2 log: Stopping app:meeting-room-api id:0
+2026-04-27T12:53:06: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-04-27T12:53:06: PM2 log: pid=151030 msg=process killed
+2026-04-27T12:53:06: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-04-27T12:53:06: PM2 log: App [meeting-room-api:0] online
+2026-04-27T13:03:41: PM2 log: Stopping app:meeting-room-api id:0
+2026-04-27T13:03:41: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-04-27T13:03:42: PM2 log: pid=151163 msg=process killed
+2026-04-27T13:03:42: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-04-27T13:03:42: PM2 log: App [meeting-room-api:0] online
+2026-05-02T10:04:35: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-02T10:04:35: PM2 log: [PM2] Upgrade to version 7.0.0
+2026-05-03T10:04:35: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-03T10:04:35: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-04T10:04:35: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-04T10:04:35: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-05T10:04:35: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-05T10:04:35: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-06T10:04:35: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-06T10:04:35: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-07T10:04:35: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-07T10:04:35: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-08T10:04:35: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-08T10:04:35: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-09T10:04:35: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-09T10:04:35: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-10T10:04:35: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-10T10:04:35: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-11T10:04:34: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-11T10:04:34: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-12T10:04:34: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-12T10:04:34: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-13T10:04:35: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-13T10:04:35: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-14T10:04:34: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-14T10:04:34: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-15T02:49:56: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-15T02:49:56: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-15T02:49:56: PM2 log: pid=152125 msg=process killed
+2026-05-15T02:49:56: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-15T02:49:56: PM2 log: App [meeting-room-api:0] online
+2026-05-15T03:14:39: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-15T03:14:39: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-15T03:14:39: PM2 log: pid=260252 msg=process killed
+2026-05-15T03:14:39: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-15T03:14:39: PM2 log: App [meeting-room-api:0] online
+2026-05-15T03:36:11: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-15T03:36:11: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-15T03:36:11: PM2 log: pid=261011 msg=process killed
+2026-05-15T03:36:11: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-15T03:36:11: PM2 log: App [meeting-room-api:0] online
+2026-05-15T05:05:49: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-15T05:05:49: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-15T05:05:50: PM2 log: pid=261696 msg=process killed
+2026-05-15T05:05:50: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-15T05:05:50: PM2 log: App [meeting-room-api:0] online
+2026-05-15T05:22:10: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-15T05:22:10: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-15T05:22:10: PM2 log: pid=263944 msg=process killed
+2026-05-15T05:22:10: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-15T05:22:10: PM2 log: App [meeting-room-api:0] online
+2026-05-15T10:04:35: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-15T10:04:35: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-16T10:04:35: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-16T10:04:35: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-17T06:17:15: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-17T06:17:15: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-17T06:17:15: PM2 log: pid=265302 msg=process killed
+2026-05-17T06:17:15: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-17T06:17:15: PM2 log: App [meeting-room-api:0] online
+2026-05-17T07:15:17: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-17T07:15:17: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-17T07:15:17: PM2 log: pid=291645 msg=process killed
+2026-05-17T07:15:17: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-17T07:15:17: PM2 log: App [meeting-room-api:0] online
+2026-05-17T07:48:39: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-17T07:48:39: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-17T07:48:39: PM2 log: pid=295603 msg=process killed
+2026-05-17T07:48:39: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-17T07:48:39: PM2 log: App [meeting-room-api:0] online
+2026-05-17T07:54:17: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-17T07:54:17: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-17T07:54:17: PM2 log: pid=305436 msg=process killed
+2026-05-17T07:54:17: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-17T07:54:17: PM2 log: App [meeting-room-api:0] online
+2026-05-17T08:10:32: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-17T08:10:32: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-17T08:10:32: PM2 log: pid=305813 msg=process killed
+2026-05-17T08:10:32: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-17T08:10:32: PM2 log: App [meeting-room-api:0] online
+2026-05-17T09:30:29: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-17T09:30:29: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-17T09:30:29: PM2 log: pid=306436 msg=process killed
+2026-05-17T09:30:29: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-17T09:30:29: PM2 log: App [meeting-room-api:0] online
+2026-05-17T09:44:59: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-17T09:44:59: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-17T09:44:59: PM2 log: pid=310270 msg=process killed
+2026-05-17T09:44:59: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-17T09:44:59: PM2 log: App [meeting-room-api:0] online
+2026-05-17T10:04:35: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-17T10:04:35: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-17T10:08:49: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-17T10:08:49: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-17T10:08:49: PM2 log: pid=311030 msg=process killed
+2026-05-17T10:08:49: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-17T10:08:49: PM2 log: App [meeting-room-api:0] online
+2026-05-17T10:26:02: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-17T10:26:02: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-17T10:26:02: PM2 log: pid=312021 msg=process killed
+2026-05-17T10:26:02: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-17T10:26:02: PM2 log: App [meeting-room-api:0] online
+2026-05-17T13:11:06: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-17T13:11:06: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-17T13:11:06: PM2 log: pid=312867 msg=process killed
+2026-05-17T13:11:06: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-17T13:11:06: PM2 log: App [meeting-room-api:0] online
+2026-05-17T13:20:03: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-17T13:20:03: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-17T13:20:03: PM2 log: pid=314936 msg=process killed
+2026-05-17T13:20:03: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-17T13:20:03: PM2 log: App [meeting-room-api:0] online
+2026-05-18T10:04:35: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-18T10:04:35: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-19T10:04:34: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-19T10:04:34: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-20T00:37:45: PM2 log: ===============================================================================
+2026-05-20T00:37:45: PM2 log: --- New PM2 Daemon started ----------------------------------------------------
+2026-05-20T00:37:45: PM2 log: Time                 : Wed May 20 2026 00:37:45 GMT+0000 (Coordinated Universal Time)
+2026-05-20T00:37:45: PM2 log: PM2 version          : 6.0.14
+2026-05-20T00:37:45: PM2 log: Node.js version      : 24.13.0
+2026-05-20T00:37:45: PM2 log: Current arch         : x64
+2026-05-20T00:37:45: PM2 log: PM2 home             : /home/napp/.pm2
+2026-05-20T00:37:45: PM2 log: PM2 PID file         : /home/napp/.pm2/pm2.pid
+2026-05-20T00:37:45: PM2 log: RPC socket file      : /home/napp/.pm2/rpc.sock
+2026-05-20T00:37:45: PM2 log: BUS socket file      : /home/napp/.pm2/pub.sock
+2026-05-20T00:37:45: PM2 log: Application log path : /home/napp/.pm2/logs
+2026-05-20T00:37:45: PM2 log: Worker Interval      : 30000
+2026-05-20T00:37:45: PM2 log: Process dump file    : /home/napp/.pm2/dump.pm2
+2026-05-20T00:37:45: PM2 log: Concurrent actions   : 2
+2026-05-20T00:37:45: PM2 log: SIGTERM timeout      : 1600
+2026-05-20T00:37:45: PM2 log: Runtime Binary       : /usr/bin/node
+2026-05-20T00:37:45: PM2 log: ===============================================================================
+2026-05-20T00:37:45: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-20T00:37:45: PM2 log: App [meeting-room-api:0] online
+2026-05-21T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-21T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-21T12:22:32: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-21T12:22:32: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-21T12:22:32: PM2 log: pid=1602 msg=process killed
+2026-05-21T12:22:32: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-21T12:22:32: PM2 log: App [meeting-room-api:0] online
+2026-05-22T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-22T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-22T04:03:54: PM2 log: Stopping app:meeting-room-api id:0
+2026-05-22T04:03:54: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-05-22T04:03:54: PM2 log: pid=23198 msg=process killed
+2026-05-22T04:03:54: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-05-22T04:03:54: PM2 log: App [meeting-room-api:0] online
+2026-05-23T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-23T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-24T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-24T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-26T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-26T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-27T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-27T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-28T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-28T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-29T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-29T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-30T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-30T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-05-31T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-05-31T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-06-01T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-06-01T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-06-02T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-06-02T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-06-03T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-06-03T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-06-04T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-06-04T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-06-05T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-06-05T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-06-06T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-06-06T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-06-07T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-06-07T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-06-08T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-06-08T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-06-09T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-06-09T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-06-10T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-06-10T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-06-11T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-06-11T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-06-11T03:30:03: PM2 log: Stopping app:meeting-room-api id:0
+2026-06-11T03:30:03: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-06-11T03:30:03: PM2 log: pid=26624 msg=process killed
+2026-06-11T03:30:03: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-06-11T03:30:03: PM2 log: App [meeting-room-api:0] online
+2026-06-11T08:14:50: PM2 log: Stopping app:meeting-room-api id:0
+2026-06-11T08:14:50: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-06-11T08:14:50: PM2 log: pid=123512 msg=process killed
+2026-06-11T08:14:50: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-06-11T08:14:50: PM2 log: App [meeting-room-api:0] online
+2026-06-12T00:37:45: PM2 log: [PM2] This PM2 is not UP TO DATE
+2026-06-12T00:37:45: PM2 log: [PM2] Upgrade to version 7.0.1
+2026-06-12T02:21:37: PM2 log: Stopping app:meeting-room-api id:0
+2026-06-12T02:21:37: PM2 log: App [meeting-room-api:0] exited with code [0] via signal [SIGINT]
+2026-06-12T02:21:37: PM2 log: pid=126249 msg=process killed
+2026-06-12T02:21:37: PM2 log: App [meeting-room-api:0] starting in -fork mode-
+2026-06-12T02:21:37: PM2 log: App [meeting-room-api:0] online

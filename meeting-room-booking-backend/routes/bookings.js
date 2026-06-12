@@ -1,9 +1,11 @@
 // routes/bookings.js
 const express = require('express');
+const mongoose = require('mongoose');
 const Booking = require('../models/Booking');
 const { authMiddleware } = require('../middleware/auth');
 const { createBookingValidator, createMultiDayBookingValidator } = require('../middleware/validators');
 const bookingController = require('../controllers/bookingController');
+const { enrichBookingsWithUser } = require('../utils/populateBookingUser');
 
 const router = express.Router();
 
@@ -31,13 +33,14 @@ router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id)
       .populate('roomId', 'roomNumber roomName capacity')
-      .populate('userId', 'fullName email');
+      .lean();
     
     if (!booking) {
       return res.status(404).json({ error: 'Booking not found' });
     }
 
-    res.json(booking);
+    const [enriched] = await enrichBookingsWithUser([booking]);
+    res.json(enriched);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -48,9 +51,11 @@ router.get('/', authMiddleware, async (req, res) => {
   try {
     let query = {};
 
-    // ✓ Filter ตามห้อง
+    // ✓ Filter ตามห้อง (cast to ObjectId สำหรับ aggregation)
     if (req.query.roomId) {
-      query.roomId = req.query.roomId;
+      if (mongoose.Types.ObjectId.isValid(req.query.roomId)) {
+        query.roomId = new mongoose.Types.ObjectId(req.query.roomId);
+      }
     }
 
     // ✓ Filter ตามวันที่ (เฉพาะวันนั้นเท่านั้น)
@@ -78,8 +83,9 @@ router.get('/', authMiddleware, async (req, res) => {
       };
     }
 
-    // ✓ Filter ตามสถานะ
-    if (req.query.status) {
+    // ✓ Filter ตามสถานะ — [SEC-05] whitelist ป้องกัน injection
+    const VALID_STATUSES = ['pending', 'approved', 'rejected'];
+    if (req.query.status && VALID_STATUSES.includes(req.query.status)) {
       query.status = req.query.status;
     }
 
@@ -93,15 +99,32 @@ router.get('/', authMiddleware, async (req, res) => {
     const limit = parseInt(req.query.limit) || 20;
     const skip = (page - 1) * limit;
 
-    const [bookings, totalCount] = await Promise.all([
-      Booking.find(query)
-        .populate('userId', 'fullName email department')
-        .populate('roomId', 'roomNumber roomName capacity')
-        .sort({ bookingDate: -1 })
-        .skip(skip)
-        .limit(limit),
+    // ⭐ Aggregation: pending ก่อน → วันล่าสุดก่อน
+    const pipeline = [
+      { $match: query },
+      { $addFields: { _sp: { $cond: [{ $eq: ['$status', 'pending'] }, 0, 1] } } },
+      { $sort: { _sp: 1, bookingDate: -1, createdAt: -1 } },
+      { $skip: skip },
+      { $limit: limit },
+      {
+        $lookup: {
+          from: 'meetingrooms',
+          localField: 'roomId',
+          foreignField: '_id',
+          as: '_room',
+          pipeline: [{ $project: { roomNumber: 1, roomName: 1, capacity: 1 } }]
+        }
+      },
+      { $addFields: { roomId: { $arrayElemAt: ['$_room', 0] } } },
+      { $project: { _sp: 0, _room: 0 } }
+    ];
+
+    const [rawBookings, totalCount] = await Promise.all([
+      Booking.aggregate(pipeline),
       Booking.countDocuments(query)
     ]);
+
+    const bookings = await enrichBookingsWithUser(rawBookings);
 
     res.json({
       total: totalCount,

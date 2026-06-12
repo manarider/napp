@@ -150,7 +150,68 @@ router.get('/room/:roomId', async (req, res) => {
 });
 
 // ============================================
-// 🔒 ADMIN: ดึง config ของห้อง
+// � PUBLIC: ตารางการประชุมทุกห้องวันนี้
+// GET /api/display/today-schedule
+// ============================================
+router.get('/today-schedule', async (req, res) => {
+  try {
+    const now = new Date();
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const todayEnd = new Date(todayStart);
+    todayEnd.setDate(todayEnd.getDate() + 1);
+
+    const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+    const rooms = await MeetingRoom.find().sort({ roomNumber: 1 });
+
+    const bookings = await Booking.find({
+      bookingDate: { $gte: todayStart, $lt: todayEnd },
+      status: 'approved'
+    }).sort({ startTime: 1 });
+
+    // จัดกลุ่มการจองตามห้อง
+    const bookingsByRoom = {};
+    bookings.forEach(b => {
+      const key = b.roomId.toString();
+      if (!bookingsByRoom[key]) bookingsByRoom[key] = [];
+      bookingsByRoom[key].push(b);
+    });
+
+    const result = rooms.map(room => {
+      const roomBookings = (bookingsByRoom[room._id.toString()] || []).map(b => {
+        let status = 'upcoming';
+        if (b.endTime <= currentTime) status = 'past';
+        else if (b.startTime <= currentTime) status = 'current';
+        return {
+          id: b._id,
+          purpose: b.purpose,
+          startTime: b.startTime,
+          endTime: b.endTime,
+          fullName: b.fullName,
+          department: b.department,
+          status
+        };
+      });
+      return {
+        roomId: room._id,
+        roomNumber: room.roomNumber,
+        roomName: room.roomName,
+        bookings: roomBookings
+      };
+    });
+
+    res.json({
+      date: todayStart,
+      currentTime,
+      rooms: result
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ============================================
+// �🔒 ADMIN: ดึง config ของห้อง
 // GET /api/display/config/:roomId
 // ============================================
 router.get('/config/:roomId', authMiddleware, adminMiddleware, async (req, res) => {
@@ -254,7 +315,8 @@ router.post('/media/:roomId', authMiddleware, adminMiddleware, async (req, res) 
     const filename = `${roomId}_${Date.now()}.${safeMime}`;
     const filepath = path.join(UPLOAD_DIR, filename);
 
-    fs.writeFileSync(filepath, buffer);
+    // [PERF-02] เปลี่ยนเป็น async I/O ป้องกัน event loop blocking
+    await fs.promises.writeFile(filepath, buffer);
 
     const mediaType = (mimeType || '').startsWith('video/') ? 'video' : 'image';
 

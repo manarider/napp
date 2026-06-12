@@ -11,6 +11,24 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  // UMS Configuration
+  const UMS_BASE_URL = 'https://nssv.nsm.go.th/ums/';
+  const PROJECT_CODE = 'MEETBOOKING';
+  const CALLBACK_URL = window.location.origin + process.env.PUBLIC_URL + '/auth/callback';
+
+  const handleUMSLogin = () => {
+    // เก็บ PROJECT_CODE ใน sessionStorage
+    sessionStorage.setItem('ums_project_code', PROJECT_CODE);
+    
+    // สร้าง URL สำหรับ redirect ไป UMS
+    const umsLoginUrl = `${UMS_BASE_URL}?project=${encodeURIComponent(PROJECT_CODE)}&redirect=${encodeURIComponent(CALLBACK_URL)}&flow=code`;
+    
+    console.log('🔐 Redirecting to UMS:', umsLoginUrl);
+    
+    // Redirect ไป UMS
+    window.location.href = umsLoginUrl;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -63,12 +81,9 @@ const Login = () => {
       const errorMsg = err.response?.data?.error || 'เข้าสู่ระบบล้มเหลว';
       
       // แยก error ตามประเภท
-      if (errorMsg === 'User not found') {
-        setFieldErrors({ email: 'ไม่พบผู้ใช้งานนี้ในระบบ' });
-        setError('❌ ไม่พบผู้ใช้งานนี้ กรุณาตรวจสอบอีเมลหรือสมัครสมาชิกก่อน');
-      } else if (errorMsg === 'Invalid password') {
-        setFieldErrors({ password: 'รหัสผ่านไม่ถูกต้อง' });
-        setError('❌ รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่');
+      // [SEC-03] Backend ส่ง generic "Invalid credentials" แทนเพื่อป้องกัน username enumeration
+      if (errorMsg === 'Invalid credentials') {
+        setError('❌ อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาตรวจสอบและลองใหม่อีกครั้ง');
       } else if (errorMsg.includes('Validation')) {
         setError('กรุณาตรวจสอบข้อมูลที่กรอก');
       } else {
@@ -133,6 +148,20 @@ const Login = () => {
             {loading ? 'กำลังโหลด...' : 'เข้าสู่ระบบ'}
           </button>
         </form>
+
+        {/* Divider */}
+        <div className="auth-divider">
+          <span>หรือ</span>
+        </div>
+
+        {/* UMS Login Button */}
+        <button 
+          type="button" 
+          onClick={handleUMSLogin} 
+          className="ums-login-btn"
+        >
+          🔐 เข้าสู่ระบบด้วย UMS
+        </button>
 
       </div>
     </div>

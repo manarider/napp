@@ -1,0 +1,33 @@
+❌ Error: Error: Not Found - /api/auth/login
+    at notFound (/home/napp/meeting-room-booking-backend/middleware/errorHandler.js:65:17)
+    at Layer.handleRequest (/home/napp/meeting-room-booking-backend/node_modules/router/lib/layer.js:152:17)
+    at trimPrefix (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:342:13)
+    at /home/napp/meeting-room-booking-backend/node_modules/router/index.js:297:9
+    at processParams (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:582:12)
+    at next (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:291:5)
+    at /home/napp/meeting-room-booking-backend/node_modules/router/index.js:688:15
+    at next (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:276:14)
+    at next (/home/napp/meeting-room-booking-backend/node_modules/router/lib/route.js:151:14)
+    at Route.dispatch (/home/napp/meeting-room-booking-backend/node_modules/router/lib/route.js:117:3)
+❌ Error: Error: Not Found - /api/
+    at notFound (/home/napp/meeting-room-booking-backend/middleware/errorHandler.js:65:17)
+    at Layer.handleRequest (/home/napp/meeting-room-booking-backend/node_modules/router/lib/layer.js:152:17)
+    at trimPrefix (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:342:13)
+    at /home/napp/meeting-room-booking-backend/node_modules/router/index.js:297:9
+    at processParams (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:582:12)
+    at next (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:291:5)
+    at /home/napp/meeting-room-booking-backend/server.js:107:3
+    at Layer.handleRequest (/home/napp/meeting-room-booking-backend/node_modules/router/lib/layer.js:152:17)
+    at trimPrefix (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:342:13)
+    at /home/napp/meeting-room-booking-backend/node_modules/router/index.js:297:9
+❌ Error: Error: Not Found - /health
+    at notFound (/home/napp/meeting-room-booking-backend/middleware/errorHandler.js:60:17)
+    at Layer.handleRequest (/home/napp/meeting-room-booking-backend/node_modules/router/lib/layer.js:152:17)
+    at trimPrefix (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:342:13)
+    at /home/napp/meeting-room-booking-backend/node_modules/router/index.js:297:9
+    at processParams (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:582:12)
+    at next (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:291:5)
+    at /home/napp/meeting-room-booking-backend/server.js:101:5
+    at Layer.handleRequest (/home/napp/meeting-room-booking-backend/node_modules/router/lib/layer.js:152:17)
+    at trimPrefix (/home/napp/meeting-room-booking-backend/node_modules/router/index.js:342:13)
+    at /home/napp/meeting-room-booking-backend/node_modules/router/index.js:297:9

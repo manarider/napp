@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema({
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,  // รองรับทั้ง local user (ObjectId string) และ UMS user ("ums_xxx")
     ref: 'User',
     required: true
   },
@@ -71,5 +71,7 @@ bookingSchema.index({ userId: 1 }); // สำหรับ my-bookings
 bookingSchema.index({ roomId: 1, bookingDate: 1 }); // สำหรับตรวจสอบห้องว่าง
 bookingSchema.index({ status: 1 }); // สำหรับ filter by status
 bookingSchema.index({ bookingDate: -1 }); // สำหรับเรียงวันที่
+bookingSchema.index({ status: 1, bookingDate: -1 }); // สำหรับ pending-first sort
+bookingSchema.index({ roomId: 1, status: 1, bookingDate: -1 }); // สำหรับ calendar + filter
 
 module.exports = mongoose.model('Booking', bookingSchema);

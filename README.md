@@ -3,7 +3,7 @@
 ระบบจองห้องประชุมออนไลน์ สำหรับองค์กร พัฒนาด้วย React และ Node.js/Express
 
 ![Status](https://img.shields.io/badge/status-production-brightgreen)
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Version](https://img.shields.io/badge/version-1.1.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 ---
@@ -25,7 +25,8 @@
 ## ✨ คุณสมบัติ
 
 ### สำหรับผู้ใช้ทั่วไป
-- 🔐 **ระบบ Login/Register** - ปลอดภัยด้วย JWT
+- 🔐 **ระบบ Login/Register** - ปลอดภัยด้วย JWT (expire: 8 ชั่วโมง)
+- 🌐 **UMS SSO Login** - เข้าสู่ระบบด้วยบัญชี UMS (Authorization Code Flow)
 - 📅 **จองห้องประชุม** - รองรับการจองวันเดียวและหลายวัน
 - 🖼️ **อัปโหลดรูปภาพ** - แนบหลักฐานการจอง
 - 📋 **ดูการจองของตัวเอง** - จัดการการจองได้สะดวก
@@ -101,6 +102,11 @@ MONGODB_URI=mongodb://username:password@localhost:27017/meetingRoomDB
 JWT_SECRET=your-super-secret-jwt-key-change-this
 PORT=5000
 NODE_ENV=production
+
+# UMS SSO Integration
+PROJECT_CODE=MEETBOOKING
+CALLBACK_URL=https://nssv.nsm.go.th/napp/auth/callback
+UMS_BASE_URL=https://nssv.nsm.go.th/ums/
 ```
 
 ### 3. ติดตั้ง Frontend
@@ -210,6 +216,33 @@ Content-Type: application/json
 GET /api/auth/me
 Authorization: Bearer <token>
 ```
+
+#### UMS SSO — Exchange Code
+```http
+POST /api/auth/exchange-code
+Content-Type: application/json
+
+{
+  "code": "<UMS_authorization_code>",
+  "projectCode": "MEETBOOKING"
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "token": "<NAPP_JWT>",
+  "user": {
+    "id": "ums_12345",
+    "fullName": "นาย ทดสอบ ระบบ",
+    "email": "tdsob@ums.local",
+    "role": "user"
+  }
+}
+```
+
+> **หมายเหตุ:** NAPP เก็บ JWT ใน `localStorage.napp_token` (ไม่ใช่ `localStorage.token`) เพื่อแยก namespace จาก UMS ที่รันบน domain เดียวกัน
 
 ### Booking Endpoints
 
@@ -363,6 +396,7 @@ napp/
 │   ├── controllers/           # Business logic
 │   │   ├── adminfController.js
 │   │   ├── authController.js
+│   │   ├── umsAuthController.js  # UMS SSO exchange-code
 │   │   └── bookingController.js
 │   ├── middleware/            # Middleware functions
 │   │   ├── auth.js           # JWT authentication
@@ -394,6 +428,9 @@ napp/
     │   ├── components/        # React components
     │   │   ├── Admin/
     │   │   ├── Auth/
+    │   │   │   ├── Login.jsx
+    │   │   │   ├── Register.jsx
+    │   │   │   └── UMSCallback.jsx  # UMS SSO callback handler
     │   │   ├── Booking/
     │   │   ├── Layout/
     │   │   └── common/

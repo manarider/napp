@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>กำลังเข้าสู่ระบบ... | ระบบจองห้องประชุม</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    }
+
+    .callback-container {
+      background: white;
+      padding: 3rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(30, 58, 138, 0.3);
+      text-align: center;
+      max-width: 450px;
+      width: 90%;
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 1.5rem;
+    }
+
+    h1 {
+      color: #1e3a8a;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .status-message {
+      color: #64748b;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+
+    .loader {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #e2e8f0;
+      border-top: 4px solid #1e3a8a;
+      border-radius: 50%;
+      margin: 0 auto;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .error-container {
+      display: none;
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 4px solid #dc2626;
+      margin-top: 1.5rem;
+      text-align: left;
+    }
+
+    .error-container.show {
+      display: block;
+    }
+
+    .error-title {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .error-message {
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .retry-btn {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .retry-btn:hover {
+      background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+      transform: translateY(-2px);
+    }
+
+    .debug-info {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: #f8fafc;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      color: #64748b;
+      text-align: left;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <div class="callback-container">
+    <img src="./logo1.webp" alt="Logo" class="logo" onerror="this.style.display='none'">
+    <h1 id="title">🔐 กำลังเข้าสู่ระบบ...</h1>
+    <p class="status-message" id="status">กรุณารอสักครู่</p>
+    <div class="loader" id="loader"></div>
+
+    <div class="error-container" id="error">
+      <div class="error-title">❌ เกิดข้อผิดพลาด</div>
+      <div class="error-message" id="errorMessage"></div>
+      <button class="retry-btn" onclick="goToLogin()">กลับไปหน้าล็อกอิน</button>
+    </div>
+
+    <div class="debug-info" id="debug"></div>
+  </div>
+
+  <script>
+    // Configuration
+    const API_BASE_URL = window.location.origin + '/api';
+    const LOGIN_URL = window.location.origin + '/napp/';
+    const DASHBOARD_URL = window.location.origin + '/napp/dashboard';
+
+    // Debug mode - เปิดเมื่อต้องการดู debug info
+    const DEBUG = false;
+
+    // Utility functions
+    function showError(message, details = '') {
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('error').classList.add('show');
+      document.getElementById('errorMessage').textContent = message;
+      
+      if (DEBUG && details) {
+        const debugEl = document.getElementById('debug');
+        debugEl.style.display = 'block';
+        debugEl.textContent = 'Debug: ' + details;
+      }
+    }
+
+    function updateStatus(message) {
+      document.getElementById('status').textContent = message;
+    }
+
+    function goToLogin() {
+      window.location.href = LOGIN_URL;
+    }
+
+    function getQueryParameter(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    // Main process
+    async function handleCallback() {
+      try {
+        // 1. ดึง code จาก URL
+        const code = getQueryParameter('code');
+        
+        if (!code) {
+          showError('ไม่พบ authorization code กรุณาลองใหม่อีกครั้ง', 'No code in URL');
+          return;
+        }
+
+        updateStatus('กำลังตรวจสอบข้อมูล...');
+
+        // 2. ดึง projectCode จาก sessionStorage
+        const projectCode = sessionStorage.getItem('ums_project_code');
+        
+        if (!projectCode) {
+          showError('ไม่พบข้อมูล project code กรุณาเข้าสู่ระบบใหม่อีกครั้ง', 'No project code in sessionStorage');
+          return;
+        }
+
+        if (DEBUG) {
+          console.log('Code:', code);
+          console.log('Project Code:', projectCode);
+        }
+
+        updateStatus('กำลังเชื่อมต่อกับ UMS...');
+
+        // 3. เรียก API เพื่อแลก code เป็น token
+        const response = await fetch(`${API_BASE_URL}/auth/exchange-code`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            code: code,
+            projectCode: projectCode
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || data.status !== 'success') {
+          const errorMsg = data.error || 'ไม่สามารถเข้าสู่ระบบได้';
+          showError(errorMsg, JSON.stringify(data));
+          return;
+        }
+
+        updateStatus('เข้าสู่ระบบสำเร็จ กำลังเปลี่ยนหน้า...');
+
+        // 4. เก็บ token และ user data ใน localStorage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('umsUser', JSON.stringify(data.user));
+
+        // 5. ลบ code ออกจาก URL (ป้องกันการ refresh หน้า)
+        window.history.replaceState({}, document.title, window.location.pathname);
+
+        // 6. ลบ projectCode ออกจาก sessionStorage
+        sessionStorage.removeItem('ums_project_code');
+
+        if (DEBUG) {
+          console.log('Login successful:', data.user);
+        }
+
+        // 7. Redirect ไป dashboard
+        setTimeout(() => {
+          window.location.href = DASHBOARD_URL;
+        }, 500);
+
+      } catch (error) {
+        console.error('Callback Error:', error);
+        showError(
+          'เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง',
+          error.message
+        );
+      }
+    }
+
+    // เริ่มทำงานเมื่อหน้าเว็บโหลดเสร็จ
+    window.addEventListener('DOMContentLoaded', handleCallback);
+  </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+[
+  {
+    "kill_retry_time": 100,
+    "windowsHide": true,
+    "username": "napp",
+    "treekill": true,
+    "automation": true,
+    "pmx": true,
+    "instance_var": "NODE_APP_INSTANCE",
+    "watch": false,
+    "autorestart": true,
+    "autostart": true,
+    "vizion": true,
+    "merge_logs": true,
+    "env": {
+      "SHELL": "/bin/bash",
+      "COLORTERM": "truecolor",
+      "HISTCONTROL": "ignorespace",
+      "TERM_PROGRAM_VERSION": "1.109.2",
+      "PWD": "/home/napp/meeting-room-booking-backend",
+      "LOGNAME": "napp",
+      "XDG_SESSION_TYPE": "tty",
+      "VSCODE_GIT_ASKPASS_NODE": "/home/napp/.vscode-server/cli/servers/Stable-591199df409fbf59b4b52d5ad4ee0470152a9b31/server/node",
+      "HOME": "/home/napp",
+      "LANG": "en_US.UTF-8",
+      "SSL_CERT_DIR": "/usr/lib/ssl/certs",
+      "GIT_ASKPASS": "/home/napp/.vscode-server/cli/servers/Stable-591199df409fbf59b4b52d5ad4ee0470152a9b31/server/extensions/git/dist/askpass.sh",
+      "SSH_CONNECTION": "192.168.100.156 55693 192.168.100.151 22",
+      "VSCODE_GIT_ASKPASS_EXTRA_ARGS": "",
+      "VSCODE_PYTHON_AUTOACTIVATE_GUARD": "1",
+      "XDG_SESSION_CLASS": "user",
+      "TERM": "xterm-256color",
+      "USER": "napp",
+      "GIT_PAGER": "cat",
+      "VSCODE_GIT_IPC_HANDLE": "/run/user/1001/vscode-git-b252dc3615.sock",
+      "SHLVL": "1",
+      "XDG_SESSION_ID": "5183",
+      "XDG_RUNTIME_DIR": "/run/user/1001",
+      "SSL_CERT_FILE": "/usr/lib/ssl/cert.pem",
+      "SSH_CLIENT": "192.168.100.156 55693 22",
+      "VSCODE_GIT_ASKPASS_MAIN": "/home/napp/.vscode-server/cli/servers/Stable-591199df409fbf59b4b52d5ad4ee0470152a9b31/server/extensions/git/dist/askpass-main.js",
+      "XDG_DATA_DIRS": "/usr/local/share:/usr/share:/var/lib/snapd/desktop",
+      "BROWSER": "/home/napp/.vscode-server/cli/servers/Stable-591199df409fbf59b4b52d5ad4ee0470152a9b31/server/bin/helpers/browser.sh",
+      "PATH": "/home/napp/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:/home/napp/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:/home/napp/.vscode-server/cli/servers/Stable-591199df409fbf59b4b52d5ad4ee0470152a9b31/server/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+      "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1001/bus",
+      "TERM_PROGRAM": "vscode",
+      "VSCODE_IPC_HOOK_CLI": "/run/user/1001/vscode-ipc-7f985ad0-cf6e-4c24-9f59-08b92d21517a.sock",
+      "_": "/usr/bin/pm2",
+      "OLDPWD": "/home/napp/meeting-room-booking-backend",
+      "PM2_USAGE": "CLI",
+      "PM2_HOME": "/home/napp/.pm2",
+      "meeting-room-api": {},
+      "unique_id": "f1bf7598-1eac-4904-83f5-6a2deae32b76"
+    },
+    "namespace": "default",
+    "filter_env": [],
+    "name": "meeting-room-api",
+    "node_args": [],
+    "pm_exec_path": "/home/napp/meeting-room-booking-backend/server.js",
+    "pm_cwd": "/home/napp/meeting-room-booking-backend",
+    "exec_interpreter": "node",
+    "exec_mode": "fork_mode",
+    "pm_out_log_path": "/home/napp/.pm2/logs/meeting-room-api-out.log",
+    "pm_err_log_path": "/home/napp/.pm2/logs/meeting-room-api-error.log",
+    "pm_pid_path": "/home/napp/.pm2/pids/meeting-room-api-0.pid",
+    "km_link": false,
+    "vizion_running": false,
+    "NODE_APP_INSTANCE": 0,
+    "SHELL": "/bin/bash",
+    "COLORTERM": "truecolor",
+    "HISTCONTROL": "ignorespace",
+    "TERM_PROGRAM_VERSION": "1.109.2",
+    "PWD": "/home/napp/meeting-room-booking-backend",
+    "LOGNAME": "napp",
+    "XDG_SESSION_TYPE": "tty",
+    "VSCODE_GIT_ASKPASS_NODE": "/home/napp/.vscode-server/cli/servers/Stable-591199df409fbf59b4b52d5ad4ee0470152a9b31/server/node",
+    "HOME": "/home/napp",
+    "LANG": "en_US.UTF-8",
+    "SSL_CERT_DIR": "/usr/lib/ssl/certs",
+    "GIT_ASKPASS": "/home/napp/.vscode-server/cli/servers/Stable-591199df409fbf59b4b52d5ad4ee0470152a9b31/server/extensions/git/dist/askpass.sh",
+    "SSH_CONNECTION": "192.168.100.156 55693 192.168.100.151 22",
+    "VSCODE_GIT_ASKPASS_EXTRA_ARGS": "",
+    "VSCODE_PYTHON_AUTOACTIVATE_GUARD": "1",
+    "XDG_SESSION_CLASS": "user",
+    "TERM": "xterm-256color",
+    "USER": "napp",
+    "GIT_PAGER": "cat",
+    "VSCODE_GIT_IPC_HANDLE": "/run/user/1001/vscode-git-b252dc3615.sock",
+    "SHLVL": "1",
+    "XDG_SESSION_ID": "5183",
+    "XDG_RUNTIME_DIR": "/run/user/1001",
+    "SSL_CERT_FILE": "/usr/lib/ssl/cert.pem",
+    "SSH_CLIENT": "192.168.100.156 55693 22",
+    "VSCODE_GIT_ASKPASS_MAIN": "/home/napp/.vscode-server/cli/servers/Stable-591199df409fbf59b4b52d5ad4ee0470152a9b31/server/extensions/git/dist/askpass-main.js",
+    "XDG_DATA_DIRS": "/usr/local/share:/usr/share:/var/lib/snapd/desktop",
+    "BROWSER": "/home/napp/.vscode-server/cli/servers/Stable-591199df409fbf59b4b52d5ad4ee0470152a9b31/server/bin/helpers/browser.sh",
+    "PATH": "/home/napp/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:/home/napp/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:/home/napp/.vscode-server/cli/servers/Stable-591199df409fbf59b4b52d5ad4ee0470152a9b31/server/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+    "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1001/bus",
+    "TERM_PROGRAM": "vscode",
+    "VSCODE_IPC_HOOK_CLI": "/run/user/1001/vscode-ipc-7f985ad0-cf6e-4c24-9f59-08b92d21517a.sock",
+    "_": "/usr/bin/pm2",
+    "OLDPWD": "/home/napp/meeting-room-booking-backend",
+    "PM2_USAGE": "CLI",
+    "PM2_HOME": "/home/napp/.pm2",
+    "unique_id": "f1bf7598-1eac-4904-83f5-6a2deae32b76",
+    "status": "online",
+    "pm_uptime": 1771394959958,
+    "axm_actions": [
+      {
+        "action_name": "km:heapdump",
+        "action_type": "internal",
+        "arity": 2
+      },
+      {
+        "action_name": "km:cpu:profiling:start",
+        "action_type": "internal",
+        "arity": 2
+      },
+      {
+        "action_name": "km:cpu:profiling:stop",
+        "action_type": "internal",
+        "arity": 1
+      },
+      {
+        "action_name": "km:heap:sampling:start",
+        "action_type": "internal",
+        "arity": 2
+      },
+      {
+        "action_name": "km:heap:sampling:stop",
+        "action_type": "internal",
+        "arity": 1
+      }
+    ],
+    "axm_monitor": {
+      "Used Heap Size": {
+        "value": "31.80",
+        "type": "internal/v8/heap/used",
+        "unit": "MiB",
+        "historic": true
+      },
+      "Heap Usage": {
+        "value": 55.8,
+        "type": "internal/v8/heap/usage",
+        "unit": "%",
+        "historic": true
+      },
+      "Heap Size": {
+        "value": "56.99",
+        "type": "internal/v8/heap/total",
+        "unit": "MiB",
+        "historic": true
+      },
+      "Event Loop Latency p95": {
+        "value": "1.36",
+        "type": "internal/libuv/latency/p95",
+        "unit": "ms",
+        "historic": true
+      },
+      "Event Loop Latency": {
+        "value": "0.17",
+        "type": "internal/libuv/latency/p50",
+        "unit": "ms",
+        "historic": true
+      },
+      "Active handles": {
+        "value": 8,
+        "type": "internal/libuv/handles",
+        "historic": true
+      },
+      "Active requests": {
+        "value": 0,
+        "type": "internal/libuv/requests",
+        "historic": true
+      }
+    },
+    "axm_options": {
+      "error": true,
+      "heapdump": true,
+      "feature.profiler.heapsnapshot": false,
+      "feature.profiler.heapsampling": true,
+      "feature.profiler.cpu_js": true,
+      "latency": true,
+      "catchExceptions": true,
+      "profiling": true,
+      "metrics": {
+        "http": true,
+        "runtime": true,
+        "eventLoop": true,
+        "network": false,
+        "v8": true
+      },
+      "standalone": false,
+      "module_conf": {},
+      "apm": {
+        "version": "6.1.0",
+        "type": "node"
+      },
+      "module_name": "meeting-room-api",
+      "module_version": "6.0.14"
+    },
+    "axm_dynamic": {},
+    "created_at": 1771394959958,
+    "restart_time": 0,
+    "unstable_restarts": 0,
+    "version": "1.0.0",
+    "node_version": "24.13.0"
+  }
+]

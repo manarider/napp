@@ -1,10 +1,5 @@
 // middleware/errorHandler.js
 
-// ⚡ Async Handler Wrapper - จัดการ async errors อัตโนมัติ
-const asyncHandler = (fn) => (req, res, next) => {
-  Promise.resolve(fn(req, res, next)).catch(next);
-};
-
 // 🛡️ Global Error Handler - ป้องกันไม่ให้เปิดเผยข้อมูล sensitive
 const errorHandler = (err, req, res, next) => {
   // Log error ใน server console (เพื่อ debugging)
@@ -67,4 +62,4 @@ const notFound = (req, res, next) => {
   next(error);
 };
 
-module.exports = { asyncHandler, errorHandler, notFound };
+module.exports = { errorHandler, notFound };

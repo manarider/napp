@@ -45,50 +45,64 @@ router.get('/bookings-trend', authMiddleware, adminMiddleware, async (req, res) 
 });
 
 // 🏨 ห้องที่ถูกจองมากที่สุด
-router.get('/popular-rooms', authMiddleware, adminMiddleware, async (req, res) => {
+// [PERF-03] เปลี่ยนจาก N+1 countDocuments เป็น aggregation pipeline ครั้งเดียว
+ router.get('/popular-rooms', authMiddleware, adminMiddleware, async (req, res) => {
   try {
+    // 1 aggregation query แทน N rooms × 2 countDocuments
+    const bookingStats = await Booking.aggregate([
+      {
+        $group: {
+          _id: '$roomId',
+          total: { $sum: 1 },
+          approved: { $sum: { $cond: [{ $eq: ['$status', 'approved'] }, 1, 0] } }
+        }
+      }
+    ]);
+
+    // สร้าง map roomId → stats
+    const statsMap = {};
+    bookingStats.forEach(s => { statsMap[s._id?.toString()] = s; });
+
     const rooms = await MeetingRoom.find();
-    
-    const roomStats = await Promise.all(
-      rooms.map(async (room) => {
-        const total = await Booking.countDocuments({ roomId: room._id });
-        const approved = await Booking.countDocuments({ roomId: room._id, status: 'approved' });
-        
-        return {
-          name: `${room.roomNumber} - ${room.roomName}`,
-          total,
-          approved,
-          capacity: room.capacity
-        };
-      })
-    );
+    const roomStats = rooms.map(room => {
+      const stat = statsMap[room._id.toString()] || { total: 0, approved: 0 };
+      return {
+        name: `${room.roomNumber} - ${room.roomName}`,
+        total: stat.total,
+        approved: stat.approved,
+        capacity: room.capacity
+      };
+    });
 
-    // เรียงจากมากไปน้อย
     roomStats.sort((a, b) => b.total - a.total);
-
-    res.json(roomStats.slice(0, 10)); // Top 10
+    res.json(roomStats.slice(0, 10));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
 // 🏢 Department ที่จองมากที่สุด
+// [PERF-03] เปลี่ยนจาก Booking.find() + JS groupBy เป็น aggregation
 router.get('/department-usage', authMiddleware, adminMiddleware, async (req, res) => {
   try {
-    const bookings = await Booking.find();
+    const deptStats = await Booking.aggregate([
+      {
+        $group: {
+          _id: '$department',
+          total: { $sum: 1 },
+          approved: { $sum: { $cond: [{ $eq: ['$status', 'approved'] }, 1, 0] } },
+          pending:  { $sum: { $cond: [{ $eq: ['$status', 'pending']  }, 1, 0] } }
+        }
+      },
+      { $sort: { total: -1 } }
+    ]);
 
-    const deptStats = {};
-    bookings.forEach(booking => {
-      const dept = booking.department;
-      if (!deptStats[dept]) {
-        deptStats[dept] = { name: dept, total: 0, approved: 0, pending: 0 };
-      }
-      deptStats[dept].total++;
-      if (booking.status === 'approved') deptStats[dept].approved++;
-      if (booking.status === 'pending') deptStats[dept].pending++;
-    });
-
-    const result = Object.values(deptStats).sort((a, b) => b.total - a.total);
+    const result = deptStats.map(d => ({
+      name:     d._id || 'ไม่ระบุ',
+      total:    d.total,
+      approved: d.approved,
+      pending:  d.pending
+    }));
 
     res.json(result);
   } catch (error) {
@@ -97,33 +111,41 @@ router.get('/department-usage', authMiddleware, adminMiddleware, async (req, res
 });
 
 // 📈 สถิติรายเดือน
+// [PERF-03] เปลี่ยนจาก 6×2 countDocuments loop เป็น aggregation ครั้งเดียว
 router.get('/monthly-stats', authMiddleware, adminMiddleware, async (req, res) => {
   try {
-    const months = 6; // 6 เดือนล่าสุด
+    const months = 6;
+    const now = new Date();
+
+    // คำนวณวันเริ่มต้นของเดือนแรกที่ต้องการ
+    const startDate = new Date(now.getFullYear(), now.getMonth() - (months - 1), 1);
+
+    // 1 aggregation แทน 12 countDocuments queries
+    const aggResult = await Booking.aggregate([
+      { $match: { createdAt: { $gte: startDate } } },
+      {
+        $group: {
+          _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
+          total:    { $sum: 1 },
+          approved: { $sum: { $cond: [{ $eq: ['$status', 'approved'] }, 1, 0] } }
+        }
+      }
+    ]);
+
+    // สร้าง map: 'YYYY-M' → stats
+    const statsMap = {};
+    aggResult.forEach(r => { statsMap[`${r._id.year}-${r._id.month}`] = r; });
+
+    // สร้าง array 6 เดือน (มีค่า 0 ถ้าไม่มีข้อมูล)
     const monthlyData = [];
-
     for (let i = months - 1; i >= 0; i--) {
-      const date = new Date();
-      date.setMonth(date.getMonth() - i);
-      const year = date.getFullYear();
-      const month = date.getMonth();
-
-      const startDate = new Date(year, month, 1);
-      const endDate = new Date(year, month + 1, 0);
-
-      const total = await Booking.countDocuments({
-        createdAt: { $gte: startDate, $lte: endDate }
-      });
-
-      const approved = await Booking.countDocuments({
-        createdAt: { $gte: startDate, $lte: endDate },
-        status: 'approved'
-      });
-
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const key = `${d.getFullYear()}-${d.getMonth() + 1}`;
+      const stat = statsMap[key] || { total: 0, approved: 0 };
       monthlyData.push({
-        month: date.toLocaleString('default', { month: 'short', year: 'numeric' }),
-        total,
-        approved
+        month: d.toLocaleString('default', { month: 'short', year: 'numeric' }),
+        total:    stat.total,
+        approved: stat.approved
       });
     }
 

@@ -19,6 +19,7 @@ const BookingForm = ({ bookingId = null, onClose = null }) => {
   });
 
   const [rooms, setRooms] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [isEditing] = useState(!!bookingId);
@@ -47,6 +48,11 @@ const BookingForm = ({ bookingId = null, onClose = null }) => {
     api.get('/rooms').then((res) => {
       setRooms(res.data.rooms || res.data);
     }).catch(err => console.error('Error loading rooms:', err));
+
+    // โหลดรายชื่อแผนก
+    api.get('/departments').then((res) => {
+      if (Array.isArray(res.data)) setDepartments(res.data);
+    }).catch(err => console.error('Error loading departments:', err));
 
     // 2. กรณีแก้ไข: ดึงข้อมูลเดิม
     if (isEditing && bookingId) {
@@ -296,15 +302,17 @@ const BookingForm = ({ bookingId = null, onClose = null }) => {
           <div className="form-row">
             <div className="form-group">
               <label>สังกัด/กอง: *</label>
-              {/* ⭐ ล็อคสังกัด ไม่ให้แก้ไข */}
-              <input
-                type="text"
+              <select
                 name="department"
                 value={formData.department}
-                readOnly
-                disabled
-                style={{ backgroundColor: '#f3f4f6', cursor: 'not-allowed', color: '#1f2937' }}
-              />
+                onChange={handleChange}
+                required
+              >
+                <option value="">เลือกสังกัด/กอง</option>
+                {departments.map((dept) => (
+                  <option key={dept._id} value={dept.name}>{dept.name}</option>
+                ))}
+              </select>
             </div>
 
             <div className="form-group">
@@ -361,9 +369,9 @@ const BookingForm = ({ bookingId = null, onClose = null }) => {
             <div className="checking-message"><p>🔄 กำลังตรวจสอบเวลา...</p></div>
           )}
 
-          {/* Row 4: วัตถุประสงค์ */}
+          {/* Row 4: หัวข้อการประชุม */}
           <div className="form-group full-width">
-            <label>วัตถุประสงค์: *</label>
+            <label>หัวข้อการประชุม สำหรับขึ้นจอแสดงผล หน้าห้องประชุม: *</label>
             <textarea
               name="purpose"
               value={formData.purpose}

@@ -1,10 +1,12 @@
 // routes/admin.js
 const express = require('express');
+const mongoose = require('mongoose');
 const User = require('../models/User');
 const Booking = require('../models/Booking');
 const MeetingRoom = require('../models/MeetingRoom');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
-const adminController = require('../controllers/adminfController');
+const adminController = require('../controllers/adminController');
+const { enrichBookingsWithUser } = require('../utils/populateBookingUser');
 
 const router = express.Router();
 
@@ -84,7 +86,9 @@ router.get('/bookings', authMiddleware, adminMiddleware, async (req, res) => {
   try {
     let query = {};
 
-    if (req.query.status) {
+    // [SEC-05] whitelist ป้องกัน injection
+    const VALID_STATUSES = ['pending', 'approved', 'rejected'];
+    if (req.query.status && VALID_STATUSES.includes(req.query.status)) {
       query.status = req.query.status;
     }
 
@@ -93,15 +97,32 @@ router.get('/bookings', authMiddleware, adminMiddleware, async (req, res) => {
     const limit = parseInt(req.query.limit) || 50;
     const skip = (page - 1) * limit;
 
-    const [bookings, totalCount] = await Promise.all([
-      Booking.find(query)
-        .populate('userId', 'fullName email department')
-        .populate('roomId', 'roomNumber roomName capacity')
-        .sort({ bookingDate: -1 })
-        .skip(skip)
-        .limit(limit),
+    // ⭐ Aggregation: pending ก่อน → วันล่าสุดก่อน
+    const pipeline = [
+      { $match: query },
+      { $addFields: { _sp: { $cond: [{ $eq: ['$status', 'pending'] }, 0, 1] } } },
+      { $sort: { _sp: 1, createdAt: -1 } },
+      { $skip: skip },
+      { $limit: limit },
+      {
+        $lookup: {
+          from: 'meetingrooms',
+          localField: 'roomId',
+          foreignField: '_id',
+          as: '_room',
+          pipeline: [{ $project: { roomNumber: 1, roomName: 1, capacity: 1 } }]
+        }
+      },
+      { $addFields: { roomId: { $arrayElemAt: ['$_room', 0] } } },
+      { $project: { _sp: 0, _room: 0 } }
+    ];
+
+    const [rawBookings, totalCount] = await Promise.all([
+      Booking.aggregate(pipeline),
       Booking.countDocuments(query)
     ]);
+
+    const bookings = await enrichBookingsWithUser(rawBookings);
 
     res.json({
       total: totalCount,
@@ -125,15 +146,17 @@ router.put('/bookings/:bookingId/status', authMiddleware, adminMiddleware, async
       return res.status(400).json({ error: 'Invalid status' });
     }
 
-    const booking = await Booking.findByIdAndUpdate(
+    const rawBooking = await Booking.findByIdAndUpdate(
       bookingId,
       { status, updatedAt: Date.now() },
       { new: true }
-    ).populate('roomId').populate('userId', 'fullName email');
+    ).populate('roomId').lean();
 
-    if (!booking) {
+    if (!rawBooking) {
       return res.status(404).json({ error: 'Booking not found' });
     }
+
+    const [booking] = await enrichBookingsWithUser([rawBooking]);
 
     res.json({
       message: `Booking ${status} successfully`,

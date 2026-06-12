@@ -1,0 +1,1714 @@
+[dotenv@17.2.3] injecting env (4) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+📦 Routes loaded:
+  - adminRoutes: OK (10 routes)
+  - authRoutes: OK
+  - bookingRoutes: OK
+
+🔌 Registering routes...
+  ✓ Registering /api/admin/stats...
+  ✓ Registering /api/admin...
+✅ All routes registered
+
+
+╔═══════════════════════════════════════╗
+║  🚀 Server Started Successfully!      ║
+╠═══════════════════════════════════════╣
+║  Port: 5000                           ║
+║  Host: 0.0.0.0 (Public Access)        ║
+║  Time: 2/17/2026, 4:38:18 AM     ║
+║  JSON Limit: 10MB (Images Supported)  ║
+╚═══════════════════════════════════════╝
+  
+✅ MongoDB Connected Successfully
+[4:38:22 AM] 📝 GET /api/simple-test
+[4:38:22 AM] 📝 GET /api/debug/routes
+[4:38:31 AM] 📝 GET /api/debug/routes
+[4:38:47 AM] 📝 PATCH /api/admin/users/675b07c94aba0feb0f046f5a2/password
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[4:39:00 AM] 📝 PATCH /api/admin/users/675b07c94aba0feb0f046f5a2/password
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[4:39:10 AM] 📝 PATCH /api/admin/users/test123/password
+   🔍 Admin users route detected!
+   Headers: No Auth
+[dotenv@17.2.3] injecting env (4) from .env -- tip: 📡 add observability to secrets: https://dotenvx.com/ops
+📦 Routes loaded:
+  - adminRoutes: OK (10 routes)
+  - authRoutes: OK
+  - bookingRoutes: OK
+
+🔌 Registering routes...
+  ✓ Registering /api/admin/stats...
+  ✓ Registering /api/admin...
+✅ All routes registered
+
+
+╔═══════════════════════════════════════╗
+║  🚀 Server Started Successfully!      ║
+╠═══════════════════════════════════════╣
+║  Port: 5000                           ║
+║  Host: 0.0.0.0 (Public Access)        ║
+║  Time: 2/17/2026, 4:39:30 AM     ║
+║  JSON Limit: 10MB (Images Supported)  ║
+╚═══════════════════════════════════════╝
+  
+✅ MongoDB Connected Successfully
+[4:39:36 AM] 📝 GET /api/health
+[4:39:37 AM] 📝 PATCH /api/admin/users/test123/password
+   🔍 Admin users route detected!
+   Headers: No Auth
+[4:40:32 AM] 📝 POST /api/auth/login
+[4:40:33 AM] 📝 GET /api/admin/dashboard/statistics
+[4:40:39 AM] 📝 GET /api/admin/dashboard/statistics
+[4:40:47 AM] 📝 GET /api/admin/users
+[4:40:55 AM] 📝 PATCH /api/admin/users/69707c94aba0feb0f046f5a2/status
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[4:41:00 AM] 📝 PATCH /api/admin/users/69707c94aba0feb0f046f5a2/status
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[4:41:10 AM] 📝 PATCH /api/admin/users/69707c94aba0feb0f046f5a2/role
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[4:41:18 AM] 📝 DELETE /api/admin/users/69707c94aba0feb0f046f5a2
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[4:44:14 AM] 📝 GET /api/admin/dashboard/statistics
+[4:44:19 AM] 📝 GET /api/bookings/my-bookings
+[4:44:26 AM] 📝 GET /api/bookings
+[4:44:33 AM] 📝 GET /api/admin/dashboard/statistics
+[4:45:08 AM] 📝 GET /api/auth/me
+[4:45:08 AM] 📝 GET /api/admin/dashboard/statistics
+[4:45:34 AM] 📝 GET /api/auth/me
+[4:45:34 AM] 📝 GET /api/admin/dashboard/statistics
+[4:45:42 AM] 📝 GET /api/auth/me
+[4:45:42 AM] 📝 GET /api/admin/dashboard/statistics
+[4:46:16 AM] 📝 GET /api/departments
+[6:51:27 AM] 📝 GET /api/auth/me
+[6:51:27 AM] 📝 GET /api/admin/dashboard/statistics
+[6:51:37 AM] 📝 GET /api/admin/users
+[6:51:47 AM] 📝 PATCH /api/admin/users/697190a8aba0feb0f046f726/role
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[6:51:55 AM] 📝 PATCH /api/admin/users/697190a8aba0feb0f046f726/role
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[6:52:04 AM] 📝 DELETE /api/admin/users/697190a8aba0feb0f046f726
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[6:52:34 AM] 📝 GET /api/admin/bookings
+[6:52:35 AM] 📝 GET /api/rooms
+[6:52:38 AM] 📝 GET /api/admin/users
+[6:53:20 AM] 📝 GET /api/admin/dashboard/statistics
+[6:54:44 AM] 📝 GET /api/departments
+[6:55:42 AM] 📝 POST /api/auth/register
+[6:55:50 AM] 📝 GET /api/admin/dashboard/statistics
+[6:55:57 AM] 📝 POST /api/auth/login
+[6:55:59 AM] 📝 GET /api/admin/users
+[6:56:06 AM] 📝 GET /api/bookings
+[6:56:08 AM] 📝 PATCH /api/admin/users/699410ee3e048c40e28f80b1/role
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[6:56:12 AM] 📝 GET /api/auth/me
+[6:56:12 AM] 📝 GET /api/bookings
+[6:56:14 AM] 📝 GET /api/admin/dashboard/statistics
+[6:56:38 AM] 📝 GET /api/admin/users
+[6:56:52 AM] 📝 GET /api/auth/me
+[6:56:52 AM] 📝 GET /api/admin/dashboard/statistics
+[6:56:56 AM] 📝 GET /api/auth/me
+[6:56:56 AM] 📝 GET /api/admin/dashboard/statistics
+[6:57:03 AM] 📝 GET /api/admin/users
+[6:57:12 AM] 📝 GET /api/admin/dashboard/statistics
+[6:57:38 AM] 📝 POST /api/auth/login
+[6:57:38 AM] 📝 GET /api/admin/dashboard/statistics
+[6:57:43 AM] 📝 GET /api/admin/dashboard/statistics
+[6:57:54 AM] 📝 GET /api/admin/users
+[6:58:18 AM] 📝 PATCH /api/admin/users/69490a065e1a04f70b859ca3/status
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[6:58:20 AM] 📝 GET /api/bookings
+[6:58:22 AM] 📝 PATCH /api/admin/users/69490a065e1a04f70b859ca3/status
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[6:58:24 AM] 📝 GET /api/admin/dashboard/statistics
+[6:58:26 AM] 📝 PATCH /api/admin/users/69490a065e1a04f70b859ca3/status
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[6:58:33 AM] 📝 GET /api/bookings
+[6:58:36 AM] 📝 GET /api/bookings/my-bookings
+[6:58:38 AM] 📝 GET /api/admin/dashboard/statistics
+[6:58:41 AM] 📝 GET /api/bookings
+[6:58:44 AM] 📝 GET /api/admin/dashboard/statistics
+[6:58:45 AM] 📝 GET /api/bookings/my-bookings
+[6:58:48 AM] 📝 GET /api/rooms
+[6:58:51 AM] 📝 GET /api/admin/dashboard/statistics
+[6:58:55 AM] 📝 GET /api/rooms
+[7:05:19 AM] 📝 GET /api/auth/me
+[7:05:45 AM] 📝 POST /api/auth/login
+[7:05:45 AM] 📝 GET /api/admin/dashboard/statistics
+[7:05:47 AM] 📝 GET /api/admin/dashboard/statistics
+[7:05:55 AM] 📝 GET /api/admin/users
+[7:06:06 AM] 📝 PATCH /api/admin/users/69490a065e1a04f70b859ca3/role
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[2:57:56 AM] 📝 GET /api/auth/me
+[2:57:56 AM] 📝 GET /api/admin/dashboard/statistics
+[2:58:09 AM] 📝 GET /api/auth/me
+[2:58:09 AM] 📝 GET /api/admin/dashboard/statistics
+[2:58:32 AM] 📝 GET /api/auth/me
+[2:58:32 AM] 📝 GET /api/admin/dashboard/statistics
+[3:01:36 AM] 📝 GET /api/admin/dashboard/statistics
+[3:01:46 AM] 📝 GET /api/admin/users
+[3:03:49 AM] 📝 GET /api/departments
+[3:04:13 AM] 📝 POST /api/auth/register
+[3:04:22 AM] 📝 POST /api/auth/login
+[3:04:29 AM] 📝 GET /api/bookings/my-bookings
+[3:04:35 AM] 📝 GET /api/bookings
+[3:04:39 AM] 📝 GET /api/bookings/my-bookings
+[3:04:40 AM] 📝 GET /api/bookings
+[3:04:50 AM] 📝 GET /api/bookings/my-bookings
+[3:04:51 AM] 📝 GET /api/bookings
+[3:04:59 AM] 📝 GET /api/bookings/my-bookings
+[3:05:03 AM] 📝 GET /api/bookings
+[3:05:07 AM] 📝 GET /api/bookings/my-bookings
+[3:05:08 AM] 📝 GET /api/rooms
+[3:06:59 AM] 📝 GET /api/bookings/my-bookings
+[3:06:59 AM] 📝 GET /api/bookings
+[3:07:09 AM] 📝 GET /api/bookings/my-bookings
+[3:07:12 AM] 📝 GET /api/bookings
+[3:07:22 AM] 📝 GET /api/bookings/my-bookings
+[3:07:23 AM] 📝 GET /api/bookings
+[3:09:31 AM] 📝 GET /api/bookings/my-bookings
+[3:09:32 AM] 📝 GET /api/bookings
+[3:09:33 AM] 📝 GET /api/bookings
+[3:09:34 AM] 📝 GET /api/bookings/my-bookings
+[3:12:29 AM] 📝 GET /api/auth/me
+[3:12:29 AM] 📝 GET /api/admin/dashboard/statistics
+[3:12:44 AM] 📝 GET /api/admin/users
+[3:13:00 AM] 📝 PATCH /api/admin/users/69952c2d3e048c40e28f814a/role
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[3:13:27 AM] 📝 GET /api/bookings
+[3:13:38 AM] 📝 POST /api/auth/login
+[3:13:44 AM] 📝 POST /api/auth/login
+[3:13:44 AM] 📝 GET /api/admin/dashboard/statistics
+[3:13:46 AM] 📝 GET /api/admin/dashboard/statistics
+[3:13:55 AM] 📝 GET /api/admin/bookings
+[3:13:57 AM] 📝 GET /api/rooms
+[3:14:04 AM] 📝 PUT /api/rooms/69490a065e1a04f70b859ca9
+[3:14:05 AM] 📝 GET /api/rooms
+[3:14:10 AM] 📝 PUT /api/rooms/69490a065e1a04f70b859ca9
+[3:14:11 AM] 📝 GET /api/rooms
+[3:14:16 AM] 📝 PUT /api/rooms/69490a065e1a04f70b859cab
+[3:14:17 AM] 📝 GET /api/rooms
+[3:14:18 AM] 📝 GET /api/bookings
+[3:14:27 AM] 📝 PUT /api/rooms/696f36019adeec8a6063cb8c
+[3:14:28 AM] 📝 GET /api/rooms
+[3:14:30 AM] 📝 GET /api/admin/stats/popular-rooms
+[3:14:30 AM] 📝 GET /api/admin/stats/bookings-trend
+   Query: [Object: null prototype] { days: '7' }
+[3:14:30 AM] 📝 GET /api/admin/stats/monthly-stats
+[3:14:30 AM] 📝 GET /api/admin/stats/department-usage
+[3:14:39 AM] 📝 GET /api/admin/stats/bookings-trend
+   Query: [Object: null prototype] { days: '7' }
+[3:14:39 AM] 📝 GET /api/admin/stats/department-usage
+[3:14:39 AM] 📝 GET /api/admin/stats/popular-rooms
+[3:14:39 AM] 📝 GET /api/admin/stats/monthly-stats
+[3:14:40 AM] 📝 GET /api/rooms
+[3:14:41 AM] 📝 GET /api/admin/bookings
+[3:14:44 AM] 📝 GET /api/admin/stats/monthly-stats
+[3:14:44 AM] 📝 GET /api/admin/stats/popular-rooms
+[3:14:44 AM] 📝 GET /api/admin/stats/department-usage
+[3:14:44 AM] 📝 GET /api/admin/stats/bookings-trend
+   Query: [Object: null prototype] { days: '7' }
+[3:14:45 AM] 📝 GET /api/rooms
+[3:14:55 AM] 📝 GET /api/bookings
+[3:14:56 AM] 📝 GET /api/admin/dashboard/statistics
+[3:14:57 AM] 📝 GET /api/admin/stats/bookings-trend
+   Query: [Object: null prototype] { days: '7' }
+[3:14:57 AM] 📝 GET /api/admin/stats/department-usage
+[3:14:57 AM] 📝 GET /api/admin/stats/monthly-stats
+[3:14:57 AM] 📝 GET /api/admin/stats/popular-rooms
+[3:14:58 AM] 📝 GET /api/admin/bookings
+[3:14:59 AM] 📝 GET /api/bookings/my-bookings
+[3:15:00 AM] 📝 GET /api/bookings
+[3:15:05 AM] 📝 GET /api/admin/dashboard/statistics
+[3:16:17 AM] 📝 GET /api/admin/dashboard/statistics
+[3:16:23 AM] 📝 GET /api/admin/bookings
+[3:16:32 AM] 📝 GET /api/admin/dashboard/statistics
+[3:17:50 AM] 📝 GET /api/bookings
+[3:18:02 AM] 📝 GET /api/bookings
+[3:18:21 AM] 📝 GET /api/bookings
+[3:18:24 AM] 📝 GET /api/rooms/69609bbbaa301e5a9d0e57c0
+[3:18:25 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+[3:18:32 AM] 📝 GET /api/bookings
+[3:18:37 AM] 📝 GET /api/admin/dashboard/statistics
+[3:18:49 AM] 📝 GET /api/admin/dashboard/statistics
+[3:18:53 AM] 📝 GET /api/rooms
+[3:19:50 AM] 📝 PUT /api/rooms/69490a065e1a04f70b859ca9
+[3:19:52 AM] 📝 GET /api/rooms
+[3:41:41 AM] 📝 GET /api/auth/me
+[3:41:41 AM] 📝 GET /api/admin/dashboard/statistics
+[3:41:43 AM] 📝 GET /api/admin/dashboard/statistics
+[3:41:46 AM] 📝 GET /api/admin/dashboard/statistics
+[3:41:47 AM] 📝 GET /api/bookings/my-bookings
+[3:41:49 AM] 📝 GET /api/rooms
+[3:41:51 AM] 📝 GET /api/admin/dashboard/statistics
+[3:42:43 AM] 📝 GET /api/bookings
+[3:42:44 AM] 📝 GET /api/admin/dashboard/statistics
+[3:42:45 AM] 📝 GET /api/admin/dashboard/statistics
+[3:42:53 AM] 📝 GET /api/admin/stats/popular-rooms
+[3:42:53 AM] 📝 GET /api/admin/stats/monthly-stats
+[3:42:53 AM] 📝 GET /api/admin/stats/department-usage
+[3:42:53 AM] 📝 GET /api/admin/stats/bookings-trend
+   Query: [Object: null prototype] { days: '7' }
+[3:42:55 AM] 📝 GET /api/admin/dashboard/statistics
+[3:42:56 AM] 📝 GET /api/bookings
+[3:42:58 AM] 📝 GET /api/admin/dashboard/statistics
+[3:42:59 AM] 📝 GET /api/bookings
+[3:43:03 AM] 📝 GET /api/bookings/my-bookings
+[3:43:04 AM] 📝 GET /api/bookings
+[3:43:06 AM] 📝 GET /api/admin/dashboard/statistics
+[3:43:07 AM] 📝 GET /api/admin/stats/department-usage
+[3:43:07 AM] 📝 GET /api/admin/stats/bookings-trend
+   Query: [Object: null prototype] { days: '7' }
+[3:43:07 AM] 📝 GET /api/admin/stats/popular-rooms
+[3:43:07 AM] 📝 GET /api/admin/stats/monthly-stats
+[3:43:08 AM] 📝 GET /api/admin/dashboard/statistics
+[3:43:09 AM] 📝 GET /api/auth/me
+[3:43:09 AM] 📝 GET /api/bookings/my-bookings
+[3:43:09 AM] 📝 GET /api/admin/dashboard/statistics
+[3:43:10 AM] 📝 GET /api/rooms
+[3:43:12 AM] 📝 GET /api/admin/dashboard/statistics
+[3:43:20 AM] 📝 GET /api/admin/users
+[3:43:30 AM] 📝 GET /api/admin/dashboard/statistics
+[3:43:47 AM] 📝 DELETE /api/admin/users/69490a065e1a04f70b859ca3
+   🔍 Admin users route detected!
+   Headers: Has Auth
+[3:44:54 AM] 📝 GET /api/auth/me
+[3:44:55 AM] 📝 GET /api/admin/dashboard/statistics
+[3:45:00 AM] 📝 GET /api/auth/me
+[3:45:00 AM] 📝 GET /api/admin/dashboard/statistics
+[3:45:08 AM] 📝 GET /api/auth/me
+[3:45:08 AM] 📝 GET /api/admin/dashboard/statistics
+[3:45:10 AM] 📝 GET /api/auth/me
+[3:45:10 AM] 📝 GET /api/admin/dashboard/statistics
+[3:45:17 AM] 📝 GET /api/departments
+[3:47:02 AM] 📝 GET /api/admin/dashboard/statistics
+[3:47:02 AM] 📝 GET /api/bookings/my-bookings
+[3:47:03 AM] 📝 GET /api/rooms
+[3:51:06 AM] 📝 GET /api/departments
+[3:54:33 AM] 📝 GET /api/departments
+[3:54:50 AM] 📝 POST /api/auth/login
+[3:54:51 AM] 📝 GET /api/admin/dashboard/statistics
+[3:54:54 AM] 📝 GET /api/bookings
+[3:55:05 AM] 📝 GET /api/admin/dashboard/statistics
+[3:55:31 AM] 📝 GET /api/admin/dashboard/statistics
+[3:56:33 AM] 📝 GET /api/admin/dashboard/statistics
+[3:56:37 AM] 📝 GET /api/admin/dashboard/statistics
+[3:56:37 AM] 📝 GET /api/bookings
+[3:56:39 AM] 📝 GET /api/rooms/69609bbbaa301e5a9d0e57c0
+[3:56:39 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+[3:56:39 AM] 📝 GET /api/admin/dashboard/statistics
+[3:56:40 AM] 📝 GET /api/bookings
+[3:56:42 AM] 📝 GET /api/bookings/my-bookings
+[3:56:44 AM] 📝 GET /api/admin/dashboard/statistics
+[3:56:48 AM] 📝 GET /api/admin/dashboard/statistics
+[3:56:50 AM] 📝 GET /api/bookings
+[3:56:52 AM] 📝 GET /api/bookings/my-bookings
+[3:56:53 AM] 📝 GET /api/rooms
+[3:56:54 AM] 📝 GET /api/auth/me
+[3:56:54 AM] 📝 GET /api/admin/dashboard/statistics
+[3:57:06 AM] 📝 GET /api/admin/dashboard/statistics
+[3:58:38 AM] 📝 GET /api/bookings/my-bookings
+[3:58:41 AM] 📝 GET /api/bookings
+[3:58:42 AM] 📝 GET /api/rooms/69609bbbaa301e5a9d0e57c0
+[3:58:43 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+[4:01:05 AM] 📝 GET /api/bookings/my-bookings
+[4:01:06 AM] 📝 GET /api/admin/dashboard/statistics
+[4:01:11 AM] 📝 GET /api/bookings/my-bookings
+[4:01:11 AM] 📝 GET /api/bookings
+[4:01:14 AM] 📝 GET /api/admin/dashboard/statistics
+[4:01:15 AM] 📝 GET /api/rooms
+[4:01:38 AM] 📝 GET /api/admin/dashboard/statistics
+[4:01:55 AM] 📝 PUT /api/rooms/69490a065e1a04f70b859cab
+[4:01:56 AM] 📝 GET /api/rooms
+[4:02:11 AM] 📝 PUT /api/rooms/69490a065e1a04f70b859caa
+[4:02:13 AM] 📝 GET /api/rooms
+[4:02:26 AM] 📝 PUT /api/rooms/69490a065e1a04f70b859ca9
+[4:02:28 AM] 📝 GET /api/rooms
+[4:02:54 AM] 📝 PUT /api/rooms/69490a065e1a04f70b859caa
+[4:02:56 AM] 📝 GET /api/rooms
+[4:03:16 AM] 📝 PUT /api/rooms/69490a065e1a04f70b859cab
+[4:03:17 AM] 📝 GET /api/rooms
+[4:03:44 AM] 📝 PUT /api/rooms/69490a065e1a04f70b859caa
+[4:03:45 AM] 📝 GET /api/rooms
+[4:04:02 AM] 📝 PUT /api/rooms/69490a065e1a04f70b859cab
+[4:04:03 AM] 📝 GET /api/rooms
+[4:04:36 AM] 📝 GET /api/bookings
+[4:04:40 AM] 📝 GET /api/bookings/my-bookings
+[4:04:41 AM] 📝 GET /api/rooms
+[4:05:02 AM] 📝 GET /api/bookings
+[4:05:13 AM] 📝 GET /api/rooms/69609bbbaa301e5a9d0e57c0
+[4:05:13 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+[4:06:20 AM] 📝 GET /api/admin/dashboard/statistics
+[4:06:31 AM] 📝 GET /api/admin/dashboard/statistics
+[4:06:42 AM] 📝 GET /api/admin/users
+[4:07:01 AM] 📝 GET /api/admin/dashboard/statistics
+[4:17:17 AM] 📝 GET /api/auth/me
+[4:17:18 AM] 📝 GET /api/admin/dashboard/statistics
+[4:20:31 AM] 📝 GET /api/auth/me
+[4:20:31 AM] 📝 GET /api/rooms
+[4:20:37 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+[4:20:37 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+[4:20:41 AM] 📝 GET /api/rooms
+[4:20:47 AM] 📝 GET /api/rooms/69609bbbaa301e5a9d0e57c0
+[4:20:47 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+[4:20:50 AM] 📝 GET /api/rooms
+[4:20:54 AM] 📝 GET /api/rooms/696f36019adeec8a6063cb8c
+[4:20:54 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '696f36019adeec8a6063cb8c' }
+[4:21:06 AM] 📝 GET /api/bookings/my-bookings
+[4:21:12 AM] 📝 GET /api/rooms/696f36019adeec8a6063cb8c
+[4:21:12 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '696f36019adeec8a6063cb8c' }
+[4:21:14 AM] 📝 GET /api/bookings/my-bookings
+[4:21:15 AM] 📝 GET /api/rooms
+[4:21:16 AM] 📝 GET /api/rooms/696f36019adeec8a6063cb8c
+[4:21:16 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '696f36019adeec8a6063cb8c' }
+[4:21:19 AM] 📝 GET /api/bookings
+[4:21:21 AM] 📝 GET /api/rooms
+[4:21:28 AM] 📝 GET /api/rooms/69490a065e1a04f70b859caa
+[4:21:28 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+[4:21:31 AM] 📝 GET /api/rooms
+[4:21:45 AM] 📝 GET /api/rooms/69490a065e1a04f70b859cab
+[4:21:45 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859cab' }
+[4:21:46 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859cab' }
+[4:21:48 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859cab' }
+[4:21:49 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859cab' }
+[4:21:51 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859cab' }
+[4:21:53 AM] 📝 GET /api/bookings
+[4:21:55 AM] 📝 GET /api/rooms
+[4:22:12 AM] 📝 GET /api/bookings
+[4:22:15 AM] 📝 GET /api/rooms
+[4:25:49 AM] 📝 GET /api/bookings/my-bookings
+[4:25:50 AM] 📝 GET /api/rooms
+[4:33:18 AM] 📝 GET /api/auth/me
+[4:33:18 AM] 📝 GET /api/bookings/my-bookings
+[4:33:19 AM] 📝 GET /api/rooms
+[4:35:21 AM] 📝 GET /api/auth/me
+[4:35:55 AM] 📝 POST /api/auth/login
+[4:35:55 AM] 📝 GET /api/rooms
+[4:36:05 AM] 📝 GET /api/bookings/my-bookings
+[4:36:09 AM] 📝 GET /api/rooms
+[4:38:11 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859caa',
+  date: '2026-02-19'
+}
+[4:38:16 AM] 📝 POST /api/bookings
+[4:38:58 AM] 📝 POST /api/bookings
+[4:39:23 AM] 📝 GET /api/auth/me
+[4:39:23 AM] 📝 GET /api/bookings/my-bookings
+[4:39:24 AM] 📝 GET /api/rooms
+[4:39:45 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-18'
+}
+[4:39:45 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[4:39:45 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[4:40:16 AM] 📝 POST /api/bookings
+[4:43:46 AM] 📝 GET /api/auth/me
+[4:43:46 AM] 📝 GET /api/bookings/my-bookings
+[4:43:48 AM] 📝 GET /api/rooms
+[4:44:01 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[4:44:01 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[4:44:08 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[4:44:08 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[4:44:16 AM] 📝 POST /api/bookings
+[4:47:21 AM] 📝 GET /api/admin/dashboard/statistics
+[4:47:47 AM] 📝 GET /api/admin/users
+[4:49:04 AM] 📝 GET /
+[4:49:04 AM] 📝 GET /favicon.ico
+❌ 404 - Route not found: GET /favicon.ico
+[4:49:55 AM] 📝 GET /api/auth/me
+[4:49:55 AM] 📝 GET /api/admin/dashboard/statistics
+[4:50:49 AM] 📝 GET /api/bookings/my-bookings
+[4:50:51 AM] 📝 GET /api/rooms
+[4:51:02 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[4:51:02 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[4:51:16 AM] 📝 POST /api/bookings
+[4:51:22 AM] 📝 POST /api/bookings
+[4:51:35 AM] 📝 GET /api/departments
+[4:52:24 AM] 📝 POST /api/auth/register
+[4:52:32 AM] 📝 GET /api/auth/me
+[4:52:32 AM] 📝 GET /api/bookings/my-bookings
+[4:52:34 AM] 📝 GET /api/rooms
+[4:52:40 AM] 📝 POST /api/auth/login
+[4:52:41 AM] 📝 GET /api/rooms
+[4:52:47 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[4:52:47 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[4:52:52 AM] 📝 GET /api/rooms/69609bbbaa301e5a9d0e57c0
+[4:52:52 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+[4:53:00 AM] 📝 POST /api/bookings
+[4:53:32 AM] 📝 GET /api/bookings/my-bookings
+[4:53:35 AM] 📝 GET /api/rooms
+[4:54:04 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[4:54:10 AM] 📝 GET /api/auth/me
+[4:54:10 AM] 📝 GET /api/bookings/my-bookings
+[4:54:11 AM] 📝 GET /api/departments
+[4:54:14 AM] 📝 GET /api/rooms
+[4:54:31 AM] 📝 POST /api/bookings
+[4:54:34 AM] 📝 POST /api/bookings
+[4:54:42 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[4:54:43 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[4:54:45 AM] 📝 POST /api/bookings
+[5:06:50 AM] 📝 POST /api/auth/register
+[5:07:19 AM] 📝 POST /api/auth/login
+[5:07:20 AM] 📝 GET /api/rooms
+[5:10:46 AM] 📝 GET /api/departments
+[5:12:41 AM] 📝 GET /api/auth/me
+[5:12:42 AM] 📝 GET /api/bookings/my-bookings
+[5:12:44 AM] 📝 GET /api/rooms
+[5:12:55 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[5:12:55 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[5:13:03 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[5:13:03 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[5:13:07 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[5:13:07 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[5:13:16 AM] 📝 POST /api/bookings
+[5:13:29 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[5:13:29 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[5:13:33 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[5:13:33 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[5:13:39 AM] 📝 POST /api/bookings
+[5:14:15 AM] 📝 GET /api/auth/me
+[5:14:15 AM] 📝 GET /api/bookings/my-bookings
+[5:14:17 AM] 📝 GET /api/rooms
+[5:14:32 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[5:14:32 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[5:14:38 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[5:14:38 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[5:14:53 AM] 📝 POST /api/bookings
+[5:16:55 AM] 📝 GET /api/auth/me
+[5:16:55 AM] 📝 GET /api/bookings/my-bookings
+[5:16:57 AM] 📝 GET /api/rooms
+[5:17:09 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[5:17:10 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[5:17:18 AM] 📝 POST /api/bookings
+[5:19:49 AM] 📝 GET /api/auth/me
+[5:19:49 AM] 📝 GET /api/bookings/my-bookings
+[5:19:51 AM] 📝 GET /api/auth/me
+[5:19:51 AM] 📝 GET /api/bookings/my-bookings
+[5:19:54 AM] 📝 GET /api/auth/me
+[5:19:54 AM] 📝 GET /api/bookings/my-bookings
+[5:20:22 AM] 📝 GET /api/auth/me
+[5:20:23 AM] 📝 GET /api/bookings/my-bookings
+[5:20:25 AM] 📝 GET /api/auth/me
+[5:20:25 AM] 📝 GET /api/bookings/my-bookings
+[5:20:27 AM] 📝 GET /api/auth/me
+[5:20:28 AM] 📝 GET /api/bookings/my-bookings
+[5:20:29 AM] 📝 GET /api/rooms
+[5:20:40 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[5:20:40 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[5:20:48 AM] 📝 POST /api/bookings
+[5:23:14 AM] 📝 POST /api/bookings
+[5:23:16 AM] 📝 POST /api/bookings
+[5:23:20 AM] 📝 GET /api/auth/me
+[5:23:20 AM] 📝 GET /api/bookings/my-bookings
+[5:23:23 AM] 📝 GET /api/rooms
+[5:23:35 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[5:23:35 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[5:23:42 AM] 📝 POST /api/bookings
+[5:29:37 AM] 📝 GET /api/auth/me
+[5:29:37 AM] 📝 GET /api/bookings/my-bookings
+[5:29:38 AM] 📝 GET /api/auth/me
+[5:29:39 AM] 📝 GET /api/bookings/my-bookings
+[5:29:41 AM] 📝 GET /api/rooms
+[5:29:53 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[5:29:53 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[5:30:00 AM] 📝 POST /api/bookings
+[5:35:42 AM] 📝 GET /api/auth/me
+[5:35:42 AM] 📝 GET /api/bookings/my-bookings
+[5:35:44 AM] 📝 GET /api/rooms
+[5:35:58 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[5:36:05 AM] 📝 POST /api/bookings
+[5:36:06 AM] 📝 GET /api/bookings/my-bookings
+[5:36:15 AM] 📝 GET /api/bookings
+[5:36:19 AM] 📝 GET /api/admin/dashboard/statistics
+[5:36:21 AM] 📝 GET /api/admin/bookings
+[5:36:27 AM] 📝 GET /api/bookings
+[5:36:29 AM] 📝 GET /api/bookings/my-bookings
+[5:36:34 AM] 📝 DELETE /api/bookings/69954fc53e048c40e28f84d5
+[5:36:36 AM] 📝 GET /api/rooms
+[6:00:02 AM] 📝 GET /api/auth/me
+[6:00:02 AM] 📝 GET /api/bookings/my-bookings
+[6:00:07 AM] 📝 GET /api/rooms
+[6:00:23 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+[6:00:23 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+[6:00:28 AM] 📝 POST /api/bookings/multi-day
+❌ 404 - Route not found: POST /api/bookings/multi-day
+[6:04:19 AM] 📝 POST /api/bookings/multi-day
+❌ 404 - Route not found: POST /api/bookings/multi-day
+[6:04:21 AM] 📝 GET /
+[6:04:22 AM] 📝 GET /favicon.ico
+❌ 404 - Route not found: GET /favicon.ico
+[6:04:28 AM] 📝 POST /api/bookings/multi-day
+❌ 404 - Route not found: POST /api/bookings/multi-day
+[6:04:40 AM] 📝 GET /api/debug/routes
+[6:05:38 AM] 📝 POST /api/bookings/multi-day
+❌ 404 - Route not found: POST /api/bookings/multi-day
+[6:06:15 AM] 📝 POST /api/bookings/multi-day
+❌ 404 - Route not found: POST /api/bookings/multi-day
+[6:06:55 AM] 📝 GET /api/test
+[6:07:00 AM] 📝 GET /
+[6:07:06 AM] 📝 POST /api/bookings
+[6:07:11 AM] 📝 GET /
+[6:07:24 AM] 📝 POST /api/bookings/multi-day
+❌ 404 - Route not found: POST /api/bookings/multi-day
+[6:07:30 AM] 📝 GET /
+[6:07:35 AM] 📝 POST /api/bookings/multi-day
+❌ 404 - Route not found: POST /api/bookings/multi-day
+[6:07:39 AM] 📝 GET /
+[6:09:34 AM] 📝 POST /api/bookings/multi-day
+❌ 404 - Route not found: POST /api/bookings/multi-day
+[6:09:39 AM] 📝 GET /
+[6:09:57 AM] 📝 POST /api/bookings/multi-day
+❌ 404 - Route not found: POST /api/bookings/multi-day
+[6:10:45 AM] 📝 POST /api/bookings/multi-day
+❌ 404 - Route not found: POST /api/bookings/multi-day
+[6:10:53 AM] 📝 POST /api/bookings/multi-day
+❌ 404 - Route not found: POST /api/bookings/multi-day
+[6:11:15 AM] 📝 POST /api/bookings/multi-day
+❌ 404 - Route not found: POST /api/bookings/multi-day
+[6:11:33 AM] 📝 GET /api/bookings
+[6:11:33 AM] 📝 POST /api/bookings/multi-day
+❌ 404 - Route not found: POST /api/bookings/multi-day
+[6:11:51 AM] 📝 POST /api/bookings/multi-day
+❌ 404 - Route not found: POST /api/bookings/multi-day
+[6:11:57 AM] 📝 GET /api/rooms
+[dotenv@17.2.3] injecting env (4) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+📋 Loading bookings routes...
+  ✓ Registered: POST /multi-day
+  ✓ Registered: POST /
+📦 Routes loaded:
+  - adminRoutes: OK (10 routes)
+  - authRoutes: OK
+  - bookingRoutes: OK
+
+🔌 Registering routes...
+  ✓ Registering /api/admin/stats...
+  ✓ Registering /api/admin...
+✅ All routes registered
+
+
+╔═══════════════════════════════════════╗
+║  🚀 Server Started Successfully!      ║
+╠═══════════════════════════════════════╣
+║  Port: 5000                           ║
+║  Host: 0.0.0.0 (Public Access)        ║
+║  Time: 2/18/2026, 6:12:26 AM     ║
+║  JSON Limit: 10MB (Images Supported)  ║
+╚═══════════════════════════════════════╝
+  
+✅ MongoDB Connected Successfully
+[6:12:29 AM] 📝 POST /api/bookings/multi-day
+🔍 [DEBUG] Bookings route: POST /multi-day
+[6:12:37 AM] 📝 POST /api/bookings/multi-day
+🔍 [DEBUG] Bookings route: POST /multi-day
+[6:13:08 AM] 📝 GET /api/auth/me
+[6:13:08 AM] 📝 GET /api/rooms
+[6:13:28 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+🔍 [DEBUG] Bookings route: GET /
+[6:13:29 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+🔍 [DEBUG] Bookings route: GET /
+[6:13:39 AM] 📝 POST /api/bookings/multi-day
+🔍 [DEBUG] Bookings route: POST /multi-day
+✅ Validation passed for: /multi-day
+🎯 Multi-day booking route hit!
+📥 Received booking data: {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  fullName: 'ธนะรักษ์ สุขสันต์',
+  department: 'กองยุทธศาสตร์ฯ',
+  startDate: '2026-02-19',
+  endDate: '2026-02-20',
+  bookingDate: undefined,
+  startTime: '09:00',
+  endTime: '12:00',
+  purpose: 'ทดสอบ',
+  hasImage: true
+}
+[6:13:41 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[6:13:47 AM] 📝 GET /api/rooms
+[6:13:50 AM] 📝 GET /api/rooms/69609bbbaa301e5a9d0e57c0
+✅ Validation passed for: /69609bbbaa301e5a9d0e57c0
+[6:13:50 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+🔍 [DEBUG] Bookings route: GET /
+[6:14:04 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[6:14:06 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[6:14:20 AM] 📝 DELETE /api/bookings/699558932a1bcbb4292e27c7
+🔍 [DEBUG] Bookings route: DELETE /699558932a1bcbb4292e27c7
+[6:14:25 AM] 📝 DELETE /api/bookings/699558932a1bcbb4292e27ca
+🔍 [DEBUG] Bookings route: DELETE /699558932a1bcbb4292e27ca
+[6:14:34 AM] 📝 GET /api/rooms
+[6:15:03 AM] 📝 GET /api/auth/me
+[6:15:03 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[6:15:09 AM] 📝 GET /api/rooms
+[6:15:28 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-19'
+}
+🔍 [DEBUG] Bookings route: GET /
+[6:15:28 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-20'
+}
+🔍 [DEBUG] Bookings route: GET /
+[6:15:28 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-21'
+}
+🔍 [DEBUG] Bookings route: GET /
+[6:16:21 AM] 📝 POST /api/bookings/multi-day
+🔍 [DEBUG] Bookings route: POST /multi-day
+✅ Validation passed for: /multi-day
+🎯 Multi-day booking route hit!
+📥 Received booking data: {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  fullName: 'Tarata khameam',
+  department: 'กองยุทธศาสตร์ฯ',
+  startDate: '2026-02-19',
+  endDate: '2026-02-21',
+  bookingDate: undefined,
+  startTime: '08:00',
+  endTime: '16:30',
+  purpose: 'อบรมระบบกลางบริการประชาชน',
+  hasImage: true
+}
+[6:16:24 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[6:16:33 AM] 📝 GET /api/admin/dashboard/statistics
+[6:16:36 AM] 📝 GET /api/admin/bookings
+[6:16:46 AM] 📝 PUT /api/admin/bookings/699559352a1bcbb4292e27e8/status
+[6:16:49 AM] 📝 GET /api/admin/bookings
+[6:16:50 AM] 📝 PUT /api/admin/bookings/699559352a1bcbb4292e27eb/status
+[6:16:51 AM] 📝 GET /api/admin/bookings
+[6:16:53 AM] 📝 PUT /api/admin/bookings/699559352a1bcbb4292e27ee/status
+[6:16:54 AM] 📝 GET /api/admin/bookings
+[6:17:20 AM] 📝 DELETE /api/admin/bookings/699559352a1bcbb4292e27e8
+[6:17:23 AM] 📝 GET /api/admin/bookings
+[6:17:27 AM] 📝 DELETE /api/admin/bookings/699559352a1bcbb4292e27eb
+[6:17:27 AM] 📝 GET /api/admin/bookings
+[6:17:29 AM] 📝 DELETE /api/admin/bookings/699559352a1bcbb4292e27ee
+[6:17:30 AM] 📝 GET /api/admin/bookings
+[6:17:38 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[6:17:40 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[6:59:55 AM] 📝 GET /api/departments
+[7:12:40 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[7:13:01 AM] 📝 GET /api/admin/dashboard/statistics
+[7:33:41 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[7:33:55 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[7:33:55 AM] 📝 GET /api/rooms
+[7:33:58 AM] 📝 GET /api/admin/dashboard/statistics
+[7:33:59 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[7:34:02 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[7:34:11 AM] 📝 GET /api/rooms
+[7:34:42 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859caa',
+  date: '2026-02-20'
+}
+🔍 [DEBUG] Bookings route: GET /
+[7:34:42 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859caa',
+  date: '2026-02-21'
+}
+🔍 [DEBUG] Bookings route: GET /
+[7:34:42 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859caa',
+  date: '2026-02-22'
+}
+🔍 [DEBUG] Bookings route: GET /
+[7:34:42 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859caa',
+  date: '2026-02-23'
+}
+🔍 [DEBUG] Bookings route: GET /
+[7:34:42 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859caa',
+  date: '2026-02-24'
+}
+🔍 [DEBUG] Bookings route: GET /
+[7:34:42 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859caa',
+  date: '2026-02-25'
+}
+🔍 [DEBUG] Bookings route: GET /
+[7:34:43 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859caa',
+  date: '2026-02-26'
+}
+🔍 [DEBUG] Bookings route: GET /
+[7:34:43 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859caa',
+  date: '2026-02-27'
+}
+🔍 [DEBUG] Bookings route: GET /
+[7:34:54 AM] 📝 POST /api/bookings/multi-day
+🔍 [DEBUG] Bookings route: POST /multi-day
+✅ Validation passed for: /multi-day
+🎯 Multi-day booking route hit!
+📥 Received booking data: {
+  roomId: '69490a065e1a04f70b859caa',
+  fullName: 'Tarata khameam',
+  department: 'กองยุทธศาสตร์ฯ',
+  startDate: '2026-02-20',
+  endDate: '2026-02-27',
+  bookingDate: undefined,
+  startTime: '08:30',
+  endTime: '16:30',
+  purpose: 'ทดสอบ',
+  hasImage: false
+}
+[7:34:56 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[7:35:06 AM] 📝 GET /api/rooms
+[7:35:12 AM] 📝 GET /api/rooms/69490a065e1a04f70b859caa
+✅ Validation passed for: /69490a065e1a04f70b859caa
+[7:35:12 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:35:42 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:35:44 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:35:45 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:35:45 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:35:47 AM] 📝 GET /api/rooms
+[7:35:57 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[7:35:57 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[7:35:59 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[7:36:00 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[7:36:04 AM] 📝 GET /api/rooms
+[7:36:06 AM] 📝 GET /api/rooms/69490a065e1a04f70b859caa
+✅ Validation passed for: /69490a065e1a04f70b859caa
+[7:36:06 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:36:11 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:36:13 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:37:30 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[7:37:38 AM] 📝 GET /api/admin/dashboard/statistics
+[7:37:41 AM] 📝 GET /api/admin/bookings
+[7:38:01 AM] 📝 PUT /api/admin/bookings/69956b9e2a1bcbb4292e285a/status
+[7:38:02 AM] 📝 GET /api/admin/bookings
+[7:38:10 AM] 📝 DELETE /api/admin/bookings/69956b9e2a1bcbb4292e285a
+[7:38:11 AM] 📝 GET /api/admin/bookings
+[7:38:22 AM] 📝 DELETE /api/admin/bookings/69956b9e2a1bcbb4292e2857
+[7:38:24 AM] 📝 GET /api/admin/bookings
+[7:38:33 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[7:38:44 AM] 📝 DELETE /api/bookings/69956b9e2a1bcbb4292e284e
+🔍 [DEBUG] Bookings route: DELETE /69956b9e2a1bcbb4292e284e
+[7:38:49 AM] 📝 DELETE /api/bookings/69956b9e2a1bcbb4292e2854
+🔍 [DEBUG] Bookings route: DELETE /69956b9e2a1bcbb4292e2854
+[7:38:52 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[7:38:56 AM] 📝 GET /api/rooms
+[7:38:59 AM] 📝 GET /api/rooms/69490a065e1a04f70b859caa
+✅ Validation passed for: /69490a065e1a04f70b859caa
+[7:38:59 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:39:09 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:39:10 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:39:11 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:39:13 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:39:15 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:39:15 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859caa' }
+🔍 [DEBUG] Bookings route: GET /
+[7:39:23 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[7:39:25 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[7:39:27 AM] 📝 DELETE /api/bookings/69956b9e2a1bcbb4292e2851
+🔍 [DEBUG] Bookings route: DELETE /69956b9e2a1bcbb4292e2851
+[7:39:30 AM] 📝 DELETE /api/bookings/69956b9e2a1bcbb4292e284b
+🔍 [DEBUG] Bookings route: DELETE /69956b9e2a1bcbb4292e284b
+[7:39:33 AM] 📝 DELETE /api/bookings/69956b9e2a1bcbb4292e2848
+🔍 [DEBUG] Bookings route: DELETE /69956b9e2a1bcbb4292e2848
+[7:39:36 AM] 📝 DELETE /api/bookings/69956b9e2a1bcbb4292e2845
+🔍 [DEBUG] Bookings route: DELETE /69956b9e2a1bcbb4292e2845
+[7:39:55 AM] 📝 GET /api/rooms
+[7:41:01 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859ca9',
+  date: '2026-02-18'
+}
+🔍 [DEBUG] Bookings route: GET /
+[7:41:01 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859ca9',
+  date: '2026-02-19'
+}
+🔍 [DEBUG] Bookings route: GET /
+[7:41:02 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859ca9',
+  date: '2026-02-20'
+}
+🔍 [DEBUG] Bookings route: GET /
+[7:41:04 AM] 📝 POST /api/bookings/multi-day
+🔍 [DEBUG] Bookings route: POST /multi-day
+✅ Validation passed for: /multi-day
+🎯 Multi-day booking route hit!
+📥 Received booking data: {
+  roomId: '69490a065e1a04f70b859ca9',
+  fullName: 'Tarata khameam',
+  department: 'กองยุทธศาสตร์ฯ',
+  startDate: '2026-02-18',
+  endDate: '2026-02-20',
+  bookingDate: undefined,
+  startTime: '08:00',
+  endTime: '14:00',
+  purpose: 'ทดสอบ',
+  hasImage: false
+}
+[7:41:06 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[7:41:26 AM] 📝 DELETE /api/bookings/69956d102a1bcbb4292e28d8
+🔍 [DEBUG] Bookings route: DELETE /69956d102a1bcbb4292e28d8
+[7:41:29 AM] 📝 DELETE /api/bookings/69956d102a1bcbb4292e28d5
+🔍 [DEBUG] Bookings route: DELETE /69956d102a1bcbb4292e28d5
+[7:41:32 AM] 📝 DELETE /api/bookings/69956d102a1bcbb4292e28d2
+🔍 [DEBUG] Bookings route: DELETE /69956d102a1bcbb4292e28d2
+[7:41:42 AM] 📝 GET /api/admin/dashboard/statistics
+[7:41:52 AM] 📝 GET /api/admin/users
+[7:43:27 AM] 📝 GET /api/rooms
+[7:43:31 AM] 📝 GET /api/admin/dashboard/statistics
+[1:52:13 AM] 📝 GET /api/departments
+[8:00:23 AM] 📝 GET /api/departments
+[8:01:57 AM] 📝 POST /api/auth/register
+✅ Validation passed for: /register
+[8:02:35 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[8:02:35 AM] 📝 GET /api/rooms
+[8:02:54 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[8:02:54 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:02:58 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:03:02 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:03:04 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:03:41 AM] 📝 GET /api/rooms
+[8:05:30 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[8:05:30 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:05:32 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:05:47 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[8:06:02 AM] 📝 GET /api/rooms
+[8:09:31 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859ca9',
+  date: '2026-02-20'
+}
+🔍 [DEBUG] Bookings route: GET /
+[8:09:36 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859ca9',
+  date: '2026-03-05'
+}
+🔍 [DEBUG] Bookings route: GET /
+[8:10:24 AM] 📝 POST /api/bookings
+🔍 [DEBUG] Bookings route: POST /
+❌ Validation errors: [
+  {
+    type: 'field',
+    value: '16:00',
+    msg: 'เวลาสิ้นสุดต้องมากกว่าเวลาเริ่มต้น',
+    path: 'endTime',
+    location: 'body'
+  }
+]
+📦 Request body: {
+  roomId: '69490a065e1a04f70b859ca9',
+  fullName: 'นางสาวปารวี วัฒนการกิจ',
+  department: 'กองยุทธศาสตร์ฯ',
+  bookingDate: '2026-03-05',
+  startTime: '9:00',
+  endTime: '16:00',
+  purpose: 'ประชุมคณะทำงานขับเคลื่อนเมืองยืดหยุ่น',
+  bookingImage: {
+    data: 'data:image/jpeg;base64,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'... 4181595 more characters,
+    contentType: 'image/jpeg',
+    fileName: 'image.jpg'
+  }
+}
+[8:11:00 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[8:11:00 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:11:05 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:11:15 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[8:11:20 AM] 📝 GET /api/rooms
+[8:11:41 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859ca9',
+  date: '2026-03-05'
+}
+🔍 [DEBUG] Bookings route: GET /
+[8:13:19 AM] 📝 POST /api/bookings
+🔍 [DEBUG] Bookings route: POST /
+❌ Validation errors: [
+  {
+    type: 'field',
+    value: '16:00',
+    msg: 'เวลาสิ้นสุดต้องมากกว่าเวลาเริ่มต้น',
+    path: 'endTime',
+    location: 'body'
+  }
+]
+📦 Request body: {
+  roomId: '69490a065e1a04f70b859ca9',
+  fullName: 'นางสาวปารวี วัฒนการกิจ',
+  department: 'กองยุทธศาสตร์ฯ',
+  bookingDate: '2026-03-05',
+  startTime: '9:00',
+  endTime: '16:00',
+  purpose: 'ประชุมคณะทำงานขับเคลื่อนเมืองยืดหยุ่น',
+  bookingImage: {
+    data: 'data:image/jpeg;base64,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'... 4046603 more characters,
+    contentType: 'image/jpeg',
+    fileName: 'image.jpg'
+  }
+}
+[8:15:26 AM] 📝 GET /api/auth/me
+[8:15:26 AM] 📝 GET /api/rooms
+[8:15:31 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[8:15:34 AM] 📝 GET /api/rooms
+[8:15:44 AM] 📝 GET /api/auth/me
+[8:15:44 AM] 📝 GET /api/rooms
+[8:15:51 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[8:16:05 AM] 📝 GET /api/departments
+[8:16:16 AM] 📝 GET /api/rooms
+[8:16:25 AM] 📝 POST /api/auth/register
+✅ Validation passed for: /register
+[8:16:30 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[8:16:30 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:16:35 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[8:16:35 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:16:35 AM] 📝 GET /api/rooms
+[8:16:45 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[8:17:21 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[8:17:22 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:17:22 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[8:17:23 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:17:24 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:17:29 AM] 📝 GET /api/rooms
+[8:17:31 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[8:17:35 AM] 📝 GET /api/rooms
+[8:17:40 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[8:17:44 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[8:17:45 AM] 📝 GET /api/rooms
+[8:17:46 AM] 📝 GET /api/rooms
+[8:17:51 AM] 📝 GET /api/rooms
+[8:18:06 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[8:18:06 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:18:10 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:18:18 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69490a065e1a04f70b859ca9',
+  date: '2026-03-05'
+}
+🔍 [DEBUG] Bookings route: GET /
+[8:18:22 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[8:18:24 AM] 📝 GET /api/rooms
+[8:18:36 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[8:18:36 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:18:40 AM] 📝 POST /api/bookings
+🔍 [DEBUG] Bookings route: POST /
+✅ Validation passed for: /
+📥 Received booking data: {
+  roomId: '69490a065e1a04f70b859ca9',
+  fullName: 'นายธนกร  เทพทอง',
+  department: 'กองยุทธศาสตร์ฯ',
+  startDate: undefined,
+  endDate: undefined,
+  bookingDate: '2026-03-05',
+  startTime: '09:00',
+  endTime: '16:00',
+  purpose: 'ประชุมคณะทำงานขับเคลื่อนการพัฒนาเมืองยืดหยุ่น (Resilient City) เทศบาลนครนครสวรรค์',
+  hasImage: false
+}
+[8:18:40 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[8:18:41 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[8:19:13 AM] 📝 GET /api/auth/me
+[8:19:14 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[8:19:20 AM] 📝 GET /api/auth/me
+[8:19:31 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[8:19:31 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:19:33 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:20:25 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[8:20:29 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[8:20:36 AM] 📝 GET /api/rooms
+[8:20:39 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[8:20:41 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[8:20:49 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[8:20:49 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:20:53 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:21:17 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[8:21:17 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:21:23 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[8:21:23 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[8:21:33 AM] 📝 GET /api/rooms
+[8:21:40 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[8:46:28 AM] 📝 GET /api/departments
+[8:46:49 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[8:46:50 AM] 📝 GET /api/rooms
+[8:50:10 AM] 📝 GET /api/rooms/69609bbbaa301e5a9d0e57c0
+✅ Validation passed for: /69609bbbaa301e5a9d0e57c0
+[8:50:10 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+🔍 [DEBUG] Bookings route: GET /
+[8:50:20 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[8:50:22 AM] 📝 GET /api/rooms
+[8:51:36 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-02-24'
+}
+🔍 [DEBUG] Bookings route: GET /
+[8:51:42 AM] 📝 POST /api/bookings
+🔍 [DEBUG] Bookings route: POST /
+✅ Validation passed for: /
+📥 Received booking data: {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  fullName: 'วริศรา แก้วสุขศรี',
+  department: 'สำนักการศึกษา',
+  startDate: undefined,
+  endDate: undefined,
+  bookingDate: '2026-02-24',
+  startTime: '13:00',
+  endTime: '14:30',
+  purpose: 'ประชุมวิ่งนครสวรรค์ดราก้อนรัน',
+  hasImage: false
+}
+[8:51:44 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[9:19:40 AM] 📝 GET /api/auth/me
+[9:19:40 AM] 📝 GET /api/rooms
+[9:19:45 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[9:22:04 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[9:22:19 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[9:22:19 AM] 📝 GET /api/rooms
+[9:22:29 AM] 📝 GET /api/admin/dashboard/statistics
+[9:22:43 AM] 📝 GET /api/admin/bookings
+[2:09:57 AM] 📝 GET /api/auth/me
+[2:10:14 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[2:10:14 AM] 📝 GET /api/rooms
+[2:10:25 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[2:10:25 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[2:10:28 AM] 📝 GET /api/rooms
+[2:10:31 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[2:10:43 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[2:10:43 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[2:10:47 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[6:29:38 AM] 📝 POST /api/auth/login
+❌ Validation errors: [
+  {
+    type: 'field',
+    value: 'naioob@gmail..com',
+    msg: 'รูปแบบอีเมลไม่ถูกต้อง',
+    path: 'email',
+    location: 'body'
+  }
+]
+📦 Request body: { email: 'naioob@gmail..com', password: 'vy,ibomiN123' }
+[6:29:45 AM] 📝 POST /api/auth/login
+❌ Validation errors: [
+  {
+    type: 'field',
+    value: 'naioob@gmail..com',
+    msg: 'รูปแบบอีเมลไม่ถูกต้อง',
+    path: 'email',
+    location: 'body'
+  }
+]
+📦 Request body: { email: 'naioob@gmail..com', password: 'vy,ibomiN24' }
+[6:47:17 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[6:47:43 AM] 📝 GET /api/rooms/69609bbbaa301e5a9d0e57c0
+✅ Validation passed for: /69609bbbaa301e5a9d0e57c0
+[6:47:43 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+🔍 [DEBUG] Bookings route: GET /
+[6:49:30 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[6:49:42 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[6:49:42 AM] 📝 GET /api/rooms
+[6:50:29 AM] 📝 GET /api/admin/dashboard/statistics
+[6:50:33 AM] 📝 GET /api/rooms
+[6:50:41 AM] 📝 GET /api/admin/bookings
+[6:51:09 AM] 📝 PUT /api/admin/bookings/6998209e2a1bcbb4292e297b/status
+[6:51:10 AM] 📝 GET /api/admin/bookings
+[6:51:51 AM] 📝 GET /api/rooms
+[8:44:55 AM] 📝 GET /api/auth/me
+[8:45:42 AM] 📝 GET /api/departments
+[8:46:00 AM] 📝 GET /api/departments
+[8:48:41 AM] 📝 GET /api/departments
+[8:49:09 AM] 📝 GET /api/departments
+[8:50:38 AM] 📝 POST /api/auth/register
+✅ Validation passed for: /register
+[8:51:13 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[8:51:14 AM] 📝 GET /api/rooms
+[8:51:44 AM] 📝 GET /api/rooms/69609bbbaa301e5a9d0e57c0
+✅ Validation passed for: /69609bbbaa301e5a9d0e57c0
+[8:51:44 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+🔍 [DEBUG] Bookings route: GET /
+[8:51:51 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+🔍 [DEBUG] Bookings route: GET /
+[8:52:03 AM] 📝 GET /api/departments
+[8:52:18 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[8:52:27 AM] 📝 GET /api/rooms
+[8:53:23 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  date: '2026-03-13'
+}
+🔍 [DEBUG] Bookings route: GET /
+[8:53:56 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[8:53:56 AM] 📝 GET /api/rooms
+[8:54:07 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[8:54:27 AM] 📝 GET /api/admin/dashboard/statistics
+[8:54:31 AM] 📝 GET /api/admin/bookings
+[8:55:16 AM] 📝 PUT /api/admin/bookings/699818e02a1bcbb4292e293c/status
+[8:55:18 AM] 📝 GET /api/admin/bookings
+[8:55:27 AM] 📝 POST /api/bookings
+🔍 [DEBUG] Bookings route: POST /
+✅ Validation passed for: /
+📥 Received booking data: {
+  roomId: '69609bbbaa301e5a9d0e57c0',
+  fullName: 'นางสาวเกศกาญจน์ เป่าทอง',
+  department: 'กองยุทธศาสตร์ฯ',
+  startDate: undefined,
+  endDate: undefined,
+  bookingDate: '2026-03-13',
+  startTime: '09:00',
+  endTime: '11:00',
+  purpose: 'ประชุมเตรียมการจัดทำคำของบประมาณผ่านสื่ออิเล็กทรอนิกส์ ปีงบประมาณ พ ศ.2570',
+  hasImage: false
+}
+[8:55:30 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[8:55:41 AM] 📝 GET /api/rooms
+[8:55:49 AM] 📝 GET /api/admin/bookings
+[8:55:49 AM] 📝 GET /api/rooms/69609bbbaa301e5a9d0e57c0
+✅ Validation passed for: /69609bbbaa301e5a9d0e57c0
+[8:55:49 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+🔍 [DEBUG] Bookings route: GET /
+[8:55:51 AM] 📝 GET /api/rooms
+[8:56:42 AM] 📝 PUT /api/admin/bookings/699d677f2a1bcbb4292e29ec/status
+[8:56:43 AM] 📝 GET /api/admin/bookings
+[8:58:00 AM] 📝 GET /api/auth/me
+[8:58:00 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[8:58:00 AM] 📝 GET /api/rooms
+[8:58:13 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[8:59:11 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[8:59:11 AM] 📝 GET /api/rooms
+[8:59:14 AM] 📝 GET /api/admin/dashboard/statistics
+[8:59:23 AM] 📝 GET /api/admin/users
+[8:59:49 AM] 📝 GET /api/auth/me
+[9:00:20 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[9:00:22 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[9:00:33 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[9:00:34 AM] 📝 GET /api/rooms
+[9:00:36 AM] 📝 GET /api/admin/dashboard/statistics
+[9:00:38 AM] 📝 GET /api/admin/bookings
+[9:00:38 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[9:00:39 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[9:00:47 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[9:00:53 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[9:00:54 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[9:01:08 AM] 📝 GET /api/rooms/69609bbbaa301e5a9d0e57c0
+✅ Validation passed for: /69609bbbaa301e5a9d0e57c0
+[9:01:08 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+🔍 [DEBUG] Bookings route: GET /
+[9:01:13 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+🔍 [DEBUG] Bookings route: GET /
+[9:01:15 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+🔍 [DEBUG] Bookings route: GET /
+[9:01:27 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+🔍 [DEBUG] Bookings route: GET /
+[9:01:37 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+🔍 [DEBUG] Bookings route: GET /
+[9:01:44 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69609bbbaa301e5a9d0e57c0' }
+🔍 [DEBUG] Bookings route: GET /
+[9:01:51 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[11:22:27 AM] 📝 GET /api/departments
+[11:22:42 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[4:29:10 PM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[4:29:11 PM] 📝 GET /api/rooms
+[4:29:22 PM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[4:30:03 PM] 📝 GET /api/admin/dashboard/statistics
+[4:30:04 PM] 📝 GET /api/admin/bookings
+[2:13:01 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[3:29:26 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[3:34:32 AM] 📝 GET /api/auth/me
+[3:34:42 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[3:34:42 AM] 📝 GET /api/rooms
+[3:34:44 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[3:35:20 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[3:35:20 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[3:35:34 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[3:35:45 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[3:35:45 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[3:35:47 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[3:35:49 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[3:35:49 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[3:35:57 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[3:37:32 AM] 📝 GET /api/rooms
+[3:37:34 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[3:37:50 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[3:37:50 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[3:37:54 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[3:39:19 AM] 📝 GET /api/auth/me
+[3:39:19 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[3:41:29 AM] 📝 GET /api/departments
+[3:41:40 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[3:41:47 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[3:41:54 AM] 📝 POST /api/auth/login
+✅ Validation passed for: /login
+[3:41:54 AM] 📝 GET /api/rooms
+[3:42:02 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[3:42:05 AM] 📝 GET /api/rooms
+[3:42:07 AM] 📝 GET /api/auth/me
+[3:42:07 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[3:42:08 AM] 📝 GET /api/rooms
+[3:42:17 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[3:42:20 AM] 📝 GET /api/rooms
+[3:49:16 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[3:49:23 AM] 📝 GET /api/rooms
+[3:49:25 AM] 📝 GET /api/admin/dashboard/statistics
+[3:49:28 AM] 📝 GET /api/admin/bookings
+[3:50:01 AM] 📝 GET /api/rooms
+[3:50:13 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[3:50:14 AM] 📝 GET /api/rooms
+[3:50:16 AM] 📝 GET /api/rooms
+[3:50:19 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[3:50:21 AM] 📝 GET /api/rooms
+[3:50:46 AM] 📝 GET /api/rooms
+[3:50:52 AM] 📝 GET /api/rooms
+[4:11:14 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[4:11:36 AM] 📝 GET /api/rooms
+[4:11:42 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[4:11:43 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[4:11:44 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[4:11:45 AM] 📝 GET /api/rooms
+[4:11:47 AM] 📝 GET /api/rooms
+[4:11:51 AM] 📝 GET /api/admin/dashboard/statistics
+[4:11:56 AM] 📝 GET /api/admin/bookings
+[4:12:12 AM] 📝 GET /api/rooms
+[4:12:18 AM] 📝 GET /api/rooms
+[4:12:20 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[4:12:24 AM] 📝 GET /api/rooms
+[4:12:26 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[4:12:26 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[4:12:32 AM] 📝 GET /api/rooms
+[4:12:34 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /
+[4:12:35 AM] 📝 GET /api/rooms
+[4:12:36 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[4:12:37 AM] 📝 GET /api/rooms
+[4:12:41 AM] 📝 GET /api/rooms
+[4:12:44 AM] 📝 GET /api/rooms/69490a065e1a04f70b859ca9
+✅ Validation passed for: /69490a065e1a04f70b859ca9
+[4:12:44 AM] 📝 GET /api/bookings
+   Query: [Object: null prototype] { roomId: '69490a065e1a04f70b859ca9' }
+🔍 [DEBUG] Bookings route: GET /
+[4:12:49 AM] 📝 GET /api/bookings/my-bookings
+🔍 [DEBUG] Bookings route: GET /my-bookings
+[4:12:53 AM] 📝 GET /api/rooms
+[6:09:52 AM] 📝 GET /api/auth/me
+[6:09:52 AM] 📝 GET /api/bookings
+🔍 [DEBUG] Bookings route: GET /

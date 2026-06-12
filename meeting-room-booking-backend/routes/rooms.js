@@ -1,8 +1,11 @@
 // routes/rooms.js
 const express = require('express');
+const mongoose = require('mongoose');
 const MeetingRoom = require('../models/MeetingRoom');
+const Booking = require('../models/Booking');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 const { createRoomValidator, updateRoomValidator, mongoIdValidator } = require('../middleware/validators');
+const { enrichBookingsWithUser } = require('../utils/populateBookingUser');
 
 const router = express.Router();
 
@@ -24,6 +27,41 @@ router.get('/:id', mongoIdValidator, async (req, res) => {
       return res.status(404).json({ error: 'Room not found' });
     }
     res.json(room);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 📅 ดูการจองทั้งหมดของห้อง (ทุกผู้ใช้ที่ login แล้วเห็นได้ — สำหรับปฏิทิน)
+router.get('/:roomId/bookings', authMiddleware, async (req, res) => {
+  try {
+    const { roomId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(roomId)) {
+      return res.status(400).json({ error: 'Invalid room ID' });
+    }
+
+    let query = {
+      roomId: new mongoose.Types.ObjectId(roomId),
+      status: { $in: ['pending', 'approved'] }
+    };
+
+    // กรองตามเดือน/ปี ถ้ามีส่ง query param
+    if (req.query.year && req.query.month) {
+      const year = parseInt(req.query.year);
+      const month = parseInt(req.query.month); // 0-based
+      query.bookingDate = {
+        $gte: new Date(year, month, 1),
+        $lt: new Date(year, month + 1, 1)
+      };
+    }
+
+    const rawBookings = await Booking.find(query)
+      .sort({ bookingDate: 1, startTime: 1 })
+      .lean();
+
+    const bookings = await enrichBookingsWithUser(rawBookings);
+    res.json(bookings);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

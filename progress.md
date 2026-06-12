@@ -2,8 +2,8 @@
 
 ## 🎯 สรุปการพัฒนา
 
-**วันที่อัปเดต:** 27 เมษายน 2026  
-**สถานะโครงการ:** ✅ เสร็จสมบูรณ์ พร้อมใช้งาน Production
+**วันที่อัปเดต:** 17 พฤษภาคม 2026  
+**สถานะโครงการ:** ✅ เสร็จสมบูรณ์ พร้อมใช้งาน Production (รวม UMS SSO)
 
 ---
 
@@ -12,11 +12,12 @@
 ### 1. 🔒 ความปลอดภัย (Security Improvements)
 
 #### ✅ Authentication & Authorization
-- [x] JWT Authentication (expire: 24 ชั่วโมง)
+- [x] JWT Authentication (expire: 8 ชั่วโมง)
 - [x] Password hashing ด้วย bcrypt (salt rounds: 10)
 - [x] Admin/User role-based access control
 - [x] Protected routes with authMiddleware
 - [x] Password strength validation (8+ chars, uppercase, lowercase, numbers, symbols)
+- [x] **UMS SSO Integration** (Authorization Code Flow) — เพิ่ม 17 พ.ค. 2026
 
 #### ✅ API Security
 - [x] CORS whitelist (เฉพาะ domain ที่อนุญาต)
@@ -84,6 +85,7 @@
 
 ### Frontend (React)
 - [x] Authentication (Login/Register)
+- [x] **UMS SSO Login** (Flow 1: NAPP-initiated, Flow 2: UMS Deep Link)
 - [x] Single-day booking
 - [x] Multi-day booking
 - [x] My bookings view
@@ -96,6 +98,7 @@
 
 ### Backend (Node.js/Express)
 - [x] User authentication API
+- [x] **UMS exchange-code API** (`POST /auth/exchange-code`)
 - [x] Booking CRUD operations
 - [x] Room management
 - [x] Department management
@@ -127,9 +130,15 @@
 6. ✅ **Transaction ไม่มีสำหรับ multi-day booking**
    - แก้: ใช้ MongoDB transaction
 
----
+7. ✅ **UMS SSO: localStorage key conflict** (17 พ.ค. 2026)
+   - NAPP อ่าน UMS token จาก localStorage['token'] → เรียก /auth/me → 401 → Axios redirect → UMSCallback ถูก destroy
+   - แก้: เปลี่ยน key เป็น `napp_token`, fix redirect path, skip auth check on callback page
 
-## 📈 Metrics
+8. ✅ **UMS SSO: Axios interceptor redirect path ผิด** (17 พ.ค. 2026)
+   - `window.location.href = '/login'` → ไปหน้า UMS login (ไม่ใช่ `/napp/login`)
+   - แก้: ใช้ `process.env.PUBLIC_URL + '/login'`
+
+---
 
 ### Code Quality
 - **Dead Code Removed:** 2 files (db.js, dbO.js)

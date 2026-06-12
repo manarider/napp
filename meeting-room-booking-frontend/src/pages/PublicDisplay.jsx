@@ -127,6 +127,7 @@ const PublicDisplay = () => {
       fontFamily: `'${el.fontFamily || 'Sarabun'}', sans-serif`,
       fontWeight: el.fontWeight || 'bold',
       fontStyle: el.fontStyle || 'normal',
+      textAlign: el.textAlign || 'left',
       color: el.color || '#ffffff',
       border: `${el.borderWidth || 0}px solid ${el.borderColor || 'transparent'}`,
       borderRadius: `${el.borderRadius || 0}px`,
