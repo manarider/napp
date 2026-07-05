@@ -341,9 +341,14 @@ const PublicDisplayBuilder = () => {
     return `${window.location.origin}/napp/display/room/${roomId}`;
   };
 
-  // URL สำหรับตารางประชุมประจำวัน
+  // URL สำหรับตารางประชุมประจำวัน (React route)
   const getScheduleUrl = () => {
     return `${window.location.origin}/napp/display/schedule`;
+  };
+
+  // URL สำหรับ iframe TV (static HTML)
+  const getScheduleTvUrl = () => {
+    return `${window.location.origin}/napp/schedule-tv.html`;
   };
 
   return (
@@ -402,6 +407,8 @@ const PublicDisplayBuilder = () => {
           <div className="pdb-public-link pdb-schedule-link">
             <h4>📋 ตารางประชุมประจำวัน</h4>
             <p className="pdb-link-note">แสดงรายการประชุมทุกห้องในวันนั้น</p>
+
+            {/* React route */}
             <div className="pdb-link-box">
               <a
                 href={getScheduleUrl()}
@@ -422,14 +429,49 @@ const PublicDisplayBuilder = () => {
                 คัดลอก
               </button>
             </div>
-            <a
-              href={getScheduleUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pdb-open-schedule-btn"
-            >
-              🖥️ เปิดหน้าจอตาราง
-            </a>
+
+            {/* TV iframe link */}
+            <div className="pdb-tv-label">📺 สำหรับจอ TV (iframe HTML)</div>
+            <div className="pdb-link-box">
+              <a
+                href={getScheduleTvUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pdb-link"
+              >
+                {getScheduleTvUrl()}
+              </a>
+              <button
+                className="pdb-copy-btn"
+                onClick={() => {
+                  navigator.clipboard.writeText(getScheduleTvUrl());
+                  setSaveMsg('📺 คัดลอก Link TV แล้ว');
+                  setTimeout(() => setSaveMsg(''), 2000);
+                }}
+              >
+                คัดลอก
+              </button>
+            </div>
+            <p className="pdb-link-note">เปิด URL นี้บน browser ของจอ TV — รีโหลดอัตโนมัติทุก 5 นาที</p>
+
+            <div className="pdb-schedule-btns">
+              <a
+                href={getScheduleUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pdb-open-schedule-btn"
+              >
+                🖥️ เปิดหน้าจอตาราง
+              </a>
+              <a
+                href={getScheduleTvUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pdb-open-schedule-btn pdb-open-tv-btn"
+              >
+                📺 เปิดโหมด TV
+              </a>
+            </div>
           </div>
         </div>
 

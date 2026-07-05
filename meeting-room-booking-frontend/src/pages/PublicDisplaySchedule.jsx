@@ -22,9 +22,15 @@ function getApiBaseUrl() {
   return isProduction ? '/napp/api' : 'http://localhost:5000/api';
 }
 
-// คำนวณสถานะการประชุมจาก local time ของ client
+// helper: แปลง Date → HH:MM ตาม timezone Asia/Bangkok
+const bkkHHMM = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit', hour12: false });
+function toBkkHhmm(d) {
+  return bkkHHMM.format(d).replace(/,/g, '');
+}
+
+// คำนวณสถานะการประชุมจากเวลา Bangkok
 function getBookingStatus(startTime, endTime, now) {
-  const hhmm = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  const hhmm = toBkkHhmm(now);
   if (endTime <= hhmm) return 'past';
   if (startTime <= hhmm) return 'current';
   return 'upcoming';
@@ -73,8 +79,8 @@ const PublicDisplaySchedule = () => {
     return () => clearInterval(interval);
   }, [fetchData]);
 
-  const padTime = (d) =>
-    `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+  const bkkTimeFmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+  const padTime = (d) => bkkTimeFmt.format(d).replace(/,/g, '');
 
   // helper แสดง badge
   const StatusBadge = ({ status }) => {

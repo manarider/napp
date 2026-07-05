@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="refresh" content="300">
+<title>ตารางการประชุมประจำวัน</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body {
+  width:100%; height:100%;
+  overflow:hidden;
+  background:#111820;
+  color:#eef3f7;
+  font-family:Arial, Tahoma, sans-serif;
+  font-size:22px;
+  line-height:1.35;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:geometricPrecision;
+}
+#header {
+  position:fixed;
+  top:0; left:0; right:0;
+  height:86px;
+  background:#17212b;
+  border-bottom:3px solid #344353;
+  padding:0 clamp(18px, 2.5vw, 44px);
+}
+#header-inner {
+  height:86px;
+  position:relative;
+}
+#logo {
+  position:absolute;
+  left:0; top:50%;
+  margin-top:-22px;
+  font-size:40px;
+  line-height:1;
+}
+#title-wrap {
+  position:absolute;
+  left:64px; top:50%;
+  margin-top:-28px;
+}
+#title {
+  font-size:clamp(24px, 2vw, 32px);
+  font-weight:bold;
+  color:#fff;
+  line-height:1.2;
+}
+#date-label {
+  font-size:clamp(15px, 1.1vw, 18px);
+  color:#b6c2ce;
+  margin-top:2px;
+}
+#clock-wrap {
+  position:absolute;
+  right:0; top:50%;
+  margin-top:-32px;
+  text-align:right;
+}
+#clock {
+  font-size:clamp(34px, 3vw, 48px);
+  font-weight:bold;
+  color:#8ac4ff;
+  letter-spacing:2px;
+  line-height:1;
+}
+#stats {
+  font-size:clamp(15px, 1.1vw, 18px);
+  color:#b6c2ce;
+  margin-top:4px;
+}
+#content {
+  position:fixed;
+  top:92px;
+  bottom:42px;
+  left:0; right:0;
+  overflow:hidden;
+  padding:clamp(8px, 1vw, 14px) clamp(18px, 2.5vw, 44px) 0 clamp(18px, 2.5vw, 44px);
+}
+#table-area {
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+#tbl {
+  transform-origin:top left;
+}
+table {
+  width:100%;
+  table-layout:fixed;
+  border-collapse:collapse;
+  border:2px solid #2d3a47;
+  background:#131b24;
+}
+th {
+  padding:9px 14px;
+  text-align:left;
+  font-size:15px;
+  font-weight:bold;
+  color:#b6c2ce;
+  background:#1a2530;
+  border-bottom:2px solid #3b4b5a;
+  text-transform:uppercase;
+  letter-spacing:0;
+  white-space:nowrap;
+}
+td {
+  padding:9px 14px;
+  color:#eef3f7;
+  border-bottom:1px solid #2c3845;
+  vertical-align:middle;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+tr.row-last td { border-bottom:none; }
+tr:nth-child(even) { background:#151f29; }
+tr.row-current { background:#22364a; border-left:4px solid #72b7ff; }
+tr.row-past td { color:#8f9ba8; }
+.td-room {
+  background:#1a2530;
+  border-right:2px solid #3b4b5a;
+  min-width:110px;
+  vertical-align:middle;
+}
+.room-num  { font-size:24px; font-weight:bold; color:#9bd0ff; line-height:1.1; }
+.room-name { font-size:15px; color:#b6c2ce; margin-top:2px; }
+.purpose   { font-weight:bold; font-size:21px; line-height:1.25; }
+tr.row-past .purpose { color:#9aa6b2; }
+.time-val  { font-size:20px; font-weight:bold; color:#ffd08a; white-space:nowrap; }
+.dept-name { font-size:19px; font-weight:bold; line-height:1.25; }
+.person    { font-size:15px; color:#b6c2ce; margin-top:2px; line-height:1.25; }
+.status-cell { text-align:center; white-space:nowrap; }
+.badge {
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:18px;
+  font-size:16px;
+  font-weight:bold;
+}
+.badge-c { background:#163352; color:#9bd0ff; border:2px solid #72b7ff; }
+.badge-u { background:#3b2e16; color:#ffd08a; border:2px solid #d9a441; }
+.badge-p { background:#252d35; color:#9aa6b2; border:2px solid #465464; }
+#free-bar {
+  margin-top:8px;
+  font-size:clamp(13px, 1vw, 16px);
+  color:#a7b2bd;
+  line-height:1.25;
+}
+.free-item {
+  display:inline-block;
+  margin:2px 4px;
+  padding:2px 8px;
+  background:#1b2630;
+  border:1px solid #3b4b5a;
+  font-size:14px;
+}
+#footer {
+  position:fixed;
+  bottom:0; left:0; right:0;
+  height:38px;
+  background:#17212b;
+  border-top:2px solid #2d3a47;
+  text-align:center;
+  line-height:38px;
+  font-size:15px;
+  color:#a7b2bd;
+}
+#loading, #errmsg, #empty {
+  text-align:center;
+  padding:80px 20px;
+  font-size:26px;
+  color:#b6c2ce;
+}
+#errmsg { color:#f85149; }
+.cur-badge {
+  display:inline-block;
+  padding:2px 12px;
+  background:#4a1f1f;
+  color:#ffb0ab;
+  border:1px solid #ff8a83;
+  font-size:16px;
+  font-weight:bold;
+}
+#table-area.compact th { padding:7px 10px; font-size:13px; }
+#table-area.compact td { padding:7px 10px; }
+#table-area.compact .room-num { font-size:22px; }
+#table-area.compact .room-name { font-size:14px; }
+#table-area.compact .purpose { font-size:18px; }
+#table-area.compact .time-val { font-size:18px; }
+#table-area.compact .dept-name { font-size:17px; }
+#table-area.compact .person { font-size:14px; }
+#table-area.compact .badge { font-size:13px; padding:3px 8px; }
+#table-area.dense th { padding:5px 8px; font-size:12px; }
+#table-area.dense td { padding:5px 8px; }
+#table-area.dense .room-num { font-size:19px; }
+#table-area.dense .room-name { font-size:12px; }
+#table-area.dense .purpose { font-size:16px; }
+#table-area.dense .time-val { font-size:16px; }
+#table-area.dense .dept-name { font-size:15px; }
+#table-area.dense .person { font-size:12px; }
+#table-area.dense .badge { font-size:12px; padding:2px 6px; border-radius:12px; }
+@media (max-width: 1366px), (max-height: 768px) {
+  html, body { font-size:20px; }
+  #header { height:78px; }
+  #header-inner { height:78px; }
+  #content { top:84px; bottom:36px; }
+  #footer { height:34px; line-height:34px; font-size:13px; }
+  th { padding:7px 10px; font-size:13px; }
+  td { padding:7px 10px; }
+  .room-num { font-size:21px; }
+  .purpose { font-size:18px; }
+  .time-val { font-size:18px; }
+  .dept-name { font-size:17px; }
+  .badge { font-size:14px; padding:3px 8px; }
+}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div id="header-inner">
+    <div id="logo">&#128197;</div>
+    <div id="title-wrap">
+      <div id="title">ตารางการประชุมประจำวัน</div>
+      <div id="date-label">&nbsp;</div>
+    </div>
+    <div id="clock-wrap">
+      <div id="clock">--:--:--</div>
+      <div id="stats">&nbsp;</div>
+    </div>
+  </div>
+</div>
+
+<div id="content">
+  <div id="table-area">
+    <div id="loading">กำลังโหลด...</div>
+    <div id="errmsg" style="display:none"></div>
+    <div id="tbl" style="display:none"></div>
+    <div id="empty" style="display:none">ไม่มีการประชุมในวันนี้</div>
+    <div id="free-bar" style="display:none"></div>
+  </div>
+</div>
+
+<div id="footer">อัปเดตทุก 1 นาที &nbsp;|&nbsp; หน้าจะ refresh อัตโนมัติทุก 5 นาที</div>
+
+<script>
+var MONTHS=['','มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+var DAYS=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+
+/* ---- UTC+7 helper (ทำงานได้กับทุก browser ไม่พึ่ง Intl timezone) ---- */
+/* บวก 7 ชั่วโมงเข้า UTC แล้วอ่านด้วย getUTC* → ได้เวลา Bangkok เสมอ */
+function bkkDate(){return new Date(Date.now() + 7*3600000);}
+
+function pad2(n){return n<10?'0'+n:''+n;}
+function thaiDate(d){
+  /* d คือ string/Date จาก API (UTC) แปลงเป็น Bangkok date */
+  var bkk=new Date(new Date(d).getTime()+7*3600000);
+  return 'วัน'+DAYS[bkk.getUTCDay()]+'ที่ '+bkk.getUTCDate()+' '+MONTHS[bkk.getUTCMonth()+1]+' '+(bkk.getUTCFullYear()+543);
+}
+function hhmmNow(){var b=bkkDate();return pad2(b.getUTCHours())+':'+pad2(b.getUTCMinutes());}
+function status(s,e){var n=hhmmNow();if(e<=n)return 'past';if(s<=n)return 'current';return 'upcoming';}
+function esc(v){return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+var API=(window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1')?'http://localhost:5000/api':'/napp/api';
+
+var elClock=document.getElementById('clock');
+var elDate=document.getElementById('date-label');
+var elStats=document.getElementById('stats');
+var elLoading=document.getElementById('loading');
+var elErr=document.getElementById('errmsg');
+var elTbl=document.getElementById('tbl');
+var elEmpty=document.getElementById('empty');
+var elFree=document.getElementById('free-bar');
+
+function tickClock(){var b=bkkDate();elClock.innerHTML=pad2(b.getUTCHours())+':'+pad2(b.getUTCMinutes())+':'+pad2(b.getUTCSeconds());}
+tickClock();
+setInterval(tickClock,1000);
+
+/* ---- scale schedule to fit one TV viewport exactly (no scrollbar) ---- */
+function fitTable(){
+  var area=document.getElementById('table-area');
+  var wrap=document.getElementById('tbl');
+  var tbl=area.getElementsByTagName('table')[0];
+  if(!wrap||!tbl){return;}
+
+  /* reset */
+  document.body.style.fontSize='';
+  wrap.style.transform='';
+  wrap.style.width='100%';
+  wrap.style.height='auto';
+
+  var free=document.getElementById('free-bar');
+  var freeH=(free&&free.style.display!=='none')?(free.offsetHeight+8):0;
+  var areaW=area.clientWidth;
+  var areaH=area.clientHeight-freeH;
+  var tblW=Math.max(tbl.scrollWidth,tbl.offsetWidth);
+  var tblH=tbl.offsetHeight;
+
+  if(tblW<=0||tblH<=0||areaW<=0||areaH<=0){return;}
+
+  var scale=Math.min(areaW/tblW,areaH/tblH,1);
+  if(scale<0.35){scale=0.35;}
+
+  wrap.style.transform='scale('+scale+')';
+  wrap.style.width=(100/scale)+'%';
+  wrap.style.height=Math.ceil(tblH*scale)+'px';
+}
+
+var cachedRooms=null,cachedDate=null;
+
+function render(){
+  if(!cachedRooms){return;}
+
+  var activeRooms=[],emptyRooms=[],total=0,cur=0;
+  var i,j,r,b,s;
+  for(i=0;i<cachedRooms.length;i++){
+    r=cachedRooms[i];
+    if(!r.bookings||r.bookings.length===0){emptyRooms.push(r);}
+    else{activeRooms.push(r);total+=r.bookings.length;
+      for(j=0;j<r.bookings.length;j++){if(status(r.bookings[j].startTime,r.bookings[j].endTime)==='current'){cur++;}}
+    }
+  }
+
+  if(cachedDate){elDate.innerHTML=thaiDate(new Date(cachedDate));}
+  var sh='ทั้งหมด '+total+' รายการ';
+  if(cur>0){sh+=' &nbsp;<span class="cur-badge">&#128308; กำลังประชุม '+cur+' ห้อง</span>';}
+  elStats.innerHTML=sh;
+
+  if(activeRooms.length===0){
+    elTbl.style.display='none';
+    elEmpty.style.display='block';
+  }else{
+    elEmpty.style.display='none';
+    var rowCount=0;
+    for(var rc=0;rc<activeRooms.length;rc++){rowCount+=activeRooms[rc].bookings.length;}
+    var area=document.getElementById('table-area');
+    area.className=rowCount>18?'dense':(rowCount>12?'compact':'');
+
+    var html='<table cellspacing="0" cellpadding="0"><thead><tr>'
+      +'<th style="width:13%">ห้องประชุม</th>'
+      +'<th style="width:30%">หัวข้อ / วัตถุประสงค์</th>'
+      +'<th style="width:15%">เวลา</th>'
+      +'<th style="width:24%">แผนก / ผู้จอง</th>'
+      +'<th style="width:18%">สถานะ</th>'
+      +'</tr></thead><tbody>';
+
+    for(var ri=0;ri<activeRooms.length;ri++){
+      r=activeRooms[ri];
+      for(var bi=0;bi<r.bookings.length;bi++){
+        b=r.bookings[bi];
+        s=status(b.startTime,b.endTime);
+        var isLast=(bi===r.bookings.length-1);
+        var rowCls=s==='current'?'row-current':(s==='past'?'row-past':'');
+        if(isLast){rowCls+=' row-last';}
+        var badge;
+        if(s==='current')badge='<span class="badge badge-c">&#9679; กำลังประชุม</span>';
+        else if(s==='upcoming')badge='<span class="badge badge-u">&#9200; ถัดไป</span>';
+        else badge='<span class="badge badge-p">&#10003; สิ้นสุด</span>';
+
+        html+='<tr class="'+rowCls+'">';
+        if(bi===0){
+          html+='<td class="td-room" rowspan="'+r.bookings.length+'">'
+            +'<div class="room-num">'+esc(r.roomNumber)+'</div>'
+            +'<div class="room-name">'+esc(r.roomName)+'</div>'
+            +'</td>';
+        }
+        html+='<td><div class="purpose">'+esc(b.purpose||'-')+'</div></td>';
+        html+='<td><span class="time-val">'+esc(b.startTime)+' - '+esc(b.endTime)+'</span></td>';
+        html+='<td><div class="dept-name">'+esc(b.department||'-')+'</div>';
+        if(b.fullName){html+='<div class="person">'+esc(b.fullName)+'</div>';}
+        html+='</td>';
+        html+='<td class="status-cell">'+badge+'</td>';
+        html+='</tr>';
+      }
+    }
+    html+='</tbody></table>';
+    elTbl.innerHTML=html;
+    elTbl.style.display='block';
+    setTimeout(fitTable,80);
+  }
+
+  if(emptyRooms.length>0){
+    var fr='<strong>ห้องว่างตลอดวัน:</strong> ';
+    for(var ei=0;ei<emptyRooms.length;ei++){
+      fr+='<span class="free-item">'+esc(emptyRooms[ei].roomNumber)+' '+esc(emptyRooms[ei].roomName)+'</span>';
+    }
+    elFree.innerHTML=fr;elFree.style.display='block';
+  }else{elFree.style.display='none';}
+}
+
+function fetchData(){
+  var xhr=new XMLHttpRequest();
+  xhr.open('GET',API+'/display/today-schedule',true);
+  xhr.onreadystatechange=function(){
+    if(xhr.readyState!==4){return;}
+    elLoading.style.display='none';
+    if(xhr.status===200){
+      try{
+        var data=eval('('+xhr.responseText+')');
+        cachedRooms=data.rooms||[];cachedDate=data.date||null;
+        elErr.style.display='none';
+        render();
+      }catch(e){elErr.innerHTML='ข้อผิดพลาดในการอ่านข้อมูล';elErr.style.display='block';}
+    }else{elErr.innerHTML='โหลดไม่ได้ (HTTP '+xhr.status+')';elErr.style.display='block';}
+  };
+  xhr.send();
+}
+
+setInterval(function(){if(cachedRooms){render();}},30000);
+setInterval(fetchData,60000);
+window.onresize=function(){if(cachedRooms){setTimeout(fitTable,100);}};
+fetchData();
+</script>
+</body>
+</html>

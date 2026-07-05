@@ -3,7 +3,7 @@
 ระบบจองห้องประชุมออนไลน์ สำหรับองค์กร พัฒนาด้วย React และ Node.js/Express
 
 ![Status](https://img.shields.io/badge/status-production-brightgreen)
-![Version](https://img.shields.io/badge/version-1.1.0-blue)
+![Version](https://img.shields.io/badge/version-1.3.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 ---
@@ -32,6 +32,7 @@
 - 📋 **ดูการจองของตัวเอง** - จัดการการจองได้สะดวก
 - ✏️ **แก้ไข/ยกเลิกการจอง** - ก่อนวันที่จอง
 - 📊 **ปฏิทินห้องประชุม** - ดูสถานะความว่างของห้อง
+- 👁️ **Preview หน้าจอสาธารณะก่อนยืนยันการจอง** - เห็นหน้าจอจริงก่อน confirm
 
 ### สำหรับผู้ดูแลระบบ (Admin)
 - 👥 **จัดการผู้ใช้** - เพิ่ม/ลบ/แก้ไข/เปลี่ยนสิทธิ์
@@ -39,6 +40,8 @@
 - ✅ **อนุมัติ/ปฏิเสธการจอง** - ควบคุมการจอง
 - 📈 **Dashboard & Statistics** - สถิติการใช้งาน
 - 📊 **กราฟและรายงาน** - วิเคราะห์ข้อมูล
+- 🖥️ **Public Display Builder** - ออกแบบหน้าจอสาธารณะหน้าห้องประชุม (Drag & Drop)
+- 📺 **ตารางประชุมประจำวัน** - จอ TV แสดงตารางทุกห้องวันนี้ (iframe HTML)
 
 ---
 

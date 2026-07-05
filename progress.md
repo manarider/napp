@@ -2,8 +2,8 @@
 
 ## 🎯 สรุปการพัฒนา
 
-**วันที่อัปเดต:** 17 พฤษภาคม 2026  
-**สถานะโครงการ:** ✅ เสร็จสมบูรณ์ พร้อมใช้งาน Production (รวม UMS SSO)
+**วันที่อัปเดต:** 5 กรกฎาคม 2026  
+**สถานะโครงการ:** ✅ เสร็จสมบูรณ์ พร้อมใช้งาน Production (รวม UMS SSO + Public Display)
 
 ---
 
@@ -95,6 +95,9 @@
 - [x] Booking management
 - [x] Statistics & charts
 - [x] Image upload (Base64)
+- [x] **Public Display** — หน้าจอสาธารณะหน้าห้องประชุม (route `/display/:roomId`)
+- [x] **Public Display Schedule (TV)** — ตารางประชุมประจำวันทุกห้อง สำหรับจอ TV (`schedule-tv.html` iframe)
+- [x] **Booking Preview Popup** — แสดง preview หน้าจอสาธารณะก่อนยืนยันการจอง (แก้ไข purpose ได้)
 
 ### Backend (Node.js/Express)
 - [x] User authentication API
@@ -105,6 +108,9 @@
 - [x] Admin operations
 - [x] Statistics API
 - [x] File upload handling
+- [x] **Display Config API** — CRUD config หน้าจอสาธารณะต่อห้อง (`/api/display/...`)
+- [x] **Display Public API** — ดึงข้อมูล config + booking ปัจจุบัน (`GET /api/display/room/:roomId`)
+- [x] **Today Schedule API** — ตารางประชุมทุกห้องวันนี้ (`GET /api/display/today-schedule`)
 
 ---
 
@@ -137,6 +143,21 @@
 8. ✅ **UMS SSO: Axios interceptor redirect path ผิด** (17 พ.ค. 2026)
    - `window.location.href = '/login'` → ไปหน้า UMS login (ไม่ใช่ `/napp/login`)
    - แก้: ใช้ `process.env.PUBLIC_URL + '/login'`
+
+9. ✅ **Public Display: fs.writeFileSync blocking I/O** (พ.ค. 2026)
+   - แก้: เปลี่ยนเป็น `await fs.promises.writeFile()`
+
+10. ✅ **Public Display: N+1 Query ใน adminStats** (พ.ค. 2026)
+    - แก้: เปลี่ยนเป็น MongoDB aggregation pipeline
+
+11. ✅ **Booking Preview: ปุ่ม "สร้างการจอง" แสดง popup preview หน้าจอสาธารณะก่อน confirm** (5 ก.ค. 2026)
+    - เพิ่ม `DisplayPreviewModal` ใน `BookingForm.jsx`
+    - ดึง display config จริงของห้อง preview แบบ scaled canvas
+    - แก้ไข purpose (หัวข้อประชุม) ได้ก่อน confirm
+
+12. ✅ **PublicDisplayBuilder: เพิ่ม link ตารางประชุม TV (iframe HTML)** (5 ก.ค. 2026)
+    - เพิ่ม `schedule-tv.html` static page สำหรับ iframe
+    - เพิ่ม copy-link button ใน PublicDisplayBuilder
 
 ---
 

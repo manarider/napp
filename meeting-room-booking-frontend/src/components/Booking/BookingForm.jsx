@@ -1,8 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import './Booking.css';
+
+// ── Thai date helper ──────────────────────────────────────
+const THAI_MONTHS = [
+  'มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน',
+  'กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'
+];
+const toThaiDate = (dateVal) => {
+  if (!dateVal) return '';
+  const d = new Date(dateVal + 'T00:00:00');
+  return `${d.getDate()} ${THAI_MONTHS[d.getMonth()]} ${d.getFullYear() + 543}`;
+};
 
 const BookingForm = ({ bookingId = null, onClose = null }) => {
   const { user } = useAuth();
@@ -31,6 +42,14 @@ const BookingForm = ({ bookingId = null, onClose = null }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const [imageData, setImageData] = useState(null);
   const [existingImage, setExistingImage] = useState(null);
+
+  // Preview popup states
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewConfig, setPreviewConfig] = useState(null);
+  const [previewRoom, setPreviewRoom] = useState(null);
+  const [displayPurpose, setDisplayPurpose] = useState('');
+  const [previewLoading, setPreviewLoading] = useState(false);
+  const previewCanvasRef = useRef(null);
 
   // ✅ ฟังก์ชันช่วย: แปลงเวลาจากจุด (.) เป็นโคลอน (:)
   const normalizeTime = (time) => {
@@ -222,16 +241,42 @@ const BookingForm = ({ bookingId = null, onClose = null }) => {
         return;
     }
 
+    // กรณีสร้างใหม่: แสดง preview popup ก่อน
+    if (!isEditing) {
+      setPreviewLoading(true);
+      try {
+        const res = await api.get(`/display/room/${formData.roomId}`);
+        setPreviewConfig(res.data.config || null);
+        setPreviewRoom(res.data.room || null);
+      } catch {
+        const room = rooms.find(r => r._id === formData.roomId);
+        setPreviewRoom(room ? { roomName: room.roomName, roomNumber: room.roomNumber } : null);
+        setPreviewConfig(null);
+      } finally {
+        setPreviewLoading(false);
+      }
+      setDisplayPurpose(formData.purpose);
+      setLoading(false);
+      setShowPreview(true);
+      return;
+    }
+
+    // กรณีแก้ไข: ส่งข้อมูลตรง
+    await doSubmit(formData.purpose);
+  };
+
+  const doSubmit = async (purposeOverride) => {
+    setLoading(true);
+    setError('');
     try {
       const submitData = {
         roomId: formData.roomId,
         fullName: formData.fullName,
         department: formData.department,
         bookingDate: formData.bookingDate,
-        // ✅ แปลงเวลาเป็น HH:MM ก่อนส่งไป Backend
         startTime: normalizeTime(formData.startTime),
         endTime: normalizeTime(formData.endTime),
-        purpose: formData.purpose
+        purpose: purposeOverride !== undefined ? purposeOverride : formData.purpose
       };
 
       if (imageData) submitData.bookingImage = imageData;
@@ -250,9 +295,14 @@ const BookingForm = ({ bookingId = null, onClose = null }) => {
 
     } catch (err) {
       setError('❌ ' + (err.response?.data?.error || 'เกิดข้อผิดพลาด'));
+      setShowPreview(false);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleConfirmBooking = async () => {
+    await doSubmit(displayPurpose);
   };
 
   const getTodayDate = () => new Date().toISOString().split('T')[0];
@@ -416,8 +466,8 @@ const BookingForm = ({ bookingId = null, onClose = null }) => {
           </div>
 
           <div className="form-actions">
-            <button type="submit" disabled={loading || hasTimeConflict} className="btn-submit">
-              {loading ? 'กำลังบันทึก...' : isEditing ? '🔄 อัปเดต' : '✅ สร้างการจอง'}
+            <button type="submit" disabled={loading || hasTimeConflict || previewLoading} className="btn-submit">
+              {loading || previewLoading ? 'กำลังโหลด...' : isEditing ? '🔄 อัปเดต' : '👁️ ดูตัวอย่างหน้าจอ'}
             </button>
             {onClose && (
               <button type="button" onClick={onClose} className="btn-cancel">❌ ยกเลิก</button>
@@ -425,8 +475,232 @@ const BookingForm = ({ bookingId = null, onClose = null }) => {
           </div>
         </form>
       </div>
+
+      {/* ── Preview Popup Modal ── */}
+      {showPreview && (
+        <DisplayPreviewModal
+          formData={formData}
+          normalizeTime={normalizeTime}
+          previewConfig={previewConfig}
+          previewRoom={previewRoom}
+          displayPurpose={displayPurpose}
+          setDisplayPurpose={setDisplayPurpose}
+          onConfirm={handleConfirmBooking}
+          onBack={() => setShowPreview(false)}
+          loading={loading}
+          previewCanvasRef={previewCanvasRef}
+          toThaiDate={toThaiDate}
+        />
+      )}
     </div>
   );
 };
 
 export default BookingForm;
+
+// ═══════════════════════════════════════════════════════════
+// DisplayPreviewModal — ตัวอย่างหน้าจอสาธารณะหน้าห้องประชุม
+// ═══════════════════════════════════════════════════════════
+function DisplayPreviewModal({
+  formData,
+  normalizeTime,
+  previewConfig,
+  previewRoom,
+  displayPurpose,
+  setDisplayPurpose,
+  onConfirm,
+  onBack,
+  loading,
+  previewCanvasRef,
+  toThaiDate,
+}) {
+  const CANVAS_W = previewConfig?.width || 1920;
+  const CANVAS_H = previewConfig?.height || 1080;
+  const PREVIEW_W = 720;
+  const scale = PREVIEW_W / CANVAS_W;
+  const PREVIEW_H = Math.round(CANVAS_H * scale);
+
+  const bgColor = previewConfig?.backgroundColor || '#1a1a2e';
+  const bgMediaType = previewConfig?.backgroundMediaType || null;
+  const bgImage = (bgMediaType === 'image' || !bgMediaType) ? (previewConfig?.backgroundImage || null) : null;
+  const bgVideo = bgMediaType === 'video' ? (previewConfig?.backgroundVideo || null) : null;
+  const elements = previewConfig?.elements || [];
+
+  const getTextContent = (el) => {
+    if (el.customText) return el.customText;
+    const type = el.type;
+    if (type === 'purpose') return displayPurpose || 'หัวข้อการประชุม';
+    if (type === 'date') return toThaiDate(formData.bookingDate);
+    if (type === 'time') {
+      const s = normalizeTime(formData.startTime);
+      const e = normalizeTime(formData.endTime);
+      return `${s} - ${e} น.`;
+    }
+    return '';
+  };
+
+  const getElementStyle = (el) => {
+    const shadow = (el.shadowBlur || 0) > 0
+      ? `${el.shadowX || 0}px ${el.shadowY || 0}px ${el.shadowBlur}px ${el.shadowColor || 'rgba(0,0,0,0.5)'}`
+      : 'none';
+    return {
+      position: 'absolute',
+      left: `${el.x || 0}px`,
+      top: `${el.y || 0}px`,
+      fontSize: `${el.fontSize || 64}px`,
+      fontFamily: `'${el.fontFamily || 'Sarabun'}', sans-serif`,
+      fontWeight: el.fontWeight || 'bold',
+      fontStyle: el.fontStyle || 'normal',
+      textAlign: el.textAlign || 'left',
+      color: el.color || '#ffffff',
+      border: `${el.borderWidth || 0}px solid ${el.borderColor || 'transparent'}`,
+      borderRadius: `${el.borderRadius || 0}px`,
+      textShadow: shadow,
+      padding: el.padding || '8px 16px',
+      backgroundColor: el.backgroundColor || 'transparent',
+      display: el.visible !== false ? 'block' : 'none',
+      whiteSpace: 'pre-wrap',
+      lineHeight: 1.2,
+      maxWidth: `${CANVAS_W - (el.x || 0) - 20}px`,
+      pointerEvents: 'none',
+    };
+  };
+
+  return (
+    <div className="dp-overlay">
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&family=Kanit:wght@300;400;500;700&family=Prompt:wght@300;400;500;700&family=Mitr:wght@300;400;500;600&display=swap"
+      />
+      <div className="dp-modal">
+        <div className="dp-modal-header">
+          <h2>📺 ตัวอย่างหน้าจอแสดงผลสาธารณะ</h2>
+          <p className="dp-modal-subtitle">
+            หน้าห้องประชุม: <strong>{previewRoom?.roomName || ''} {previewRoom?.roomNumber ? `(ห้อง ${previewRoom.roomNumber})` : ''}</strong>
+          </p>
+        </div>
+
+        {/* Canvas Preview */}
+        <div className="dp-canvas-wrapper" style={{ width: PREVIEW_W, height: PREVIEW_H }}>
+          <div
+            ref={previewCanvasRef}
+            style={{
+              width: `${CANVAS_W}px`,
+              height: `${CANVAS_H}px`,
+              backgroundColor: bgColor,
+              backgroundImage: bgImage ? `url(${bgImage})` : 'none',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              transform: `scale(${scale})`,
+              transformOrigin: 'top left',
+              position: 'relative',
+              overflow: 'hidden',
+              flexShrink: 0,
+            }}
+          >
+            {bgVideo && (
+              <video
+                key={bgVideo}
+                autoPlay loop muted playsInline
+                style={{
+                  position: 'absolute', top: 0, left: 0,
+                  width: '100%', height: '100%',
+                  objectFit: 'cover', zIndex: 0,
+                }}
+              >
+                <source src={bgVideo} />
+              </video>
+            )}
+
+            {elements.length > 0 ? (
+              elements.map((el, idx) => (
+                <div key={`${el.type}-${idx}`} style={{ ...getElementStyle(el), zIndex: 1 }}>
+                  {getTextContent(el)}
+                </div>
+              ))
+            ) : (
+              /* Fallback: ไม่มี config แสดง layout เริ่มต้น */
+              <div style={{
+                position: 'absolute', inset: 0, display: 'flex',
+                flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                gap: 32, padding: 80,
+              }}>
+                <div style={{
+                  fontSize: 96, fontWeight: 700, color: '#ffffff',
+                  fontFamily: "'Sarabun', sans-serif", textAlign: 'center',
+                  textShadow: '0 4px 16px rgba(0,0,0,0.8)',
+                  whiteSpace: 'pre-wrap', lineHeight: 1.3,
+                }}>
+                  {displayPurpose || 'หัวข้อการประชุม'}
+                </div>
+                <div style={{
+                  fontSize: 56, color: 'rgba(255,255,255,0.85)',
+                  fontFamily: "'Sarabun', sans-serif", textAlign: 'center',
+                }}>
+                  {toThaiDate(formData.bookingDate)}
+                </div>
+                <div style={{
+                  fontSize: 56, color: 'rgba(255,255,255,0.85)',
+                  fontFamily: "'Sarabun', sans-serif",
+                }}>
+                  {normalizeTime(formData.startTime)} - {normalizeTime(formData.endTime)} น.
+                </div>
+              </div>
+            )}
+
+            {/* Room label */}
+            <div style={{
+              position: 'absolute', bottom: 24, right: 36,
+              fontSize: 36, fontWeight: 700, color: 'rgba(255,255,255,0.9)',
+              fontFamily: "'Sarabun', sans-serif",
+              textShadow: '0 0 16px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.9)',
+              pointerEvents: 'none',
+            }}>
+              {previewRoom?.roomName} {previewRoom?.roomNumber ? `(ห้อง ${previewRoom.roomNumber})` : ''}
+            </div>
+          </div>
+        </div>
+
+        {/* Editable purpose */}
+        <div className="dp-edit-section">
+          <label className="dp-edit-label">
+            ✏️ แก้ไขหัวข้อการประชุม (ที่จะแสดงบนจอ):
+          </label>
+          <textarea
+            className="dp-edit-textarea"
+            value={displayPurpose}
+            onChange={(e) => setDisplayPurpose(e.target.value)}
+            rows={3}
+            placeholder="หัวข้อการประชุม..."
+          />
+          <div className="dp-booking-summary">
+            <span>📅 {toThaiDate(formData.bookingDate)}</span>
+            <span>🕐 {normalizeTime(formData.startTime)} - {normalizeTime(formData.endTime)} น.</span>
+            <span>👤 {formData.fullName}</span>
+            <span>🏢 {formData.department}</span>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="dp-actions">
+          <button
+            type="button"
+            className="dp-btn-back"
+            onClick={onBack}
+            disabled={loading}
+          >
+            ← แก้ไขข้อมูลการจอง
+          </button>
+          <button
+            type="button"
+            className="dp-btn-confirm"
+            onClick={onConfirm}
+            disabled={loading || !displayPurpose.trim()}
+          >
+            {loading ? '⏳ กำลังบันทึก...' : '✅ บันทึกยืนยันการจอง'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
